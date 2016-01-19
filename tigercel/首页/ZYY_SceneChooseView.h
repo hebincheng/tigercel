@@ -1,0 +1,20 @@
+//
+//  ZYY_SceneChooseView.h
+//  tigercel
+//
+//  Created by 虎符通信 on 16/1/14.
+//  Copyright © 2016年 虎符通信. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@protocol ZYY_SceneChooseViewDelegate<NSObject>
+
+-(void)resetSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array;
+
+@end
+
+@interface ZYY_SceneChooseView : UIViewController
+
+@property(weak,nonatomic)id<ZYY_SceneChooseViewDelegate>delegate;
+
+@end
