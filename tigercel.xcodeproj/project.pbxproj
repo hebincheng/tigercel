@@ -409,7 +409,6 @@
 			isa = PBXGroup;
 			children = (
 				E7030B781C4DF5CD0015F552 /* SystemConfiguration.framework */,
-				E77AD7411C44A62B000A18C6 /* Address.plist */,
 				E7030B671C4DF1270015F552 /* LED */,
 				E7204E4B1C4771D6005D6C4D /* GetColor */,
 				E757D35B1C40ACBE007F3A6D /* Masonry */,
@@ -418,6 +417,7 @@
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
 				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
 				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
+				E77AD7411C44A62B000A18C6 /* Address.plist */,
 			);
 			name = basic;
 			path = "通用";

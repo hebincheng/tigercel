@@ -16,7 +16,48 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_bg_del" translatesAutoresizingMaskIntoConstraints="NO" id="thU-xd-wep">
+                                <rect key="frame" x="180" y="176" width="240" height="179"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="179" id="WtD-a7-IIl"/>
+                                    <constraint firstAttribute="width" constant="240" id="aBj-g6-8Fk"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ejO-cO-xe3">
+                                <rect key="frame" x="180" y="197" width="240" height="147"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="9S1-og-Ff9"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="若有智能" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vU-hQ-XNA">
+                                <rect key="frame" x="232" y="372" width="136" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="a7a-oz-hsa"/>
+                                    <constraint firstAttribute="height" constant="48" id="mmR-8b-DU9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ejO-cO-xe3" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="177" id="6IJ-DB-5gZ"/>
+                            <constraint firstItem="ejO-cO-xe3" firstAttribute="trailing" secondItem="thU-xd-wep" secondAttribute="trailing" id="DlT-U5-ps9"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="0vU-hQ-XNA" secondAttribute="bottom" constant="180" id="JMq-W6-Z08"/>
+                            <constraint firstItem="thU-xd-wep" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="156" id="ORy-ZP-aps"/>
+                            <constraint firstItem="ejO-cO-xe3" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Sax-MW-yRb"/>
+                            <constraint firstItem="0vU-hQ-XNA" firstAttribute="top" secondItem="thU-xd-wep" secondAttribute="bottom" constant="17" id="Xj9-7A-wdF"/>
+                            <constraint firstItem="0vU-hQ-XNA" firstAttribute="centerX" secondItem="ejO-cO-xe3" secondAttribute="centerX" id="aND-Th-WdZ"/>
+                            <constraint firstItem="0vU-hQ-XNA" firstAttribute="top" secondItem="ejO-cO-xe3" secondAttribute="bottom" constant="28" id="iAR-Nu-P1v"/>
+                            <constraint firstItem="thU-xd-wep" firstAttribute="leading" secondItem="ejO-cO-xe3" secondAttribute="leading" id="sRl-ni-f5c"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="JMq-W6-Z08"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +65,8 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="about_logo" width="162" height="134"/>
+        <image name="icon_bg_del" width="120" height="130"/>
+    </resources>
 </document>
