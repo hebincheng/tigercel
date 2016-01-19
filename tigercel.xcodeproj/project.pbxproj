@@ -265,7 +265,7 @@
 			name = LED;
 			sourceTree = "<group>";
 		};
-		E7030B6F1C4DF3F50015F552 /* 我的分享 */ = {
+		E7030B6F1C4DF3F50015F552 /* ShareEquipment */ = {
 			isa = PBXGroup;
 			children = (
 				E7030B701C4DF3F50015F552 /* ZYY_ChooseShareWayView.h */,
@@ -274,6 +274,7 @@
 				E7030B731C4DF3F50015F552 /* ZYY_ShareMessageView.m */,
 				E7030B741C4DF3F50015F552 /* ZYY_ShareMessageView.xib */,
 			);
+			name = ShareEquipment;
 			path = "我的分享";
 			sourceTree = "<group>";
 		};
@@ -300,16 +301,16 @@
 		E711F54A1C3F95D800485406 /* tigercel */ = {
 			isa = PBXGroup;
 			children = (
-				E711F5831C3F969E00485406 /* 基础 */,
-				E757D3811C40CD03007F3A6D /* 登陆 */,
-				E711F5A21C3FB82500485406 /* 个人资料 */,
-				E711F5841C3F973D00485406 /* 侧拉 */,
-				E711F57E1C3F968700485406 /* 关于 */,
-				E711F57F1C3F968700485406 /* 设备更新 */,
-				E7030B6F1C4DF3F50015F552 /* 我的分享 */,
-				E711F5801C3F968700485406 /* 首页 */,
-				E711F5811C3F968700485406 /* 我的反馈 */,
-				E711F5821C3F968700485406 /* 我的房间 */,
+				E711F5831C3F969E00485406 /* basic */,
+				E757D3811C40CD03007F3A6D /* Login */,
+				E711F5A21C3FB82500485406 /* Information */,
+				E711F5841C3F973D00485406 /* sidebar */,
+				E711F57E1C3F968700485406 /* About */,
+				E711F57F1C3F968700485406 /* UpDateEquipment */,
+				E7030B6F1C4DF3F50015F552 /* ShareEquipment */,
+				E711F5801C3F968700485406 /* HomeView */,
+				E711F5811C3F968700485406 /* FeedBack */,
+				E711F5821C3F968700485406 /* MyRoom */,
 				E711F5571C3F95D800485406 /* Assets.xcassets */,
 				E711F5591C3F95D800485406 /* LaunchScreen.storyboard */,
 				E711F55C1C3F95D800485406 /* Info.plist */,
@@ -344,7 +345,7 @@
 			path = tigercelUITests;
 			sourceTree = "<group>";
 		};
-		E711F57E1C3F968700485406 /* 关于 */ = {
+		E711F57E1C3F968700485406 /* About */ = {
 			isa = PBXGroup;
 			children = (
 				E7169C031C428C07003BD334 /* ZYY_AboutView.h */,
@@ -355,39 +356,43 @@
 				E7EE6CAC1C434AC000CB3810 /* ZYY_VersionExplainView.h */,
 				E7EE6CAD1C434AC000CB3810 /* ZYY_VersionExplainView.m */,
 			);
+			name = About;
 			path = "关于";
 			sourceTree = "<group>";
 		};
-		E711F57F1C3F968700485406 /* 设备更新 */ = {
+		E711F57F1C3F968700485406 /* UpDateEquipment */ = {
 			isa = PBXGroup;
 			children = (
 				E7169C081C42936C003BD334 /* ZYY_UpdateDeviceView.h */,
 				E7169C091C42936C003BD334 /* ZYY_UpdateDeviceView.m */,
 				E7169C0A1C42936C003BD334 /* ZYY_UpdateDeviceView.xib */,
 			);
+			name = UpDateEquipment;
 			path = "设备更新";
 			sourceTree = "<group>";
 		};
-		E711F5801C3F968700485406 /* 首页 */ = {
+		E711F5801C3F968700485406 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
 				E711F58E1C3F989F00485406 /* View */,
 				E711F58D1C3F985400485406 /* Controllers */,
 			);
+			name = HomeView;
 			path = "首页";
 			sourceTree = "<group>";
 		};
-		E711F5811C3F968700485406 /* 我的反馈 */ = {
+		E711F5811C3F968700485406 /* FeedBack */ = {
 			isa = PBXGroup;
 			children = (
 				E7169C0D1C429399003BD334 /* ZYY_ReBackView.h */,
 				E7169C0E1C429399003BD334 /* ZYY_ReBackView.m */,
 				E7169C0F1C429399003BD334 /* ZYY_ReBackView.xib */,
 			);
+			name = FeedBack;
 			path = "我的反馈";
 			sourceTree = "<group>";
 		};
-		E711F5821C3F968700485406 /* 我的房间 */ = {
+		E711F5821C3F968700485406 /* MyRoom */ = {
 			isa = PBXGroup;
 			children = (
 				E7169C121C4293F0003BD334 /* ZYY_RoomView.h */,
@@ -396,10 +401,11 @@
 				E77AD7521C450228000A18C6 /* ZYY_CollectionViewCell.h */,
 				E77AD7531C450228000A18C6 /* ZYY_CollectionViewCell.m */,
 			);
+			name = MyRoom;
 			path = "我的房间";
 			sourceTree = "<group>";
 		};
-		E711F5831C3F969E00485406 /* 基础 */ = {
+		E711F5831C3F969E00485406 /* basic */ = {
 			isa = PBXGroup;
 			children = (
 				E7030B781C4DF5CD0015F552 /* SystemConfiguration.framework */,
@@ -413,16 +419,17 @@
 				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
 				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
 			);
-			name = "基础";
+			name = basic;
 			path = "通用";
 			sourceTree = "<group>";
 		};
-		E711F5841C3F973D00485406 /* 侧拉 */ = {
+		E711F5841C3F973D00485406 /* sidebar */ = {
 			isa = PBXGroup;
 			children = (
 				E711F5851C3F978900485406 /* ZYY_LeftViewController.h */,
 				E711F5861C3F978900485406 /* ZYY_LeftViewController.m */,
 			);
+			name = sidebar;
 			path = "侧拉";
 			sourceTree = "<group>";
 		};
@@ -471,7 +478,7 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		E711F5A21C3FB82500485406 /* 个人资料 */ = {
+		E711F5A21C3FB82500485406 /* Information */ = {
 			isa = PBXGroup;
 			children = (
 				E7169C171C4294CB003BD334 /* ZYY_MyInformationView.h */,
@@ -484,6 +491,7 @@
 				E77AD7491C44E323000A18C6 /* ZYY_RetrievePasswordView.m */,
 				E77AD74A1C44E323000A18C6 /* ZYY_RetrievePasswordView.xib */,
 			);
+			name = Information;
 			path = "个人资料";
 			sourceTree = "<group>";
 		};
@@ -540,7 +548,7 @@
 			path = Masonry;
 			sourceTree = "<group>";
 		};
-		E757D3811C40CD03007F3A6D /* 登陆 */ = {
+		E757D3811C40CD03007F3A6D /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				E757D3821C40CD61007F3A6D /* ZYY_LoginControl.h */,
@@ -556,6 +564,7 @@
 				E7169BFF1C424AC9003BD334 /* ZYY_ProtocolView.m */,
 				E7169C001C424AC9003BD334 /* ZYY_ProtocolView.xib */,
 			);
+			name = Login;
 			path = "登陆";
 			sourceTree = "<group>";
 		};
