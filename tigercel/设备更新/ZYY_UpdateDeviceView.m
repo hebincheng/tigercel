@@ -17,6 +17,8 @@
     [super viewDidLoad];
     [self setTitle:@"设备更新"];
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
+    // nihao a
+    [self.view setBackgroundColor:[UIColor redColor]];                            
     // Do any additional setup after loading the view from its nib.
 }
 

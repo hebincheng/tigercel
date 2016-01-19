@@ -134,7 +134,7 @@ static NSString *rightCellID=@"rightCellID";
     [self.view addSubview:_scrollView];
     
     //设置左边tableView
-    _leftTableView =[[UITableView alloc]initWithFrame:CGRectMake(0, -1, ScreeWidth, ScreeHeight) style:UITableViewStyleGrouped];
+    _leftTableView =[[UITableView alloc]initWithFrame:CGRectMake(0, -1, ScreeWidth, ScreeHeight-64) style:UITableViewStyleGrouped];
     _leftTableView.tag=100;
     [_leftTableView setDataSource:self];
     [_leftTableView setDelegate:self];
@@ -143,7 +143,7 @@ static NSString *rightCellID=@"rightCellID";
     [_leftTableView registerNib:[UINib nibWithNibName:@"ZYY_SliderControl" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:sliderCellID];
     [_scrollView addSubview:_leftTableView];
     //设置右边tableView
-    _rightTableView =[[UITableView alloc]initWithFrame:CGRectMake(ScreeWidth, -1, ScreeWidth, ScreeHeight) style:UITableViewStyleGrouped];
+    _rightTableView =[[UITableView alloc]initWithFrame:CGRectMake(ScreeWidth, -1, ScreeWidth, ScreeHeight-64) style:UITableViewStyleGrouped];
     _rightTableView.tag=200;
     [_rightTableView setDelegate:self];
     [_rightTableView setDataSource:self];
