@@ -7,6 +7,8 @@
 //
 
 #import "ZYY_ReBackView.h"
+#import "ZYY_GetInfoFromInternet.h"
+#import "ZYY_User.h"
 @interface ZYY_ReBackView ()<UITextFieldDelegate,UITextViewDelegate>
 
 @end
@@ -67,6 +69,17 @@
     }
 }
 
-- (IBAction)submitBtn {
+-(void)clossView
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)submitBtn
+{
+    //发送反馈
+    [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:_contentTextView.text andTitle:_titleOfContentText.text andUserID:[[ZYY_User instancedObj] sessionID] and:^{
+        [self clossView];
+    }];
+}
+
 @end

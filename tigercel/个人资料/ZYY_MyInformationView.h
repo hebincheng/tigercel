@@ -10,5 +10,10 @@
 
 @interface ZYY_MyInformationView : UIViewController
 - (IBAction)quit;
+@property (weak, nonatomic) IBOutlet UILabel *IDLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *equipmentNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *telNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 
 @end

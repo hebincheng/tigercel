@@ -16,6 +16,7 @@
 #import "Masonry.h"
 #import "AppDelegate.h"
 #import "ZYY_ChooseShareWayView.h"
+#import "ZYY_User.h"
 
 @interface ZYY_LeftViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -151,7 +152,7 @@ static NSString *cellID=@"tableViewCellID";
     }];
     //设置用户名自动布局
     _nameLabe=[[UILabel alloc]init];
-    [_nameLabe setText:@"zhaoyiyu"];
+    [_nameLabe setText:[[ZYY_User instancedObj] userName]];
     [_nameLabe setFont:[UIFont systemFontOfSize:14]];
     [_nameLabe setTextColor:[UIColor whiteColor]];
     [_nameLabe setTextAlignment:NSTextAlignmentCenter];
@@ -164,7 +165,7 @@ static NSString *cellID=@"tableViewCellID";
     }];
     //设置电话自动布局
     _telNumberLabe=[[UILabel alloc]init];
-    [_telNumberLabe setText:@"13327312101"];
+    [_telNumberLabe setText:[[ZYY_User instancedObj] telNumber]];
     [_telNumberLabe setFont:[UIFont systemFontOfSize:14]];
     [_telNumberLabe setTextColor:[UIColor whiteColor]];
     [_telNumberLabe setTextAlignment:NSTextAlignmentCenter];

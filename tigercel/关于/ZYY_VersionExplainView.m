@@ -7,9 +7,12 @@
 //
 
 #import "ZYY_VersionExplainView.h"
+#import "ZYY_GetInfoFromInternet.h"
 
 @interface ZYY_VersionExplainView ()
-
+{
+    NSString *_comment;
+}
 @end
 
 @implementation ZYY_VersionExplainView
@@ -17,23 +20,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //请求使用条例的网络数据
+    [[ZYY_GetInfoFromInternet instancedObj]getVersionExplain:^(id data)
+     {
+         _comment=data;
+         [self loadUI];
+     }];
     [self.view setBackgroundColor:[UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1.0]];
     [self setTitle:@"版本说明"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)loadUI
+{
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height-64)];
+    label.text=_comment;
+    [label setNumberOfLines:0];
+    [label setFont:[UIFont systemFontOfSize:18.0f]];
+    [self.view addSubview:label];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

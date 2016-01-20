@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Masonry.h"
 #import "ZYY_ChangeCode.h"
+#import "ZYY_User.h"
 
 #define RowHeight 50
 
@@ -33,6 +34,8 @@
     NSArray *_townArr;
     NSDictionary *_locationDictionary;
     NSArray *_selectArr;
+    
+    ZYY_User *_user;
 }
 @end
 
@@ -52,16 +55,17 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  加载数据及UI
 -(void)loadData
 {
-    pStr=@"吉林省";
-    cStr=@"白城市";
-    tStr=@"洮北区";
-    _locationStr=[NSString stringWithFormat:@"%@-%@-%@",pStr,cStr,tStr];
+    _user=[ZYY_User instancedObj];
+    
     _userDefault=[NSUserDefaults standardUserDefaults];
+    //_locationStr=_user.location;
     
     _menuArr=@[@"性别",@"出生日期",@"家庭住址",@"修改密码",@"最近登录时间"];
-    
+    [_userDefault setObject:_user.sex forKey:@"sex"];
+    [_userDefault setObject:_user.birthday forKey:@"birthday"];
+    [_userDefault setObject:_user.location forKey:@"location"];
     _detailArr=[NSMutableArray arrayWithObjects:@"sex",@"birthday",@"location",@"change",@"recentdate", nil];
-    [_userDefault setObject:@"2016-01-12" forKey:_detailArr[4]];
+    [_userDefault setObject:_user.recentlyTime forKey:_detailArr[4]];
     //图像数组初始化
     _imageArr=[NSMutableArray arrayWithCapacity:5];
     for (int i=1; i<6; i++)
@@ -86,6 +90,12 @@ static NSString *pStr,*cStr,*tStr;
 
 -(void)loadUI
 {
+    //设置初始状态
+    [_equipmentNumLabel setText:[NSString stringWithFormat:@"设备数量:%@",_user.equipmentNum]];
+    [_nameLabel setText:_user.userName];
+    [_telNumberLabel setText:_user.telNumber];
+    [_emailLabel setText:_user.email];
+    [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userID]];
     
     _tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 180+60, [[UIScreen mainScreen] bounds].size.width, 5*RowHeight) style:UITableViewStylePlain];
     //[_tableView setAutoresizesSubviews:YES];
@@ -134,6 +144,8 @@ static NSString *pStr,*cStr,*tStr;
     return 3;
 }
 
+
+
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     //为了使地区联动  而进行的数组关联
@@ -164,6 +176,7 @@ static NSString *pStr,*cStr,*tStr;
         tStr=_townArr[row];
     }
     _locationStr=[NSString stringWithFormat:@"%@-%@-%@",pStr,cStr,tStr];
+
 }
 //设置显示宽度代理方法
 -(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{

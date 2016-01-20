@@ -10,6 +10,8 @@
 #import "ZYY_HomeViewController.h"
 #import "AppDelegate.h"
 #import "ZYY_RegistControl.h"
+#import "ZYY_GetInfoFromInternet.h"
+#import "ZYY_User.h"
 
 @interface ZYY_LoginControl ()<UITextFieldDelegate>
 {
@@ -87,11 +89,23 @@ static NSString *codetext=@"passWordText";
         [_userDefault setObject:_passWordTextFiled.text forKey:codetext];
         NSLog(@"我把密码存好了");
     }
-#pragma mark  登陆接口  
+#pragma mark  登陆接口
+    [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text and:^{
+        //登录成功执行的操作
+        //
+        //
+        //
+        //
+        //
+        //
+    }];
+    ZYY_User *user=[[ZYY_User alloc]initWithNumber:@"13327312101" andPassword:@"123456" andUserName:@"你好先生" andUserID:@"app12345" andSessionID:@"34534234234234" andSex:@"男" andBirthday:@"1994-06-24" andLocation:@"湖南省-娄底市-双峰县" andRecentlyTime:@"2016-01-18"
+                    andEquipNum:@"1" andEmail:@"961839401@qq.com"];
+    NSLog(@"%p",user);
+    //把主界面设置为根目录
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
     appDelegate.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
-    
     appDelegate.leftView=[[ZYY_LeftViewController alloc]init];
     appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
     [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];

@@ -9,6 +9,7 @@
 #import "ZYY_RegistControl.h"
 #import"ZYY_WriteInformation.h"
 #import "ZYY_ProtocolView.h"
+#import "AFHTTPRequestOperationManager.h"
 
 @interface ZYY_RegistControl ()<UITextFieldDelegate,ZYY_ProtocolViewDelegate>
 {

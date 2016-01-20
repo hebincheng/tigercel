@@ -9,6 +9,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZYY_MyInformationView">
             <connections>
+                <outlet property="IDLabel" destination="QUg-nU-sw9" id="uFt-Js-rsb"/>
+                <outlet property="emailLabel" destination="HYB-3a-vCb" id="S4H-6C-De0"/>
+                <outlet property="equipmentNumLabel" destination="aWU-mT-52Q" id="aKN-VT-hED"/>
+                <outlet property="nameLabel" destination="SaQ-UN-f23" id="sgi-Yt-npk"/>
+                <outlet property="telNumberLabel" destination="RYp-wE-cxJ" id="Le6-Ai-JrP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
