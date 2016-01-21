@@ -54,11 +54,17 @@ static NSString *codetext=@"passWordText";
     //NSLog(@"%@",str1);
     
 }
+-(void)jianpan{
+    [_accountTextFiled resignFirstResponder];
+    [_passWordTextFiled resignFirstResponder];
+}
 
 #pragma mark-
 #pragma mark  点击事件
 - (IBAction)zhuCeBtn
 {
+    //收起键盘
+    [self jianpan];
     ZYY_RegistControl *registControl=[[ZYY_RegistControl alloc]initWithNibName:@"ZYY_RegistControl" bundle:nil];
     [self.navigationController pushViewController:registControl animated:YES];
     [self.navigationItem.backBarButtonItem setTitle:@"登陆"];
@@ -77,6 +83,7 @@ static NSString *codetext=@"passWordText";
 
 - (IBAction)loginBtn
 {
+    [self jianpan];
     if (_loadCodeSwitch.isOn==NO)
     {
         //NSLog(@"我把密码清0了哦");
@@ -92,23 +99,21 @@ static NSString *codetext=@"passWordText";
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text and:^{
         //登录成功执行的操作
-        //
-        //
-        //
-        //
-        //
-        //
+
+        //把主界面设置为根目录
+        AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+        ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
+        appDelegate.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
+        appDelegate.leftView=[[ZYY_LeftViewController alloc]init];
+        appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
+        [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];
     }];
-    ZYY_User *user=[[ZYY_User alloc]initWithNumber:@"13327312101" andPassword:@"123456" andUserName:@"你好先生" andUserID:@"app12345" andSessionID:@"34534234234234" andSex:@"男" andBirthday:@"1994-06-24" andLocation:@"湖南省-娄底市-双峰县" andRecentlyTime:@"2016-01-18"
-                    andEquipNum:@"1" andEmail:@"961839401@qq.com"];
-    NSLog(@"%p",user);
-    //把主界面设置为根目录
-    AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
-    appDelegate.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
-    appDelegate.leftView=[[ZYY_LeftViewController alloc]init];
-    appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
-    [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];
+//    ZYY_User *user=[[ZYY_User alloc]initWithNumber:@"13327312101" andPassword:@"123456" andUserName:@"你好先生" andUserID:@"app12345" andSessionID:@"34534234234234" andSex:@"男" andBirthday:@"1994-06-24" andLocation:@"湖南省-娄底市-双峰县" andRecentlyTime:@"2016-01-18"
+//                    andEquipNum:@"1" andEmail:@"961839401@qq.com"];
+//   NSLog(@"%p",user);
+
+    
+
 }
 
 

@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "ZYY_ChangeCode.h"
 #import "ZYY_User.h"
+#import "ZYY_GetInfoFromInternet.h"
 
 #define RowHeight 50
 
@@ -51,6 +52,37 @@ static NSString *pStr,*cStr,*tStr;
     [self loadUI];
 
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    _user=[[ZYY_User alloc]init];
+    if ([_user.sex isEqualToString:@"0"])
+    {
+        [_userDefault setObject:@"女"forKey:@"sex"];
+    }
+    else{
+        [_userDefault setObject:@"男"forKey:@"sex"];
+    }
+    [_userDefault setObject:_user.birthdate forKey:@"birthday"];
+    [_userDefault setObject:_user.address1 forKey:@"location"];
+    if (_menuArr==nil)
+    {
+       _menuArr=@[@"性别",@"出生日期",@"家庭住址",@"修改密码",@"最近登录时间"];
+    }
+    _detailArr=[NSMutableArray arrayWithObjects:@"sex",@"birthday",@"location",@"change",@"recentdate", nil];
+    [_userDefault setObject:_user.lastLoginDate forKey:_detailArr[4]];
+    [_tableView reloadData];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    NSString *bdStr=[_userDefault objectForKey:@"birthday"];
+    bdStr =[bdStr stringByAppendingString:@"00:12:12"];
+    NSString *sexStr=[[_userDefault objectForKey:@"sex"] isEqualToString:@"男"]?@"1":@"0";
+    NSString *adStr=[_userDefault objectForKey:@"location"];
+    NSLog(@"%@-%@-%@",bdStr,sexStr,adStr);
+    [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:bdStr andSex:sexStr andSessionId:_user.sessionId andAddress:adStr andUserToken:_user.userToken];
+}
+
 #pragma mark-
 #pragma mark  加载数据及UI
 -(void)loadData
@@ -60,12 +92,7 @@ static NSString *pStr,*cStr,*tStr;
     _userDefault=[NSUserDefaults standardUserDefaults];
     //_locationStr=_user.location;
     
-    _menuArr=@[@"性别",@"出生日期",@"家庭住址",@"修改密码",@"最近登录时间"];
-    [_userDefault setObject:_user.sex forKey:@"sex"];
-    [_userDefault setObject:_user.birthday forKey:@"birthday"];
-    [_userDefault setObject:_user.location forKey:@"location"];
-    _detailArr=[NSMutableArray arrayWithObjects:@"sex",@"birthday",@"location",@"change",@"recentdate", nil];
-    [_userDefault setObject:_user.recentlyTime forKey:_detailArr[4]];
+    
     //图像数组初始化
     _imageArr=[NSMutableArray arrayWithCapacity:5];
     for (int i=1; i<6; i++)
@@ -91,11 +118,11 @@ static NSString *pStr,*cStr,*tStr;
 -(void)loadUI
 {
     //设置初始状态
-    [_equipmentNumLabel setText:[NSString stringWithFormat:@"设备数量:%@",_user.equipmentNum]];
+    [_equipmentNumLabel setText:[NSString stringWithFormat:@"设备数量:%@",_user.userLevel]];
     [_nameLabel setText:_user.userName];
-    [_telNumberLabel setText:_user.telNumber];
-    [_emailLabel setText:_user.email];
-    [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userID]];
+    [_telNumberLabel setText:_user.mobileNumber];
+    [_emailLabel setText:_user.emailAddress1];
+    [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userId]];
     
     _tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 180+60, [[UIScreen mainScreen] bounds].size.width, 5*RowHeight) style:UITableViewStylePlain];
     //[_tableView setAutoresizesSubviews:YES];
@@ -245,7 +272,7 @@ static NSString *pStr,*cStr,*tStr;
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
             //设定时间格式
             [dateFormat setDateFormat:@"yyyy-MM-dd"];
-            //求出当天的时间字符串
+            //求出时间字符串
             NSString *dateString = [dateFormat stringFromDate:datePicker.date];
             [_userDefault setObject:dateString forKey:_detailArr[1]];
             [_tableView reloadData];
@@ -304,6 +331,8 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  退出按钮
 - (IBAction)quit
 {
-    [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserID:_user.userId and:^{
+        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+    }];
 }
 @end

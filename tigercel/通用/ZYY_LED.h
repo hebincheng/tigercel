@@ -20,4 +20,24 @@
 //定时数组
 @property(nonatomic,strong)NSArray *timeArr;
 
+
+
+//设备ID
+@property (nonatomic, copy) NSString *deviceId;
+//用户ID
+@property (nonatomic, copy) NSString *userId;
+//设备名字
+//@property (nonatomic, copy) NSString *deviceName;
+//软件版本编号
+@property (nonatomic, copy) NSString *softWareNumber;
+//设备类型
+@property (nonatomic, copy) NSString *deviceType;
+//设备象征
+@property (nonatomic, copy) NSString *deviceToken;
+//设备模式
+@property (nonatomic, copy) NSString *deviceModel;
+
++(NSArray *)getEquipmentListWithArr:(NSArray *)arr;
+
+
 @end

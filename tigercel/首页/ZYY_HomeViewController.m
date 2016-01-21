@@ -13,6 +13,8 @@
 #import "ZYY_ConnectEquipment.h"
 #import "ZYY_EquipmentDetailVie.h"
 #import "ZYY_LED.h"
+#import "ZYY_User.h"
+#import "ZYY_GetInfoFromInternet.h"
 
 
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate,ZYY_LeftViewControllerDelegate>
@@ -31,8 +33,7 @@ static NSString *cellID=@"cellID";
 -(void)viewWillAppear:(BOOL)animated{
     _filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
     //已添加的led设备数组
-   // _LEDArr=[[NSUserDefaults standardUserDefaults]objectForKey:@"LEDArr"];
-    _LEDArr=[NSKeyedUnarchiver unarchiveObjectWithFile:_filePath];
+    //_LEDArr=[NSKeyedUnarchiver unarchiveObjectWithFile:_filePath];
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:YES];
     [_tableView reloadData];
@@ -45,8 +46,19 @@ static NSString *cellID=@"cellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     //初始化全局appdelegate
+    if (_LEDArr==nil)
+    {
+        _LEDArr=[NSMutableArray array];
+    }
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+#pragma mark 由于之前设备做的本地库保存  现在是从网络并刷新 所以暂时有待解决本地与网络之间的冲突
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserID:[[ZYY_User instancedObj]userId] and:^(NSArray *lArr) {
+        //若在云端有设备列表 则赋值给LEDArr
+        _LEDArr=[NSMutableArray arrayWithArray:lArr];
+        [_tableView reloadData];
+    }];
     [self loadUI];
+    
 }
 #pragma mark-
 #pragma mark加载UI
@@ -101,6 +113,9 @@ static NSString *cellID=@"cellID";
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_LEDArr removeObjectAtIndex:indexPath.row];
         [NSKeyedArchiver archiveRootObject:_LEDArr toFile:_filePath];
+        //删除设备信息
+        [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserId:[[ZYY_User instancedObj] userId]];
+        
         [_tableView reloadData];
         [_tableView setEditing:NO animated:YES];
        // [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];

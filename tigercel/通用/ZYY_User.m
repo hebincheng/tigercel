@@ -27,24 +27,34 @@ static ZYY_User *_instancedObj;
     });
     return _instancedObj;
 }
--(id)initWithNumber:(NSString *)telNumber andPassword:(NSString *)passWord andUserName:(NSString *)userName andUserID:(NSString *)userID andSessionID:(NSString *)sessionID andSex:(NSString *)sex andBirthday:(NSString *)birthday andLocation:(NSString *)location andRecentlyTime:(NSString *)recentlyTime andEquipNum:(NSString *)equipmentNum andEmail:(NSString *)email
+-(id)initWithDictionary:(NSDictionary *)dict
 {
     self=[super init];
     if (self!=nil)
     {
-        _telNumber=telNumber;
-        _passWord=passWord;
-        _userID=userID;
-        _userName=userName;
-        _sessionID=sessionID;
-        _sex=sex;
-        _birthday=birthday;
-        _location=location;
-        _recentlyTime=recentlyTime;
-        _equipmentNum=equipmentNum;
-        _email=email;
+        [self setValuesForKeysWithDictionary:dict];
     }
     return self;
 }
+
+//-(id)initWithNumber:(NSString *)telNumber andPassword:(NSString *)passWord andUserName:(NSString *)userName andUserID:(NSString *)userID andSessionID:(NSString *)sessionID andSex:(NSString *)sex andBirthday:(NSString *)birthday andLocation:(NSString *)location andRecentlyTime:(NSString *)recentlyTime andEquipNum:(NSString *)equipmentNum andEmail:(NSString *)email
+//{
+//    self=[super init];
+//    if (self!=nil)
+//    {
+//        _telNumber=telNumber;
+//        _passWord=passWord;
+//        _userID=userID;
+//        _userName=userName;
+//        _sessionID=sessionID;
+//        _sex=sex;
+//        _birthday=birthday;
+//        _location=location;
+//        _recentlyTime=recentlyTime;
+//        _equipmentNum=equipmentNum;
+//        _email=email;
+//    }
+//    return self;
+//}
 
 @end

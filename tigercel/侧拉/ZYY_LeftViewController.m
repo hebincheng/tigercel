@@ -165,7 +165,7 @@ static NSString *cellID=@"tableViewCellID";
     }];
     //设置电话自动布局
     _telNumberLabe=[[UILabel alloc]init];
-    [_telNumberLabe setText:[[ZYY_User instancedObj] telNumber]];
+    [_telNumberLabe setText:[[ZYY_User instancedObj] mobileNumber]];
     [_telNumberLabe setFont:[UIFont systemFontOfSize:14]];
     [_telNumberLabe setTextColor:[UIColor whiteColor]];
     [_telNumberLabe setTextAlignment:NSTextAlignmentCenter];

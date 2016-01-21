@@ -7,11 +7,11 @@
 //
 
 #import "ZYY_RegistControl.h"
-#import"ZYY_WriteInformation.h"
+#import "ZYY_WriteInformation.h"
 #import "ZYY_ProtocolView.h"
-#import "AFHTTPRequestOperationManager.h"
+#import "ZYY_GetInfoFromInternet.h"
 
-@interface ZYY_RegistControl ()<UITextFieldDelegate,ZYY_ProtocolViewDelegate>
+@interface ZYY_RegistControl ()<UITextFieldDelegate>
 {
     NSDate *_date;
     NSTimer *_timeCalculator;
@@ -61,6 +61,7 @@
     if (sender.selected==NO)
     {
 #pragma mark  发送验证码接口
+        [[ZYY_GetInfoFromInternet instancedObj]sendYZMWithTelNumber:_telPhoneText.text];
         NSLog(@"向%@发送验证码",_telPhoneText.text);
         [sender setSelected:YES];
          [_sendButton setTitle:@"90秒" forState:UIControlStateNormal];
@@ -92,9 +93,10 @@
         NSLog(@"已阅读协议，进入下一步");
         #pragma mark  待填写确认验证码是否正确接口
         ZYY_WriteInformation *writeViewControl=[[ZYY_WriteInformation alloc]init];
+        writeViewControl.authCode=_checkText.text;
+        writeViewControl.telNumber=_telPhoneText.text;
         [self.navigationController pushViewController:writeViewControl animated:YES];
         [self.navigationItem.backBarButtonItem setTitle:@"返回"];
-        //[self.navigationItem.backBarButtonItem setTintColor:[UIColor whiteColor]];
     }
     else
     {
@@ -121,7 +123,6 @@
     [_userDefaults setObject:_telPhoneText.text forKey:@"telPhoneText"];
     [_userDefaults setObject:_checkText.text forKey:@"_checkText"];
     ZYY_ProtocolView *protocolView=[[ZYY_ProtocolView alloc]initWithNibName:@"ZYY_ProtocolView" bundle:nil];
-    [protocolView setDelegate:self];
     [self.navigationController pushViewController:protocolView animated:YES];
 }
 @end

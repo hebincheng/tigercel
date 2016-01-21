@@ -77,7 +77,8 @@
 - (IBAction)submitBtn
 {
     //发送反馈
-    [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:_contentTextView.text andTitle:_titleOfContentText.text andUserID:[[ZYY_User instancedObj] sessionID] and:^{
+    [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:_contentTextView.text andTitle:_titleOfContentText.text andUserID:[[ZYY_User instancedObj] sessionId] and:^{
+        NSLog(@"反馈发送成功");
         [self clossView];
     }];
 }

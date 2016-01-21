@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ZYY_WriteInformation : UIViewController
+//验证码
+@property(nonatomic,strong) NSString *authCode;
+//手机号
+@property(nonatomic,strong) NSString *telNumber;
 //用户名
 @property (weak, nonatomic) IBOutlet UITextField *userNameText;
 //注册的密码
