@@ -68,7 +68,7 @@
 //登录牌
 @property (nonatomic, copy) NSString *loginFlag;
 
--(id)initWithDictionary:(NSDictionary *)dict;
+-(void)initWithDictionary:(NSDictionary *)dict;
 
 //-(id)initWithNumber:(NSString *)telNumber andPassword:(NSString *)passWord andUserName:(NSString *)userName andUserID:(NSString *)userID andSessionID:(NSString *)sessionID andSex:(NSString *)sex andBirthday:(NSString *)birthday andLocation:(NSString *)location andRecentlyTime:(NSString *)recentlyTime andEquipNum:(NSString *)equipmentNum andEmail:(NSString *)email;
 

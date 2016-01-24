@@ -27,34 +27,13 @@ static ZYY_User *_instancedObj;
     });
     return _instancedObj;
 }
--(id)initWithDictionary:(NSDictionary *)dict
+-(void)initWithDictionary:(NSDictionary *)dict
 {
-    self=[super init];
-    if (self!=nil)
+    ZYY_User *user=[[ZYY_User alloc]init];
+    if (user!=nil)
     {
-        [self setValuesForKeysWithDictionary:dict];
+        [user setValuesForKeysWithDictionary:dict];
     }
-    return self;
 }
-
-//-(id)initWithNumber:(NSString *)telNumber andPassword:(NSString *)passWord andUserName:(NSString *)userName andUserID:(NSString *)userID andSessionID:(NSString *)sessionID andSex:(NSString *)sex andBirthday:(NSString *)birthday andLocation:(NSString *)location andRecentlyTime:(NSString *)recentlyTime andEquipNum:(NSString *)equipmentNum andEmail:(NSString *)email
-//{
-//    self=[super init];
-//    if (self!=nil)
-//    {
-//        _telNumber=telNumber;
-//        _passWord=passWord;
-//        _userID=userID;
-//        _userName=userName;
-//        _sessionID=sessionID;
-//        _sex=sex;
-//        _birthday=birthday;
-//        _location=location;
-//        _recentlyTime=recentlyTime;
-//        _equipmentNum=equipmentNum;
-//        _email=email;
-//    }
-//    return self;
-//}
 
 @end

@@ -29,9 +29,9 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zhaoyiyu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaQ-UN-f23">
-                    <rect key="frame" x="129" y="77" width="183" height="21"/>
+                    <rect key="frame" x="129" y="77" width="250" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="183" id="Lc8-I1-u4L"/>
+                        <constraint firstAttribute="width" constant="250" id="Lc8-I1-u4L"/>
                         <constraint firstAttribute="height" constant="21" id="fWN-Hg-XYT"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -39,13 +39,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备数量：1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWU-mT-52Q">
-                    <rect key="frame" x="129" y="145" width="183" height="21"/>
+                    <rect key="frame" x="129" y="145" width="250" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:app1111111111" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUg-nU-sw9">
-                    <rect key="frame" x="129" y="111" width="183" height="21"/>
+                    <rect key="frame" x="129" y="111" width="250" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="8X4-Tm-x7N"/>
                     </constraints>

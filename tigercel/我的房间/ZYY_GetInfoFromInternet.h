@@ -28,7 +28,7 @@
 //注册协议
 -(void)registProrocolView:(void(^)(id data))block;
 //注销
--(void)logoutSessionID:(NSString *)sessionId andUserID:(NSString *)userID and:(void(^)(void))block;
+-(void)logoutSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void(^)(void))block;
 //获取设备列表
 -(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserID:(NSString *)userID and:(void(^)(NSArray *lArr))block;
 //添加设备

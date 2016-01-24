@@ -27,8 +27,6 @@
     UIPickerView *_locationPickView;
     //地址字段
     NSString *_locationStr;
-    //用户文档
-    NSUserDefaults *_userDefault;
     //城市数组
     NSArray *_provinceArr;
     NSArray *_cityArr;
@@ -50,49 +48,45 @@ static NSString *pStr,*cStr,*tStr;
     [super viewDidLoad];
     [self loadData];
     [self loadUI];
-
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    _user=[[ZYY_User alloc]init];
-    if ([_user.sex isEqualToString:@"0"])
-    {
-        [_userDefault setObject:@"女"forKey:@"sex"];
-    }
-    else{
-        [_userDefault setObject:@"男"forKey:@"sex"];
-    }
-    [_userDefault setObject:_user.birthdate forKey:@"birthday"];
-    [_userDefault setObject:_user.address1 forKey:@"location"];
-    if (_menuArr==nil)
-    {
-       _menuArr=@[@"性别",@"出生日期",@"家庭住址",@"修改密码",@"最近登录时间"];
-    }
-    _detailArr=[NSMutableArray arrayWithObjects:@"sex",@"birthday",@"location",@"change",@"recentdate", nil];
-    [_userDefault setObject:_user.lastLoginDate forKey:_detailArr[4]];
-    [_tableView reloadData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    NSString *bdStr=[_userDefault objectForKey:@"birthday"];
-    bdStr =[bdStr stringByAppendingString:@"00:12:12"];
-    NSString *sexStr=[[_userDefault objectForKey:@"sex"] isEqualToString:@"男"]?@"1":@"0";
-    NSString *adStr=[_userDefault objectForKey:@"location"];
-    NSLog(@"%@-%@-%@",bdStr,sexStr,adStr);
-    [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:bdStr andSex:sexStr andSessionId:_user.sessionId andAddress:adStr andUserToken:_user.userToken];
+    [_detailArr replaceObjectAtIndex:2 withObject:_locationStr];
+    NSString *sex=[_detailArr[0] isEqualToString:@"男"]?@"1":@"0";
+    NSLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
+    NSString *adress=[_detailArr[2] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *birthady=[_detailArr[1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:birthady andSex:sex andSessionId:_user.sessionId andAddress:adress andUserToken:_user.userToken];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+    
+}
 #pragma mark-
 #pragma mark  加载数据及UI
 -(void)loadData
 {
     _user=[ZYY_User instancedObj];
+    NSString *birthday=[_user.birthdate substringToIndex:10];
+    NSLog(@"%@",birthday);
+    NSString *yeatStr=[birthday substringToIndex:4];
+    NSRange midRange={5,2};
+    NSString *monStr=[birthday substringWithRange:midRange];
+    NSString *dayStr=[birthday substringFromIndex:8];
+    NSString *birStr=[NSString stringWithFormat:@"%@-%@-%@",yeatStr,monStr,dayStr];
+    NSLog(@"%@",birStr);
     
-    _userDefault=[NSUserDefaults standardUserDefaults];
-    //_locationStr=_user.location;
     
-    
+    NSString *sex=[_user.sex isEqualToString:@"1"]?@"男":@"女";
+    _detailArr=[NSMutableArray arrayWithObjects:sex,birStr,_user.address1,@"",_user.lastLoginDate,nil];
+    //标题内容
+    if (_menuArr==nil)
+    {
+        _menuArr=@[@"性别",@"出生日期",@"家庭住址",@"修改密码",@"最近登录时间"];
+    }
     //图像数组初始化
     _imageArr=[NSMutableArray arrayWithCapacity:5];
     for (int i=1; i<6; i++)
@@ -113,6 +107,12 @@ static NSString *pStr,*cStr,*tStr;
     
     _cityArr= [_selectArr[0]  allKeys];
     _townArr =[_selectArr[0] objectForKey:_cityArr[0]];
+    
+    //城市的初始化
+    pStr=_provinceArr[0];
+    cStr=_cityArr[0];
+    tStr=_townArr[0];
+    _locationStr=[NSString stringWithFormat:@"%@-%@-%@",pStr,cStr,tStr];
 }
 
 -(void)loadUI
@@ -241,7 +241,7 @@ static NSString *pStr,*cStr,*tStr;
     [cell.imageView setImage: _imageArr[indexPath.row]];
 #pragma mark  从网络获取数据后修改_detailArr的内容后 刷新表格
     
-    [cell.detailTextLabel setText:[_userDefault objectForKey:_detailArr[indexPath.row]]];
+    [cell.detailTextLabel setText:_detailArr[indexPath.row]];
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:15.0f]];
     
     //添加分割线
@@ -258,14 +258,19 @@ static NSString *pStr,*cStr,*tStr;
 {
     if (indexPath.row==1)
     {
+#pragma mark  日期选择器
         //初始化 dataPicker 日期选择
         UIDatePicker *datePicker = [[UIDatePicker alloc]init];
         //设置为中国区
         [datePicker setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_Hans_CN"]];
         datePicker.datePickerMode = UIDatePickerModeDate;
+        //设置最大选择时间
+        NSDate *date=[NSDate date];
+        [datePicker setMaximumDate:date];
+        
         //初始化UIAlertController
       
-         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         [alert.view addSubview:datePicker];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             //实例化一个NSDateFormatter对象,用于把data转化成nsstring
@@ -274,9 +279,9 @@ static NSString *pStr,*cStr,*tStr;
             [dateFormat setDateFormat:@"yyyy-MM-dd"];
             //求出时间字符串
             NSString *dateString = [dateFormat stringFromDate:datePicker.date];
-            [_userDefault setObject:dateString forKey:_detailArr[1]];
+            dateString=[dateString substringToIndex:10];
+            [_detailArr replaceObjectAtIndex:1 withObject:dateString];
             [_tableView reloadData];
-            NSLog(@"%@",dateString);
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         }];
@@ -286,14 +291,14 @@ static NSString *pStr,*cStr,*tStr;
     }
     if(indexPath.row==0)
     {
-        //性别选择
+#pragma mark 性别选择器
          UIAlertController *alert= [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *ok=[UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [_userDefault setObject:@"男" forKey:_detailArr[0]];
+            [_detailArr replaceObjectAtIndex:0 withObject:@"男"];
             [_tableView reloadData];
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [_userDefault setObject:@"女" forKey:_detailArr[0]];
+            [_detailArr replaceObjectAtIndex:0 withObject:@"女"];
             [_tableView reloadData];
         }];
         [alert addAction:ok];
@@ -311,8 +316,11 @@ static NSString *pStr,*cStr,*tStr;
         }];
         UIAlertAction *ok=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //如果确定则将地址字段存储到用户文档中  然后刷新数据
-            [_userDefault setObject:_locationStr forKey:_detailArr[2]];
-            [_tableView reloadData];
+            if(_locationStr!=nil)
+            {
+            [_detailArr replaceObjectAtIndex:2 withObject:_locationStr];
+                [_tableView reloadData];
+            }
         }];
         UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         }];
@@ -331,8 +339,11 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  退出按钮
 - (IBAction)quit
 {
-    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserID:_user.userId and:^{
-        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+//    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserID:_user.userId and:^{
+//        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+//    }];
+    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken and:^{
+         [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
     }];
 }
 @end

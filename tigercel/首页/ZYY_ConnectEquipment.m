@@ -61,13 +61,13 @@
 }
 
 - (IBAction)connectBtn {
-    const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
-    const char *s_authmode = [@"123" cStringUsingEncoding:NSASCIIStringEncoding];
-    int authmode = atoi(s_authmode);
-    const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
-    NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
-    InitSmartConnection();
-    StartSmartConnection(ssid, password, "", authmode);
+//    const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
+//    const char *s_authmode = [@"123" cStringUsingEncoding:NSASCIIStringEncoding];
+//    int authmode = atoi(s_authmode);
+//    const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
+//    NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
+//    InitSmartConnection();
+//    StartSmartConnection(ssid, password, "", authmode);
     ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
     [self.navigationController pushViewController:equipmentView animated:YES];
 }

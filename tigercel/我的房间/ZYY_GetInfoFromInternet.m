@@ -93,15 +93,14 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 #pragma mark 修改个人信息
 -(void)commitUserInformationWithBirthdate:(NSString *)birthdate andSex:(NSString *)sex andSessionId:(NSString *)sessionId andAddress:(NSString *)address andUserToken:(NSString *)userToken{
     NSString *urlStr=[urlPathStr stringByAppendingString:commitUserInfo];
-    NSDictionary *requestDict=@{@"birthdate":birthdate,@"sex":sex,@"sessionId":sessionId,@"address":address,@"userToken":userToken};
+    NSDictionary *requestDict=@{@"address":address,@"userToken":userToken,@"sessionId":sessionId,@"sex":sex,@"birthdate":birthdate};
     NSLog(@"%@--%@",birthdate,address);
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
             NSDictionary *dict=responseObject[@"data"];
-          ZYY_User *user=[[ZYY_User alloc]initWithDictionary:dict];
-            NSLog(@"%@",user);
-            NSLog(@"信息修改成功");
+           [[ZYY_User alloc]initWithDictionary:dict];
+            NSLog(@"信息修改成功----%@",[[ZYY_User instancedObj] sex]?@"男":@"女");
         }
         else{
             NSLog(@"shibai");
@@ -173,12 +172,10 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 注销登录
--(void)logoutSessionID:(NSString *)sessionId andUserID:(NSString *)userID and:(void (^)(void))block{
+-(void)logoutSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void (^)(void))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:logoutStr];
-    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userId":userID};
+    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSString *str=responseObject[@"status"];
-            NSLog(@"%@",str);
             block();
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
@@ -201,8 +198,8 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         NSDictionary *dict=responseObject[@"data"];
         if (![dict isKindOfClass:[NSNull class]])
         {
-            ZYY_User *user=[[ZYY_User alloc]initWithDictionary:dict];
-            NSLog(@"用户邮箱%@",user.emailAddress1);
+            //用户数据初始化
+            [[ZYY_User alloc]initWithDictionary:dict];
             block();
         }
         else{
