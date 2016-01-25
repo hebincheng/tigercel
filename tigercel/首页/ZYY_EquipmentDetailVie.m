@@ -469,7 +469,7 @@ static NSString *rightCellID=@"rightCellID";
         }
     }
 }
-#pragma mark 设置代理
+#pragma mark imagePicker设置代理
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
    UIImage *image=info[@"UIImagePickerControllerEditedImage"];

@@ -343,9 +343,6 @@
 				E711F5811C3F968700485406 /* FeedBack */,
 				E78D1E7D1C4F61310007A58F /* NetWork */,
 				E711F5821C3F968700485406 /* MyRoom */,
-				E711F5571C3F95D800485406 /* Assets.xcassets */,
-				E711F5591C3F95D800485406 /* LaunchScreen.storyboard */,
-				E711F55C1C3F95D800485406 /* Info.plist */,
 				E711F54B1C3F95D800485406 /* Supporting Files */,
 			);
 			path = tigercel;
@@ -354,6 +351,9 @@
 		E711F54B1C3F95D800485406 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E711F5571C3F95D800485406 /* Assets.xcassets */,
+				E711F5591C3F95D800485406 /* LaunchScreen.storyboard */,
+				E711F55C1C3F95D800485406 /* Info.plist */,
 				E711F54C1C3F95D800485406 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -440,18 +440,15 @@
 		E711F5831C3F969E00485406 /* basic */ = {
 			isa = PBXGroup;
 			children = (
-				E78D1E7C1C4F57DC0007A58F /* smtiot.h */,
-				E78D1E7A1C4F57180007A58F /* libiot.a */,
+				E76EA54B1C55C86A004B4100 /* DeviceControl */,
 				E7665B171C5074FD006F3AF0 /* AFNetworking */,
 				E7030B781C4DF5CD0015F552 /* SystemConfiguration.framework */,
 				E7030B671C4DF1270015F552 /* BasicObject */,
-				E7204E4B1C4771D6005D6C4D /* GetColor */,
+				E7204E4B1C4771D6005D6C4D /* custom */,
 				E757D35B1C40ACBE007F3A6D /* Masonry */,
 				E711F5A31C3FB8C700485406 /* LeftSlideViewController */,
 				E711F54E1C3F95D800485406 /* AppDelegate.h */,
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
-				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
-				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
 				E77AD7411C44A62B000A18C6 /* Address.plist */,
 			);
 			name = basic;
@@ -541,13 +538,15 @@
 			path = LeftSlideViewController;
 			sourceTree = "<group>";
 		};
-		E7204E4B1C4771D6005D6C4D /* GetColor */ = {
+		E7204E4B1C4771D6005D6C4D /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
+				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
 				E7204E541C478308005D6C4D /* UIImageView+ZYY_GetColor.h */,
 				E7204E551C478308005D6C4D /* UIImageView+ZYY_GetColor.m */,
 			);
-			name = GetColor;
+			name = custom;
 			sourceTree = "<group>";
 		};
 		E757D35B1C40ACBE007F3A6D /* Masonry */ = {
@@ -621,6 +620,15 @@
 				E7665B241C5074FD006F3AF0 /* AFURLSessionManager.m */,
 			);
 			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		E76EA54B1C55C86A004B4100 /* DeviceControl */ = {
+			isa = PBXGroup;
+			children = (
+				E78D1E7A1C4F57180007A58F /* libiot.a */,
+				E78D1E7C1C4F57DC0007A58F /* smtiot.h */,
+			);
+			name = DeviceControl;
 			sourceTree = "<group>";
 		};
 		E78D1E7D1C4F61310007A58F /* NetWork */ = {
@@ -971,6 +979,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -991,6 +1000,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

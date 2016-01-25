@@ -10,10 +10,17 @@
 
 @interface ZYY_MyInformationView : UIViewController
 - (IBAction)quit;
+//ID的label
 @property (weak, nonatomic) IBOutlet UILabel *IDLabel;
+//姓名Label
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+//设备Label
 @property (weak, nonatomic) IBOutlet UILabel *equipmentNumLabel;
+//电话label
 @property (weak, nonatomic) IBOutlet UILabel *telNumberLabel;
+//头像
+@property (weak, nonatomic) IBOutlet UIButton *touXiang;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+- (IBAction)userImageBtn;
 
 @end

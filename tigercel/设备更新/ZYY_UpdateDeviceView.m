@@ -7,8 +7,14 @@
 //
 
 #import "ZYY_UpdateDeviceView.h"
-@interface ZYY_UpdateDeviceView ()
-
+#import "ZYY_User.h"
+#import "ZYY_LED.h"
+#import "ZYY_GetInfoFromInternet.h"
+@interface ZYY_UpdateDeviceView ()<UITableViewDataSource>
+{
+    NSArray *_LEDArr;
+    UITableView *_tableView;
+}
 @end
 
 @implementation ZYY_UpdateDeviceView
@@ -17,24 +23,34 @@
     [super viewDidLoad];
     [self setTitle:@"设备更新"];
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
-    // nihao a
-    [self.view setBackgroundColor:[UIColor redColor]];                            
-    // Do any additional setup after loading the view from its nib.
+    //从网络获取设备数组数据
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserID:[[ZYY_User instancedObj]userId] and:^(NSArray *lArr) {
+        //若在云端有设备列表 则赋值给LEDArr
+        _LEDArr=[NSMutableArray arrayWithArray:lArr];
+    }];
+    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height) style:UITableViewStylePlain];
+    [_tableView setScrollEnabled:NO];
+    [_tableView setDataSource:self];
+    [self.view addSubview:_tableView];
+    
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _LEDArr.count;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
+    ZYY_LED *led=_LEDArr[indexPath.row];
+    [cell.textLabel setText:led.deviceName];
+    [cell.detailTextLabel setText:led.deviceModel];
+    //NSString *softStr=led.softWareNumber;
+    //
+    //
+    //版本功能未做
+    //
+    //
+    return cell;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

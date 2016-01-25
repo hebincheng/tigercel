@@ -15,7 +15,7 @@
 
 #define RowHeight 50
 
-@interface ZYY_MyInformationView ()<UITableViewDataSource,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate>
+@interface ZYY_MyInformationView ()<UITableViewDataSource,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     UITableView *_tableView;
     NSArray *_menuArr;
@@ -52,7 +52,7 @@ static NSString *pStr,*cStr,*tStr;
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [_detailArr replaceObjectAtIndex:2 withObject:_locationStr];
+    //[_detailArr replaceObjectAtIndex:2 withObject:_locationStr];
     NSString *sex=[_detailArr[0] isEqualToString:@"男"]?@"1":@"0";
     NSLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
     NSString *adress=[_detailArr[2] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -60,18 +60,13 @@ static NSString *pStr,*cStr,*tStr;
     [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:birthady andSex:sex andSessionId:_user.sessionId andAddress:adress andUserToken:_user.userToken];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    
-    
-}
 #pragma mark-
 #pragma mark  加载数据及UI
 -(void)loadData
 {
     _user=[ZYY_User instancedObj];
     NSString *birthday=[_user.birthdate substringToIndex:10];
-    NSLog(@"%@",birthday);
+    //修改显示的时间格式
     NSString *yeatStr=[birthday substringToIndex:4];
     NSRange midRange={5,2};
     NSString *monStr=[birthday substringWithRange:midRange];
@@ -82,6 +77,7 @@ static NSString *pStr,*cStr,*tStr;
     
     NSString *sex=[_user.sex isEqualToString:@"1"]?@"男":@"女";
     _detailArr=[NSMutableArray arrayWithObjects:sex,birStr,_user.address1,@"",_user.lastLoginDate,nil];
+    NSLog(@"-------------%@",_user.address1);
     //标题内容
     if (_menuArr==nil)
     {
@@ -123,6 +119,11 @@ static NSString *pStr,*cStr,*tStr;
     [_telNumberLabel setText:_user.mobileNumber];
     [_emailLabel setText:_user.emailAddress1];
     [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userId]];
+    //设置头像为圆形
+    [_touXiang.layer setCornerRadius:50.0f];
+    [_touXiang.layer setMasksToBounds:YES];
+    //设置按钮点击效果
+    [_touXiang setAdjustsImageWhenHighlighted:NO];
     
     _tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 180+60, [[UIScreen mainScreen] bounds].size.width, 5*RowHeight) style:UITableViewStylePlain];
     //[_tableView setAutoresizesSubviews:YES];
@@ -242,6 +243,7 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  从网络获取数据后修改_detailArr的内容后 刷新表格
     
     [cell.detailTextLabel setText:_detailArr[indexPath.row]];
+    NSLog(@"%@",_detailArr[indexPath.row]);
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:15.0f]];
     
     //添加分割线
@@ -334,16 +336,44 @@ static NSString *pStr,*cStr,*tStr;
         [self.navigationController pushViewController:changeCodeView animated:YES];
     }
 }
-
+#pragma mark imagePicker的代理方法
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    __block UIImage *iamge=info[@"UIImagePickerControllerEditedImage"];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_touXiang setImage:iamge forState:UIControlStateNormal];
+    }];
+}
 
 #pragma mark  退出按钮
 - (IBAction)quit
 {
-//    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserID:_user.userId and:^{
-//        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
-//    }];
     [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken and:^{
          [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
     }];
+}
+- (IBAction)userImageBtn {
+    UIAlertController *touXiang=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *camera=[UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *pickerControl=[[UIImagePickerController alloc]init];
+        [pickerControl setAllowsEditing:YES];
+        [pickerControl setSourceType:UIImagePickerControllerSourceTypeCamera];
+        [pickerControl setDelegate:self];
+        [self presentViewController:pickerControl animated:YES completion:nil];
+    }];
+    UIAlertAction *library=[UIAlertAction actionWithTitle:@"图库" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *pickerController=[[UIImagePickerController alloc]init];
+        [pickerController setDelegate:self];
+        [pickerController setAllowsEditing:YES];
+        [pickerController setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        [self presentViewController:pickerController animated:YES completion:nil];
+    }];
+    [touXiang addAction:library];
+    [touXiang addAction:camera];
+    [touXiang addAction:cancel];
+    
+    [self.view addSubview:touXiang.view];
+    [self presentViewController:touXiang animated:YES completion:nil];
 }
 @end

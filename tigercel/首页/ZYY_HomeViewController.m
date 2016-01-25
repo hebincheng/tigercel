@@ -31,7 +31,7 @@ static NSString *cellID=@"cellID";
 @implementation ZYY_HomeViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    _filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
+    //_filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
     //已添加的led设备数组
     //_LEDArr=[NSKeyedUnarchiver unarchiveObjectWithFile:_filePath];
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];

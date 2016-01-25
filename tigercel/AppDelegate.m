@@ -18,7 +18,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    //让其在启动页停留1.5秒
+    [NSThread sleepForTimeInterval:1.5f];
+    
     self.window=[[UIWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window setBackgroundColor:[UIColor blackColor]];
     [self.window makeKeyAndVisible];
