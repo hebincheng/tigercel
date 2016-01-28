@@ -17,13 +17,13 @@
 #import "AppDelegate.h"
 #import "ZYY_ChooseShareWayView.h"
 #import "ZYY_User.h"
+#import "UIButton+WebCache.h"
 
 @interface ZYY_LeftViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSArray *_menuTitleArr;
     NSArray *_menuImageArr;
-    //头像按钮
-    UIButton *_imageBtn;
+
     //用户名Label
     UILabel *_nameLabe;
     //手机号Label
@@ -135,10 +135,16 @@ static NSString *cellID=@"tableViewCellID";
     [view setBackgroundColor:[UIColor clearColor]];
     //设置头像自动布局
     _imageBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    ZYY_User *user=[ZYY_User instancedObj];
+    if (![user.titleMultiUrl isEqualToString:@""])
+    {
+           [_imageBtn sd_setImageWithURL:[NSURL URLWithString:user.titleMultiUrl] forState:UIControlStateNormal];
+    }
+    else{
+        [_imageBtn setImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
+    }
     //设置btn点击样式
     [_imageBtn setShowsTouchWhenHighlighted:YES];
-    
-    [_imageBtn setImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
     [_imageBtn addTarget:self action:@selector(tapImageBtn) forControlEvents:UIControlEventTouchUpInside];
     //UIImageView *imageView=[[UIImageView alloc]init];
     [_imageBtn.layer setCornerRadius:50];
@@ -152,7 +158,7 @@ static NSString *cellID=@"tableViewCellID";
     }];
     //设置用户名自动布局
     _nameLabe=[[UILabel alloc]init];
-    [_nameLabe setText:[[ZYY_User instancedObj] userName]];
+    [_nameLabe setText:user.userName];
     [_nameLabe setFont:[UIFont systemFontOfSize:14]];
     [_nameLabe setTextColor:[UIColor whiteColor]];
     [_nameLabe setTextAlignment:NSTextAlignmentCenter];
@@ -165,7 +171,7 @@ static NSString *cellID=@"tableViewCellID";
     }];
     //设置电话自动布局
     _telNumberLabe=[[UILabel alloc]init];
-    [_telNumberLabe setText:[[ZYY_User instancedObj] mobileNumber]];
+    [_telNumberLabe setText:user.mobileNumber];
     [_telNumberLabe setFont:[UIFont systemFontOfSize:14]];
     [_telNumberLabe setTextColor:[UIColor whiteColor]];
     [_telNumberLabe setTextAlignment:NSTextAlignmentCenter];

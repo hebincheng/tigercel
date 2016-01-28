@@ -24,7 +24,7 @@
     if (self=[super init])
     {
         _currentSceneName=[aDecoder decodeObjectForKey:@"currentSceneName"];
-        _deviceName=[aDecoder decodeObjectForKey:@"deviceName"];
+        _ownerName=[aDecoder decodeObjectForKey:@"ownerName"];
         _timeArr=[aDecoder decodeObjectForKey:@"timeArr"];
         _zhaoMingArr=[aDecoder decodeObjectForKey:@"zhaoMingArr"];
         _fenWeiArr=[aDecoder decodeObjectForKey:@"fenWeiArr"];

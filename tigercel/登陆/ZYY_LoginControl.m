@@ -12,6 +12,9 @@
 #import "ZYY_RegistControl.h"
 #import "ZYY_GetInfoFromInternet.h"
 #import "ZYY_User.h"
+#import "FeThreeDotGlow.h"
+#import "MQTTClient.h"
+#import "MQTTClientPersistence.h"
 
 @interface ZYY_LoginControl ()<UITextFieldDelegate>
 {
@@ -96,10 +99,16 @@ static NSString *codetext=@"passWordText";
         [_userDefault setObject:_passWordTextFiled.text forKey:codetext];
         NSLog(@"我把密码存好了");
     }
+    FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
+    [self.view addSubview:threeDot];
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text and:^{
+        [threeDot removeFromSuperview];
+        [self connectToMQTT];
         //登录成功执行的操作
-
+//获取用户信息（获取到的信息与登陆成功后反馈的消息是一致的 所以此处可以省略）
+        ZYY_User *user=[ZYY_User instancedObj];
+        [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:user.userToken andSessionId:user.sessionId];
         //把主界面设置为根目录
         AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
@@ -108,13 +117,93 @@ static NSString *codetext=@"passWordText";
         appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
         [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];
     }];
-//    ZYY_User *user=[[ZYY_User alloc]initWithNumber:@"13327312101" andPassword:@"123456" andUserName:@"你好先生" andUserID:@"app12345" andSessionID:@"34534234234234" andSex:@"男" andBirthday:@"1994-06-24" andLocation:@"湖南省-娄底市-双峰县" andRecentlyTime:@"2016-01-18"
-//                    andEquipNum:@"1" andEmail:@"961839401@qq.com"];
-//   NSLog(@"%p",user);
+
 
     
 
 }
+
+
+#pragma mark  连接到mqttServer
+-(void)connectToMQTT
+{
+    
+    struct Options
+    {
+        char* connection;         /**< connection to system under test. */
+        char** haconnections;
+        int hacount;
+        int verbose;
+        int test_no;
+        int MQTTVersion;
+        int iterations;
+    } options =
+    {
+        //"tcp://m2m.eclipse.org:1883",
+        "tcp://192.168.3.49:1243",
+        //"tcp://192.168.12.157:1243",
+        NULL,
+        0,
+        0,
+        0,
+        MQTTVERSION_DEFAULT,
+        1,
+    };
+    
+    
+    MQTTClient c;
+    MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
+    int subsqos = 2;
+    int rc = 0;
+    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
+   int failures = 0;
+    
+    
+    opts.keepAliveInterval = 20;
+    opts.cleansession = 1;
+    opts.username = "uuuuuuuuuussssssssssrrrrrr000213";
+    opts.password = "papapapa";
+    opts.MQTTVersion = options.MQTTVersion;
+    if (options.haconnections != NULL)
+    {
+        opts.serverURIs = options.haconnections;
+        opts.serverURIcount = options.hacount;
+    }
+    
+    opts.will = &wopts;
+    opts.will->message = "will message";
+    opts.will->qos = 1;
+    opts.will->retained = 0;
+    opts.will->topicName = "will topic";
+    opts.will = NULL;
+    
+    
+    
+    
+    
+    
+    rc = MQTTClient_create(&c, options.connection, "single_threaded_test",
+                           MQTTCLIENT_PERSISTENCE_DEFAULT, NULL);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
+        MQTTClient_destroy(&c);
+    }
+    
+    
+    printf("@@@@@@@@@@@@@@@@@Connecting start\n");
+    printf("connection : %s\n", options.connection);
+    rc = MQTTClient_connect(c, &opts);
+    printf("@@@@@@@@@@@@@@@@@Connecting finish and start subscribe\n\n\n");
+    rc = MQTTClient_subscribe(c, test_topic, subsqos);
+    printf("@@@@@@@@@@@@@@@@@subscribe finish\n\n\n");
+    
+
+
+}
+
+
 
 
 #pragma mark-

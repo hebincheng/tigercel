@@ -45,16 +45,11 @@
 
 -(void)showWindowHome
 {
+    //重新设置window的根视图控制器
     self.homeNavigationController=nil;
     ZYY_LoginControl *loginView=[[ZYY_LoginControl alloc]initWithNibName:@"ZYY_LoginControl" bundle:nil];
     self.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:loginView];
     [self.window setRootViewController:self.homeNavigationController];
-    
-//    self.leftView=[[ZYY_LeftViewController alloc]init];
-//    ZYY_LoginControl *loginView=[[ZYY_LoginControl alloc]initWithNibName:@"ZYY_LoginControl" bundle:nil];
-//    self.homeNavigationController = [[UINavigationController alloc] initWithRootViewController:loginView];
-   
-//   // self.window.rootViewController = self.homeNavigationController;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

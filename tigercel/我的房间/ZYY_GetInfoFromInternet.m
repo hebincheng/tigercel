@@ -24,6 +24,9 @@ static NSString *registStr=@"hufu/app/member/regist.do?";//注册接口
 static NSString *commitUserInfo=@"hufu/app/member/updateUserInfo.do?";//修改信息接口
 static NSString *addDeviceStr=@"hufu/app/userdevice/addUserDevice.do?";//添加设备
 static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
+static NSString *changeUserImageStr=@"hufu/app/member/updateUserImg.do";//上传用户头像
+static NSString *getUserInfoStr=@"hufu/app/member/getUserInfo.do?";//获取用户信息
+
 
 static ZYY_GetInfoFromInternet *_instancedObj;
 
@@ -45,6 +48,49 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     });
     return _instancedObj;
 }
+#pragma mark 获取用户信息
+-(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId{
+    NSString *urlStr=[urlPathStr stringByAppendingString:getUserInfoStr];
+    
+    NSLog(@"%@",[NSString stringWithFormat:@"%@%@&%@&",urlStr,userToken,sessionId]);
+    NSDictionary *requesrDict=@{@"userToken":userToken,@"sessionId":sessionId};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requesrDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+}
+
+#pragma mark 修改用户头像
+-(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr{
+    
+    
+    NSString *urlStr=[urlPathStr stringByAppendingString:changeUserImageStr];
+    NSLog(@"%@userId=%@&sessionId=%@&",urlStr,userId,sessionId);
+    NSDictionary *requesrDict=@{@"userId":userId,@"sessionId":sessionId};
+    //NSLog(@"%@?urlStr=%@&sessionId=%@&",urlStr,userId,sessionId);
+    
+    AFHTTPSessionManager *manager= [AFHTTPSessionManager manager];
+   // 设置提交的是二进制流(默认提交的是二进制流)
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+   // manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager  POST:urlStr parameters:requesrDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        UIImage *image=[UIImage imageWithContentsOfFile:imageStr];
+        NSData *imageData=UIImageJPEGRepresentation(image, 0.1);
+       [formData appendPartWithFileData :imageData name: @"titleMultiFile" fileName:[NSString stringWithFormat:@"%@.jpg",userId] mimeType:@"image/jpeg"];
+        
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+        NSLog(@"%@",responseObject[@"msg"]);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+        [self showError];
+    }];
+
+}
+
+
 #pragma mark注册协议
 -(void)registProrocolView:(void (^)(id))block{
     __block NSString *comment=nil;
@@ -100,7 +146,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         {
             NSDictionary *dict=responseObject[@"data"];
            [[ZYY_User alloc]initWithDictionary:dict];
-            NSLog(@"信息修改成功----%@",[[ZYY_User instancedObj] sex]?@"男":@"女");
+           // NSLog(@"信息修改成功",);
         }
         else{
             NSLog(@"shibai");
@@ -200,6 +246,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         {
             //用户数据初始化
             [[ZYY_User alloc]initWithDictionary:dict];
+             NSLog(@"%@",dict);
             block();
         }
         else{

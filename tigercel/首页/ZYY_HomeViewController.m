@@ -17,7 +17,7 @@
 #import "ZYY_GetInfoFromInternet.h"
 
 
-@interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate,ZYY_LeftViewControllerDelegate>
+@interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     AppDelegate *_homeAD;

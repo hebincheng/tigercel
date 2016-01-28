@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ZYY_GetInfoFromInternet : NSObject
 //单例
@@ -39,4 +40,8 @@
 -(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserId:(NSString *)userId and:(void(^)(id data))block;
 //修改个人信息
 -(void)commitUserInformationWithBirthdate:(NSString *)birthdate andSex:(NSString *)sex andSessionId:(NSString *)sessionId andAddress:(NSString *)address andUserToken:(NSString *)userToken;
+//修改头像信息
+-(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr;
+//获取用户信息
+-(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId;
 @end

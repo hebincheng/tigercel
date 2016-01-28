@@ -60,13 +60,19 @@
 {
     if (sender.selected==NO)
     {
+        if(_telPhoneText.text.length!=11){
+            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入正确的手机号码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [av show];
+        }
+        else{
 #pragma mark  发送验证码接口
-        [[ZYY_GetInfoFromInternet instancedObj]sendYZMWithTelNumber:_telPhoneText.text];
-        NSLog(@"向%@发送验证码",_telPhoneText.text);
-        [sender setSelected:YES];
-         [_sendButton setTitle:@"90秒" forState:UIControlStateNormal];
-        _date=[NSDate date];
-        _timeCalculator=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(scheduledTime) userInfo:nil repeats:YES];
+            [[ZYY_GetInfoFromInternet instancedObj]sendYZMWithTelNumber:_telPhoneText.text];
+            NSLog(@"向%@发送验证码",_telPhoneText.text);
+            [sender setSelected:YES];
+            [_sendButton setTitle:@"90秒" forState:UIControlStateNormal];
+            _date=[NSDate date];
+            _timeCalculator=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(scheduledTime) userInfo:nil repeats:YES];
+        }
     }
 }
 //时钟函数

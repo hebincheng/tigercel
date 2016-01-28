@@ -12,6 +12,7 @@
 #import "ZYY_ChangeCode.h"
 #import "ZYY_User.h"
 #import "ZYY_GetInfoFromInternet.h"
+#import "UIButton+WebCache.h"
 
 #define RowHeight 50
 
@@ -74,7 +75,6 @@ static NSString *pStr,*cStr,*tStr;
     NSString *birStr=[NSString stringWithFormat:@"%@-%@-%@",yeatStr,monStr,dayStr];
     NSLog(@"%@",birStr);
     
-    
     NSString *sex=[_user.sex isEqualToString:@"1"]?@"男":@"女";
     _detailArr=[NSMutableArray arrayWithObjects:sex,birStr,_user.address1,@"",_user.lastLoginDate,nil];
     NSLog(@"-------------%@",_user.address1);
@@ -120,6 +120,13 @@ static NSString *pStr,*cStr,*tStr;
     [_emailLabel setText:_user.emailAddress1];
     [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userId]];
     //设置头像为圆形
+    if (![_user.titleMultiUrl isEqualToString:@""])
+    {
+        [_touXiang sd_setImageWithURL:[NSURL URLWithString:_user.titleMultiUrl] forState:UIControlStateNormal];
+    }
+    else{
+        [_touXiang setImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
+    }
     [_touXiang.layer setCornerRadius:50.0f];
     [_touXiang.layer setMasksToBounds:YES];
     //设置按钮点击效果
@@ -343,6 +350,12 @@ static NSString *pStr,*cStr,*tStr;
     [self dismissViewControllerAnimated:YES completion:^{
         [_touXiang setImage:iamge forState:UIControlStateNormal];
     }];
+    NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"APP-20160108-00000002160128134627.jpg"];
+    NSData *data=UIImagePNGRepresentation(iamge);
+    [data writeToFile: filePath atomically:YES];
+    NSLog(@"%@",filePath);
+#pragma mark 调用头像修改的接口
+    [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath];
 }
 
 #pragma mark  退出按钮
