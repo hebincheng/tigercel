@@ -157,7 +157,7 @@ static NSString *codetext=@"passWordText";
     int subsqos = 2;
     int rc = 0;
     char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
-   int failures = 0;
+  // int failures = 0;
     
     
     opts.keepAliveInterval = 20;

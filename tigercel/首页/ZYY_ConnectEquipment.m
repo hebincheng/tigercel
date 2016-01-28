@@ -80,7 +80,7 @@
     printf("ret=%d\n", ret);
     
 //    ret = discovery_tlv_parse(tmp_tlv, ret, &tmp_js);
-    printf("json:\n""%x\n", &tmp_tlv);
+//    printf("json:\n""%x\n", &tmp_tlv);
 //    printf("ret=%d\n", ret);
 //
 //    NSString *dateStr2 =[NSString stringWithFormat:@"%x",&tmp_tlv];

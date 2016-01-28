@@ -37,13 +37,15 @@
 		E7169C161C4293F0003BD334 /* ZYY_RoomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7169C141C4293F0003BD334 /* ZYY_RoomView.xib */; };
 		E7169C1A1C4294CB003BD334 /* ZYY_MyInformationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7169C181C4294CB003BD334 /* ZYY_MyInformationView.m */; };
 		E7169C1B1C4294CB003BD334 /* ZYY_MyInformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7169C191C4294CB003BD334 /* ZYY_MyInformationView.xib */; };
-		E718B3AF1C5A28E00024583B /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3A81C5A28E00024583B /* cJSON.h */; };
-		E718B3B01C5A28E00024583B /* iot_mod_lwm2m_json.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3A91C5A28E00024583B /* iot_mod_lwm2m_json.h */; };
-		E718B3B11C5A28E00024583B /* iot_mod_lwm2m.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3AA1C5A28E00024583B /* iot_mod_lwm2m.h */; };
-		E718B3B21C5A28E00024583B /* libj2t_lib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E718B3AB1C5A28E00024583B /* libj2t_lib.a */; };
-		E718B3B31C5A28E00024583B /* libMQTTClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E718B3AC1C5A28E00024583B /* libMQTTClient.a */; };
-		E718B3B41C5A28E00024583B /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3AD1C5A28E00024583B /* MQTTClient.h */; };
-		E718B3B51C5A28E00024583B /* MQTTClientPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3AE1C5A28E00024583B /* MQTTClientPersistence.h */; };
+		E718B3C01C5A38F20024583B /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3B71C5A38F20024583B /* cJSON.h */; };
+		E718B3C11C5A38F20024583B /* iot_mod_lwm2m.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3B81C5A38F20024583B /* iot_mod_lwm2m.h */; };
+		E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3B91C5A38F20024583B /* iot_mod_lwm2m_json.h */; };
+		E718B3C31C5A38F20024583B /* libiot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E718B3BA1C5A38F20024583B /* libiot.a */; };
+		E718B3C41C5A38F20024583B /* libj2t_lib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E718B3BB1C5A38F20024583B /* libj2t_lib.a */; };
+		E718B3C51C5A38F20024583B /* libMQTTClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E718B3BC1C5A38F20024583B /* libMQTTClient.a */; };
+		E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3BD1C5A38F20024583B /* MQTTClient.h */; };
+		E718B3C71C5A38F20024583B /* MQTTClientPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3BE1C5A38F20024583B /* MQTTClientPersistence.h */; };
+		E718B3C81C5A38F20024583B /* smtiot.h in Headers */ = {isa = PBXBuildFile; fileRef = E718B3BF1C5A38F20024583B /* smtiot.h */; };
 		E7204E411C473B78005D6C4D /* ZYY_ChangeNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7204E3F1C473B78005D6C4D /* ZYY_ChangeNameView.m */; };
 		E7204E421C473B78005D6C4D /* ZYY_ChangeNameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7204E401C473B78005D6C4D /* ZYY_ChangeNameView.xib */; };
 		E7204E461C474993005D6C4D /* ZYY_SceneChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7204E441C474993005D6C4D /* ZYY_SceneChooseView.m */; };
@@ -128,7 +130,6 @@
 		E77BCB431C58D4DF000B8353 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCB221C58D4DF000B8353 /* UIImageView+WebCache.m */; };
 		E77BCB441C58D4DF000B8353 /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E77BCB231C58D4DF000B8353 /* UIView+WebCacheOperation.h */; };
 		E77BCB451C58D4DF000B8353 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCB241C58D4DF000B8353 /* UIView+WebCacheOperation.m */; };
-		E78D1E7B1C4F57180007A58F /* libiot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E78D1E7A1C4F57180007A58F /* libiot.a */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
 		E78D1E831C4F7B4D0007A58F /* ZYY_User.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E821C4F7B4D0007A58F /* ZYY_User.m */; };
 		E7EE6CAB1C434A2F00CB3810 /* ZYY_UserReglationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EE6CAA1C434A2F00CB3810 /* ZYY_UserReglationView.m */; };
@@ -205,13 +206,15 @@
 		E7169C171C4294CB003BD334 /* ZYY_MyInformationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_MyInformationView.h; sourceTree = "<group>"; };
 		E7169C181C4294CB003BD334 /* ZYY_MyInformationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_MyInformationView.m; sourceTree = "<group>"; };
 		E7169C191C4294CB003BD334 /* ZYY_MyInformationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_MyInformationView.xib; sourceTree = "<group>"; };
-		E718B3A81C5A28E00024583B /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
-		E718B3A91C5A28E00024583B /* iot_mod_lwm2m_json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iot_mod_lwm2m_json.h; sourceTree = "<group>"; };
-		E718B3AA1C5A28E00024583B /* iot_mod_lwm2m.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iot_mod_lwm2m.h; sourceTree = "<group>"; };
-		E718B3AB1C5A28E00024583B /* libj2t_lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libj2t_lib.a; sourceTree = "<group>"; };
-		E718B3AC1C5A28E00024583B /* libMQTTClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMQTTClient.a; sourceTree = "<group>"; };
-		E718B3AD1C5A28E00024583B /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTClient.h; sourceTree = "<group>"; };
-		E718B3AE1C5A28E00024583B /* MQTTClientPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTClientPersistence.h; sourceTree = "<group>"; };
+		E718B3B71C5A38F20024583B /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJSON.h; sourceTree = "<group>"; };
+		E718B3B81C5A38F20024583B /* iot_mod_lwm2m.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iot_mod_lwm2m.h; sourceTree = "<group>"; };
+		E718B3B91C5A38F20024583B /* iot_mod_lwm2m_json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iot_mod_lwm2m_json.h; sourceTree = "<group>"; };
+		E718B3BA1C5A38F20024583B /* libiot.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiot.a; sourceTree = "<group>"; };
+		E718B3BB1C5A38F20024583B /* libj2t_lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libj2t_lib.a; sourceTree = "<group>"; };
+		E718B3BC1C5A38F20024583B /* libMQTTClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMQTTClient.a; sourceTree = "<group>"; };
+		E718B3BD1C5A38F20024583B /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTClient.h; sourceTree = "<group>"; };
+		E718B3BE1C5A38F20024583B /* MQTTClientPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTClientPersistence.h; sourceTree = "<group>"; };
+		E718B3BF1C5A38F20024583B /* smtiot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smtiot.h; sourceTree = "<group>"; };
 		E7204E3E1C473B78005D6C4D /* ZYY_ChangeNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_ChangeNameView.h; sourceTree = "<group>"; };
 		E7204E3F1C473B78005D6C4D /* ZYY_ChangeNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_ChangeNameView.m; sourceTree = "<group>"; };
 		E7204E401C473B78005D6C4D /* ZYY_ChangeNameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_ChangeNameView.xib; sourceTree = "<group>"; };
@@ -338,8 +341,6 @@
 		E77BCB221C58D4DF000B8353 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		E77BCB231C58D4DF000B8353 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		E77BCB241C58D4DF000B8353 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
-		E78D1E7A1C4F57180007A58F /* libiot.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiot.a; sourceTree = "<group>"; };
-		E78D1E7C1C4F57DC0007A58F /* smtiot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smtiot.h; sourceTree = "<group>"; };
 		E78D1E7E1C4F61780007A58F /* ZYY_GetInfoFromInternet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_GetInfoFromInternet.h; sourceTree = "<group>"; };
 		E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_GetInfoFromInternet.m; sourceTree = "<group>"; };
 		E78D1E811C4F7B4D0007A58F /* ZYY_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_User.h; sourceTree = "<group>"; };
@@ -355,9 +356,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E718B3B21C5A28E00024583B /* libj2t_lib.a in Frameworks */,
-				E78D1E7B1C4F57180007A58F /* libiot.a in Frameworks */,
-				E718B3B31C5A28E00024583B /* libMQTTClient.a in Frameworks */,
+				E718B3C41C5A38F20024583B /* libj2t_lib.a in Frameworks */,
+				E718B3C31C5A38F20024583B /* libiot.a in Frameworks */,
+				E718B3C51C5A38F20024583B /* libMQTTClient.a in Frameworks */,
 				E7030B791C4DF5CD0015F552 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,10 +535,10 @@
 		E711F5831C3F969E00485406 /* basic */ = {
 			isa = PBXGroup;
 			children = (
+				E718B3B61C5A38F20024583B /* DeviceControl */,
 				E77BCB031C58D4DF000B8353 /* SDWebImage */,
 				E77BCAB01C586A94000B8353 /* AsyncSocket */,
 				E77BCA9A1C585B7A000B8353 /* LoadingAnimationView */,
-				E76EA54B1C55C86A004B4100 /* DeviceControl */,
 				E7665B171C5074FD006F3AF0 /* AFNetworking */,
 				E7030B781C4DF5CD0015F552 /* SystemConfiguration.framework */,
 				E7030B671C4DF1270015F552 /* BasicObject */,
@@ -610,13 +611,13 @@
 		E711F5A21C3FB82500485406 /* Information */ = {
 			isa = PBXGroup;
 			children = (
+				E77AD7481C44E323000A18C6 /* ZYY_RetrievePasswordView.h */,
 				E7169C171C4294CB003BD334 /* ZYY_MyInformationView.h */,
 				E7169C181C4294CB003BD334 /* ZYY_MyInformationView.m */,
 				E7169C191C4294CB003BD334 /* ZYY_MyInformationView.xib */,
 				E77AD7431C44D35B000A18C6 /* ZYY_ChangeCode.h */,
 				E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */,
 				E77AD7451C44D35B000A18C6 /* ZYY_ChangeCode.xib */,
-				E77AD7481C44E323000A18C6 /* ZYY_RetrievePasswordView.h */,
 				E77AD7491C44E323000A18C6 /* ZYY_RetrievePasswordView.m */,
 				E77AD74A1C44E323000A18C6 /* ZYY_RetrievePasswordView.xib */,
 			);
@@ -633,6 +634,22 @@
 				E711F5A71C3FB8C700485406 /* UIView_extra.m */,
 			);
 			path = LeftSlideViewController;
+			sourceTree = "<group>";
+		};
+		E718B3B61C5A38F20024583B /* DeviceControl */ = {
+			isa = PBXGroup;
+			children = (
+				E718B3B71C5A38F20024583B /* cJSON.h */,
+				E718B3B81C5A38F20024583B /* iot_mod_lwm2m.h */,
+				E718B3B91C5A38F20024583B /* iot_mod_lwm2m_json.h */,
+				E718B3BA1C5A38F20024583B /* libiot.a */,
+				E718B3BB1C5A38F20024583B /* libj2t_lib.a */,
+				E718B3BC1C5A38F20024583B /* libMQTTClient.a */,
+				E718B3BD1C5A38F20024583B /* MQTTClient.h */,
+				E718B3BE1C5A38F20024583B /* MQTTClientPersistence.h */,
+				E718B3BF1C5A38F20024583B /* smtiot.h */,
+			);
+			path = DeviceControl;
 			sourceTree = "<group>";
 		};
 		E7204E4B1C4771D6005D6C4D /* custom */ = {
@@ -719,22 +736,6 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
-		E76EA54B1C55C86A004B4100 /* DeviceControl */ = {
-			isa = PBXGroup;
-			children = (
-				E718B3A81C5A28E00024583B /* cJSON.h */,
-				E718B3A91C5A28E00024583B /* iot_mod_lwm2m_json.h */,
-				E718B3AA1C5A28E00024583B /* iot_mod_lwm2m.h */,
-				E718B3AB1C5A28E00024583B /* libj2t_lib.a */,
-				E718B3AC1C5A28E00024583B /* libMQTTClient.a */,
-				E718B3AD1C5A28E00024583B /* MQTTClient.h */,
-				E718B3AE1C5A28E00024583B /* MQTTClientPersistence.h */,
-				E78D1E7A1C4F57180007A58F /* libiot.a */,
-				E78D1E7C1C4F57DC0007A58F /* smtiot.h */,
-			);
-			name = DeviceControl;
-			sourceTree = "<group>";
-		};
 		E77BCA9A1C585B7A000B8353 /* LoadingAnimationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,10 +815,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E718B3AF1C5A28E00024583B /* cJSON.h in Headers */,
+				E718B3C01C5A38F20024583B /* cJSON.h in Headers */,
 				E77BCB361C58D4DF000B8353 /* SDWebImagePrefetcher.h in Headers */,
 				E77BCB421C58D4DF000B8353 /* UIImageView+WebCache.h in Headers */,
 				E77BCB291C58D4DF000B8353 /* SDImageCache.h in Headers */,
+				E718B3C81C5A38F20024583B /* smtiot.h in Headers */,
+				E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */,
 				E77BCB311C58D4DF000B8353 /* SDWebImageDownloaderOperation.h in Headers */,
 				E77BCB401C58D4DF000B8353 /* UIImageView+HighlightedWebCache.h in Headers */,
 				E77BCB3A1C58D4DF000B8353 /* UIImage+GIF.h in Headers */,
@@ -826,16 +829,15 @@
 				E77BCB2B1C58D4DF000B8353 /* SDWebImageCompat.h in Headers */,
 				E77BCB3E1C58D4DF000B8353 /* UIImage+WebP.h in Headers */,
 				E77BCB251C58D4DF000B8353 /* MKAnnotationView+WebCache.h in Headers */,
+				E718B3C71C5A38F20024583B /* MQTTClientPersistence.h in Headers */,
+				E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */,
 				E77BCB381C58D4DF000B8353 /* UIButton+WebCache.h in Headers */,
-				E718B3B51C5A28E00024583B /* MQTTClientPersistence.h in Headers */,
-				E718B3B41C5A28E00024583B /* MQTTClient.h in Headers */,
 				E77BCB2F1C58D4DF000B8353 /* SDWebImageDownloader.h in Headers */,
-				E718B3B11C5A28E00024583B /* iot_mod_lwm2m.h in Headers */,
 				E77BCB3C1C58D4DF000B8353 /* UIImage+MultiFormat.h in Headers */,
 				E77BCB351C58D4DF000B8353 /* SDWebImageOperation.h in Headers */,
 				E77BCB2D1C58D4DF000B8353 /* SDWebImageDecoder.h in Headers */,
-				E718B3B01C5A28E00024583B /* iot_mod_lwm2m_json.h in Headers */,
 				E77BCB331C58D4DF000B8353 /* SDWebImageManager.h in Headers */,
+				E718B3C11C5A38F20024583B /* iot_mod_lwm2m.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1208,7 +1210,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/tigercel/通用",
+					"$(PROJECT_DIR)/tigercel/通用/DeviceControl",
 				);
+				OTHER_LDFLAGS = "-w";
 				PRODUCT_BUNDLE_IDENTIFIER = tigercel.tigercel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1229,7 +1233,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/tigercel/通用",
+					"$(PROJECT_DIR)/tigercel/通用/DeviceControl",
 				);
+				OTHER_LDFLAGS = "-w";
 				PRODUCT_BUNDLE_IDENTIFIER = tigercel.tigercel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

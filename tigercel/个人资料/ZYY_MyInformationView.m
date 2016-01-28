@@ -343,17 +343,20 @@ static NSString *pStr,*cStr,*tStr;
         [self.navigationController pushViewController:changeCodeView animated:YES];
     }
 }
-#pragma mark imagePicker的代理方法
+#pragma mark imagePicker的代理方法--修改头像
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
-    __block UIImage *iamge=info[@"UIImagePickerControllerEditedImage"];
+    __block UIImage *image=info[@"UIImagePickerControllerEditedImage"];
     [self dismissViewControllerAnimated:YES completion:^{
-        [_touXiang setImage:iamge forState:UIControlStateNormal];
+        [_touXiang setImage:image forState:UIControlStateNormal];
     }];
     NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"APP-20160108-00000002160128134627.jpg"];
-    NSData *data=UIImagePNGRepresentation(iamge);
+    NSData *data=UIImagePNGRepresentation(image);
     [data writeToFile: filePath atomically:YES];
-    NSLog(@"%@",filePath);
+    //修改侧边栏的图片
+    AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.leftView.imageBtn setImage:image forState:UIControlStateNormal];
+    
 #pragma mark 调用头像修改的接口
     [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath];
 }
