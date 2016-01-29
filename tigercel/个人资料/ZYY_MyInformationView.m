@@ -34,8 +34,11 @@
     NSArray *_townArr;
     NSDictionary *_locationDictionary;
     NSArray *_selectArr;
-    
+    //用户单例
     ZYY_User *_user;
+    
+    //创建一个Bool用于记录是否有信息改动
+    BOOL sign;
 }
 @end
 
@@ -53,18 +56,23 @@ static NSString *pStr,*cStr,*tStr;
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    //[_detailArr replaceObjectAtIndex:2 withObject:_locationStr];
-    NSString *sex=[_detailArr[0] isEqualToString:@"男"]?@"1":@"0";
-    NSLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
-    NSString *adress=[_detailArr[2] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *birthady=[_detailArr[1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:birthady andSex:sex andSessionId:_user.sessionId andAddress:adress andUserToken:_user.userToken];
+    if(sign==YES)
+    {
+        NSString *sex=[_detailArr[0] isEqualToString:@"男"]?@"1":@"0";
+        NSLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
+        NSString *adress=[_detailArr[2] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *birthady=[_detailArr[1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:birthady andSex:sex andSessionId:_user.sessionId andAddress:adress andUserToken:_user.userToken];
+    }
 }
 
 #pragma mark-
 #pragma mark  加载数据及UI
 -(void)loadData
 {
+    //初始化改动标识符为No
+    sign=NO;
+    //创建用户单例
     _user=[ZYY_User instancedObj];
     NSString *birthday=[_user.birthdate substringToIndex:10];
     //修改显示的时间格式
@@ -74,7 +82,7 @@ static NSString *pStr,*cStr,*tStr;
     NSString *dayStr=[birthday substringFromIndex:8];
     NSString *birStr=[NSString stringWithFormat:@"%@-%@-%@",yeatStr,monStr,dayStr];
     NSLog(@"%@",birStr);
-    
+    //初始化cell像是数组
     NSString *sex=[_user.sex isEqualToString:@"1"]?@"男":@"女";
     _detailArr=[NSMutableArray arrayWithObjects:sex,birStr,_user.address1,@"",_user.lastLoginDate,nil];
     NSLog(@"-------------%@",_user.address1);
@@ -265,6 +273,9 @@ static NSString *pStr,*cStr,*tStr;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //当用户进行信息修改选择的时候 将标识符变成YES
+    sign=YES;
+    
     if (indexPath.row==1)
     {
 #pragma mark  日期选择器
@@ -389,7 +400,6 @@ static NSString *pStr,*cStr,*tStr;
     [touXiang addAction:camera];
     [touXiang addAction:cancel];
     
-    [self.view addSubview:touXiang.view];
-    [self presentViewController:touXiang animated:YES completion:nil];
+    [self.view.window.rootViewController presentViewController:touXiang animated:YES completion:nil];
 }
 @end

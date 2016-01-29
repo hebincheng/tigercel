@@ -12,6 +12,7 @@
 @interface ZYY_GetColorFromImage ()
 {
     UIImageView *_moveImageView;
+    NSArray *_colorArr;
 }
 @end
 
@@ -44,7 +45,9 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch=[touches anyObject];
     CGPoint point=[touch  locationInView:_imageBoard];
-    UIColor *color=[_imageBoard colorOfPoint:point];
+    _colorArr=[NSArray array];
+    _colorArr=[_imageBoard colorOfPoint:point];
+    UIColor *color=[UIColor colorWithRed:[_colorArr[0] floatValue]/255.0 green:[_colorArr[1] floatValue]/255.0 blue:[_colorArr[2] floatValue]/255.0 alpha:[_colorArr[3] floatValue]/255.0];
     [_colorBoard setBackgroundColor:color];
     if(point.y<ScreeWidth)
     {
@@ -59,6 +62,7 @@
 
 - (IBAction)saveBtn
 {
+    [_delegate setLedColorWithRed:[_colorArr[0] floatValue] Green:[_colorArr[1] floatValue] Blue:[_colorArr[2] floatValue]Alpha:[_colorArr[3] floatValue]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end

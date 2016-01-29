@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ZYY_AddNewSceneView">
+            <connections>
+                <outlet property="sceneName" destination="kXY-lt-vWE" id="xAj-gQ-v2w"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pic" translatesAutoresizingMaskIntoConstraints="NO" id="LT8-Tf-3bc">
+                    <rect key="frame" x="0.0" y="64" width="600" height="235"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="235" id="5xG-zt-beh"/>
+                    </constraints>
+                </imageView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入新场景的名字" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kXY-lt-vWE">
+                    <rect key="frame" x="123" y="332" width="354" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="354" id="NaZ-IH-AXU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-Lr-52q">
+                    <rect key="frame" x="185" y="380" width="230" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="230" id="cVO-6g-rxe"/>
+                        <constraint firstAttribute="height" constant="30" id="kAi-9O-c0B"/>
+                    </constraints>
+                    <state key="normal" title="保存" backgroundImage="icon_bg_btn">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="saveBtn" destination="-1" eventType="touchUpInside" id="ORn-5N-adA"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="m1e-Lr-52q" firstAttribute="top" secondItem="kXY-lt-vWE" secondAttribute="bottom" constant="18" id="1xr-i4-5aH"/>
+                <constraint firstItem="m1e-Lr-52q" firstAttribute="centerX" secondItem="kXY-lt-vWE" secondAttribute="centerX" id="5W7-q9-Frf"/>
+                <constraint firstItem="LT8-Tf-3bc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="SYi-fl-2Aq"/>
+                <constraint firstAttribute="trailing" secondItem="LT8-Tf-3bc" secondAttribute="trailing" id="SgY-qE-EeX"/>
+                <constraint firstItem="kXY-lt-vWE" firstAttribute="top" secondItem="LT8-Tf-3bc" secondAttribute="bottom" constant="33" id="TNk-p9-Frg"/>
+                <constraint firstItem="LT8-Tf-3bc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vtn-as-EVS"/>
+                <constraint firstItem="LT8-Tf-3bc" firstAttribute="centerX" secondItem="kXY-lt-vWE" secondAttribute="centerX" id="ynN-z3-SGg"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_bg_btn" width="560" height="80"/>
+        <image name="icon_pic" width="640" height="332"/>
+    </resources>
+</document>

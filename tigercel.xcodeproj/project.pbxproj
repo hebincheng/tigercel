@@ -132,6 +132,9 @@
 		E77BCB451C58D4DF000B8353 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCB241C58D4DF000B8353 /* UIView+WebCacheOperation.m */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
 		E78D1E831C4F7B4D0007A58F /* ZYY_User.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E821C4F7B4D0007A58F /* ZYY_User.m */; };
+		E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */ = {isa = PBXBuildFile; fileRef = E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */; };
+		E7CA849B1C5B1EE700BADF92 /* ZYY_AddNewSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */; };
+		E7CA849C1C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */; };
 		E7EE6CAB1C434A2F00CB3810 /* ZYY_UserReglationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EE6CAA1C434A2F00CB3810 /* ZYY_UserReglationView.m */; };
 		E7EE6CAE1C434AC000CB3810 /* ZYY_VersionExplainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EE6CAD1C434AC000CB3810 /* ZYY_VersionExplainView.m */; };
 /* End PBXBuildFile section */
@@ -345,6 +348,9 @@
 		E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_GetInfoFromInternet.m; sourceTree = "<group>"; };
 		E78D1E811C4F7B4D0007A58F /* ZYY_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_User.h; sourceTree = "<group>"; };
 		E78D1E821C4F7B4D0007A58F /* ZYY_User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_User.m; sourceTree = "<group>"; };
+		E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_AddNewSceneView.h; sourceTree = "<group>"; };
+		E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_AddNewSceneView.m; sourceTree = "<group>"; };
+		E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_AddNewSceneView.xib; sourceTree = "<group>"; };
 		E7EE6CA91C434A2F00CB3810 /* ZYY_UserReglationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_UserReglationView.h; sourceTree = "<group>"; };
 		E7EE6CAA1C434A2F00CB3810 /* ZYY_UserReglationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_UserReglationView.m; sourceTree = "<group>"; };
 		E7EE6CAC1C434AC000CB3810 /* ZYY_VersionExplainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_VersionExplainView.h; sourceTree = "<group>"; };
@@ -580,6 +586,9 @@
 				E7204E431C474993005D6C4D /* ZYY_SceneChooseView.h */,
 				E7204E441C474993005D6C4D /* ZYY_SceneChooseView.m */,
 				E7204E451C474993005D6C4D /* ZYY_SceneChooseView.xib */,
+				E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */,
+				E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */,
+				E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */,
 				E7204E4C1C477308005D6C4D /* ZYY_GetColorFromImage.h */,
 				E7204E4D1C477308005D6C4D /* ZYY_GetColorFromImage.m */,
 				E7204E4E1C477308005D6C4D /* ZYY_GetColorFromImage.xib */,
@@ -817,6 +826,7 @@
 			files = (
 				E718B3C01C5A38F20024583B /* cJSON.h in Headers */,
 				E77BCB361C58D4DF000B8353 /* SDWebImagePrefetcher.h in Headers */,
+				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
 				E77BCB421C58D4DF000B8353 /* UIImageView+WebCache.h in Headers */,
 				E77BCB291C58D4DF000B8353 /* SDImageCache.h in Headers */,
 				E718B3C81C5A38F20024583B /* smtiot.h in Headers */,
@@ -963,6 +973,7 @@
 				E757D3761C40ACBE007F3A6D /* Info.plist in Resources */,
 				E7244C301C42136C00B2B0C6 /* ZYY_WriteInformation.xib in Resources */,
 				E7169C021C424AC9003BD334 /* ZYY_ProtocolView.xib in Resources */,
+				E7CA849C1C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib in Resources */,
 				E7169C111C429399003BD334 /* ZYY_ReBackView.xib in Resources */,
 				E757D38B1C413CE8007F3A6D /* ZYY_RegistControl.xib in Resources */,
 				E7204E471C474993005D6C4D /* ZYY_SceneChooseView.xib in Resources */,
@@ -1012,6 +1023,7 @@
 				E77BCB3D1C58D4DF000B8353 /* UIImage+MultiFormat.m in Sources */,
 				E7030B6B1C4DF1730015F552 /* ZYY_ScrollView.m in Sources */,
 				E77AD74B1C44E323000A18C6 /* ZYY_RetrievePasswordView.m in Sources */,
+				E7CA849B1C5B1EE700BADF92 /* ZYY_AddNewSceneView.m in Sources */,
 				E77BCB281C58D4DF000B8353 /* NSData+ImageContentType.m in Sources */,
 				E757D37C1C40ACBE007F3A6D /* MASViewConstraint.m in Sources */,
 				E7665B281C5074FD006F3AF0 /* AFURLRequestSerialization.m in Sources */,

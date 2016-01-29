@@ -64,19 +64,19 @@
 //    //把json格式字典转化成data发送出去
 //    NSData *data=[NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
 //
-    char *hh3 = "{"
-    "\"discoveryQuery\": {"
-    "\"sourceIP\": \"129.12.12.12\","
-    "\"sourcePort\": \"1234\","
-    "\"timestamp\": \"1234567890\""
-    "}"
-    "}";
+//    char *hh3 = "{"
+//    "\"discoveryQuery\": {"
+//    "\"sourceIP\": \"129.12.12.12\","
+//    "\"sourcePort\": \"1234\","
+//    "\"timestamp\": \"1234567890\""
+//    "}"
+//    "}";
     
-    char *tmp_tlv;
+//    char *tmp_tlv;
     int ret;
     
     printf("start:\n");
-    ret = discovery_json_parse(hh3, &tmp_tlv);
+//   ret = discovery_json_parse(hh3, &tmp_tlv);
     printf("ret=%d\n", ret);
     
 //    ret = discovery_tlv_parse(tmp_tlv, ret, &tmp_js);
@@ -84,11 +84,11 @@
 //    printf("ret=%d\n", ret);
 //
 //    NSString *dateStr2 =[NSString stringWithFormat:@"%x",&tmp_tlv];
-    NSString *dateStr2=[[NSString alloc]initWithCString:tmp_tlv encoding:NSASCIIStringEncoding];
+//   NSString *dateStr2=[[NSString alloc]initWithCString:tmp_tlv encoding:NSASCIIStringEncoding];
 
-    NSLog(@"--------------%@",dateStr2);
-    NSData *data=[dateStr2 dataUsingEncoding:NSUTF8StringEncoding];
-    return data;
+//    NSLog(@"--------------%@",dateStr2);
+//    NSData *data=[dateStr2 dataUsingEncoding:NSUTF8StringEncoding];
+    return nil;
 //    NSString *dataStr= [NSString stringWithCString:(char*)header.body encoding:NSUTF8StringEncoding];
 //    NSLog(@"--------%@",dataStr);
 //    return [dataStr dataUsingEncoding:NSUTF8StringEncoding];

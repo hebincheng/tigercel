@@ -58,8 +58,32 @@ static NSString *cellID=@"cellID";
         [_tableView reloadData];
     }];
     [self loadUI];
-    
+    [self buildSceneUserDefault];
 }
+#pragma mark-
+#pragma mark如果设备第一次登陆登陆 则将默认的照明模式数组 和氛围模式数据存储
+-(void)buildSceneUserDefault{
+    NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
+    if([userDefault objectForKey:@"first"]==nil)
+    {
+        [userDefault setObject:@"1" forKey:@"first"];
+        //存储默认的照明模式设置arr @[@80,@20,@30] 第一个亮度 第二个色温 第三个呼吸速度
+        NSArray *zhaoMingSetArr=@[@[@80,@20,@30],@[@70,@20,@60],@[@50,@50,@30],@[@56,@60,@10],@[@87,@20,@38]];
+        NSArray *zhaoMingtitleArr=@[@"休闲",@"读书",@"节奏",@"柔和",@"动感"];
+        //存储默认的氛围模式的设置arr @[@[@200,@150,@100],@20,@83] 第一个代表灯光颜色 R G B三元素 第二个代表色温  第三个呼吸速度
+        NSArray *fenWeiSetArr=@[@[@[@200,@150,@100],@20,@83],@[@[@100,@50,@100],@20,@35],@[@[@200,@170,@140],@90,@80],@[@[@20,@60,@240],@20,@37],@[@[@200,@100,@130],@20,@36]];
+        NSArray *fenWeiTitleArr=@[@"舞动",@"低调",@"狂欢",@"安静",@"音乐"];
+        [userDefault setObject:zhaoMingSetArr forKey:@"zhaoMingSetArr"];
+        
+        [userDefault setObject:zhaoMingtitleArr forKey:@"zhaoMingtitleArr"];
+        
+        [userDefault setObject:fenWeiSetArr forKey:@"fenWeiSetArr"];
+        
+        [userDefault setObject:fenWeiTitleArr forKey:@"fenWeiTitleArr"];
+    }
+}
+
+
 #pragma mark-
 #pragma mark加载UI
 -(void)loadUI

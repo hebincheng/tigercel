@@ -19,18 +19,20 @@
 #define ScreeWidth ([[UIScreen mainScreen] bounds].size.width)
 #define ScreeHeight  ([[UIScreen mainScreen] bounds].size.height)
 
-@interface ZYY_EquipmentDetailVie ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZYY_ChangeNameViewDelegate,ZYY_SceneChooseViewDelegate,ZYY_SetTimeViewDelegate>
+@interface ZYY_EquipmentDetailVie ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZYY_ChangeNameViewDelegate,ZYY_SceneChooseViewDelegate,ZYY_SetTimeViewDelegate,ZYY_GetColorFromImageDelegate>
 {
     ZYY_ScrollView *_scrollView;
     //左tableVIew
     UITableView *_leftTableView;
     UITableView *_rightTableView;
+    
     //三组菜单名称数组
     NSArray *_menuArr1;
     NSArray *_menuArr2;
     NSArray *_menuArr3;
     
     //左侧tableView 第二组的UI内容  包括 滑竿颜色，左按钮图，右按钮图数组
+    NSString *_leftSceneName;
     NSArray *_leftSliderColorArr;
     NSArray *_leftSmallArr;
     NSArray *_leftBigArr;
@@ -39,7 +41,11 @@
     NSArray *_functionArr;//第一组的内容
     
     NSString *_projectName;
-    NSString *_sceneName;
+    //右侧模式名字 右侧的滑竿值
+    NSArray *_rightControlArr;
+    NSString *_rightSceneName;
+    
+    
     NSUserDefaults *_userDefaults;
     //获取像素颜色的视图
     ZYY_GetColorFromImage *_colorFromImageView;
@@ -51,6 +57,14 @@
     
     //定时数组
     NSMutableArray *_runTimeArr;
+    
+    //LED颜色
+    UIColor *_color;
+    NSArray *_colorChooseArr;
+    
+    //sliderArr
+    NSMutableArray *_leftSliderArr;
+    NSMutableArray *_rightSliderArr;
 }
 @end
 
@@ -75,7 +89,7 @@ static NSString *rightCellID=@"rightCellID";
         _ledModel=led;
         _num=number;
         _projectName=led.deviceName;
-        _sceneName=led.currentSceneName;
+        _leftSceneName=led.currentSceneName;
         _leftControlArr=led.zhaoMingArr;
         _runTimeArr=[NSMutableArray arrayWithArray:led.timeArr];
         sign=YES;
@@ -83,22 +97,21 @@ static NSString *rightCellID=@"rightCellID";
     return self;
 }
 
-//页面出现的时候设置数据
--(void)viewWillAppear:(BOOL)animated{
+
+-(void)loadData
+{
     if (sign==NO)
     {
         sign=YES;
         _projectName=@"led";
-        _sceneName=@"休闲";
+        _leftSceneName=@"休闲";
         _leftControlArr=@[@80,@20,@30];
     }
-    _functionArr=@[_projectName,@"照明模式",_sceneName];
-    [_leftTableView reloadData];
-    [_rightTableView reloadData];
-}
-
--(void)loadData
-{
+    _functionArr=@[_projectName,@"照明模式",_leftSceneName];
+    
+    _rightSliderArr=[NSMutableArray array];
+    _leftSliderArr=[NSMutableArray array];
+    
     if (_runTimeArr==nil)
     {
         _runTimeArr=[NSMutableArray array];
@@ -112,6 +125,9 @@ static NSString *rightCellID=@"rightCellID";
     _leftSliderColorArr=@[[UIColor blueColor],[UIColor orangeColor],[UIColor redColor]];
     _leftBigArr=@[[UIImage imageNamed:@"highicon"],[UIImage imageNamed:@"temhigh"],[UIImage imageNamed:@"spehigh"]];
     _leftSmallArr=@[[UIImage imageNamed:@"lowicon"],[UIImage imageNamed:@"temlow"],[UIImage imageNamed:@"spelow"]];
+    _colorChooseArr=[NSArray array];
+    _color=[self getColorFromRow:0];
+    
 }
 
 
@@ -179,8 +195,7 @@ static NSString *rightCellID=@"rightCellID";
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [_runTimeArr removeObjectAtIndex:indexPath.row-1];
-    [_rightTableView reloadData];
-    [_leftTableView reloadData];
+    [self reloadUI];
 }
 
 
@@ -211,6 +226,7 @@ static NSString *rightCellID=@"rightCellID";
             [sliderCell.smallerBtn setImage:_leftSmallArr[indexPath.row] forState:UIControlStateNormal];
             [sliderCell.biggerBtn setImage:_leftBigArr[indexPath.row] forState:UIControlStateNormal];
             [sliderCell.controlSlider setMinimumTrackTintColor:_leftSliderColorArr[indexPath.row]];
+            [_leftSliderArr addObject:sliderCell];
             //判断是否为初始状态。
             if (_leftControlArr!=nil)
             {
@@ -260,9 +276,11 @@ static NSString *rightCellID=@"rightCellID";
             {
                 
                 ZYY_SliderControl *sliderCell=[tableView dequeueReusableCellWithIdentifier: sliderCellID forIndexPath:indexPath];
+                [_rightSliderArr addObject:sliderCell];
                 [sliderCell.menuTitle setText:_menuArr2[indexPath.row]];
                 [sliderCell.smallerBtn setImage:_leftSmallArr[indexPath.row] forState:UIControlStateNormal];
-                [sliderCell.controlSlider setValue:[_leftControlArr[indexPath.row] floatValue]];
+                //设置滑竿的初始值
+                [sliderCell.controlSlider setValue:[_rightControlArr[indexPath.row] floatValue]];
                 [sliderCell.biggerBtn setImage:_leftBigArr[indexPath.row] forState:UIControlStateNormal];
                 [sliderCell.controlSlider setMinimumTrackTintColor:_leftSliderColorArr[indexPath.row]];
                 
@@ -275,8 +293,10 @@ static NSString *rightCellID=@"rightCellID";
                 cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
                 [cell.textLabel setText:@"灯光颜色"];
                 [cell.textLabel setFont:[UIFont systemFontOfSize:15.0f]];
+                
                 [cell.detailTextLabel setText:@"LED"];
-                [cell.detailTextLabel setTextColor:[UIColor blackColor]];
+                //获取默认第一个颜色数组的颜色
+                [cell.detailTextLabel setTextColor:_color];
                 [cell.detailTextLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
                 [cell.detailTextLabel setTextAlignment:NSTextAlignmentCenter];
                 
@@ -307,6 +327,10 @@ static NSString *rightCellID=@"rightCellID";
                     [cell.detailTextLabel setTextColor:[UIColor blackColor]];
                     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:13.0f]];
                     [cell.textLabel setText:_menuArr1[indexPath.row]];
+                    if(indexPath.row==2)
+                    {
+                        [cell.detailTextLabel setText:_rightSceneName];
+                    }
                     if (indexPath.row!=1)
                     {
                         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -401,6 +425,23 @@ static NSString *rightCellID=@"rightCellID";
 {
     return 60;
 }
+#pragma mark 右侧获取模式下的内容
+-(UIColor *)getColorFromRow:(NSInteger )row{
+  NSArray *fenWeiArr=[[NSUserDefaults standardUserDefaults] objectForKey:@"fenWeiSetArr"];
+     NSArray *titleArr=[[NSUserDefaults standardUserDefaults] objectForKey:@"fenWeiTitleArr"];
+    //照明模式名字
+    _rightSceneName=titleArr[row];
+    NSArray *setArr=fenWeiArr[row];//设置三个属性的数组
+    NSArray *colorArr=setArr[0];//颜色数组是第一个元素
+    _rightControlArr=@[@0,setArr[1],setArr[2]];
+    CGFloat red= [colorArr[0] floatValue];
+    CGFloat green= [colorArr[1] floatValue];
+    CGFloat blue= [colorArr[2] floatValue];
+    NSLog(@"%f-%f-%f",red,green,blue);
+    _colorChooseArr=@[[NSNumber numberWithFloat:red] ,[NSNumber numberWithFloat:green],[NSNumber numberWithFloat:blue]];
+    UIColor *color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
+    return color;
+}
 
 
 //选择每个分组的cell个数
@@ -428,24 +469,103 @@ static NSString *rightCellID=@"rightCellID";
 {
     return 1;
 }
-
+#pragma mark
+-(void)saveZhaoMingScene
+{
+    NSLog(@"成功新增照明场景");
+    NSMutableArray *mArr=[NSMutableArray array];
+    //由于loadUI和willappear加载了两次
+    [_leftSliderArr enumerateObjectsUsingBlock:^(ZYY_SliderControl * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx>2)
+        {
+            [_leftSliderArr removeObject:obj];
+        }
+    }];
+    for (ZYY_SliderControl *sliderControl in _leftSliderArr)
+    {
+        int val=(int)sliderControl.controlSlider.value;
+        [mArr addObject:[NSNumber numberWithInt:val]];
+    }
+   NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"zhaoMingSetArr"];
+    NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
+    [saveArr addObject:mArr];
+    [_leftSliderArr removeAllObjects];
+    NSLog(@"saveArr-%@",saveArr);
+    //新增照明模式
+    [[NSUserDefaults standardUserDefaults] setObject: saveArr forKey:@"zhaoMingSetArr"];
+}
+-(void)saveFenWeiScene
+{
+    NSLog(@"成功新增氛围场景");
+    //由于loadUI和willappear加载了两次,所以删除多余加载对象 只保留两个
+    [_rightSliderArr enumerateObjectsUsingBlock:^(ZYY_SliderControl * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx>1)
+        {
+            [_leftSliderArr removeObject:obj];
+        }
+    }];
+    NSMutableArray *mArr=[NSMutableArray array];
+    //首先添加颜色的rgb
+    [mArr addObject:_colorChooseArr];
+    for (ZYY_SliderControl *sliderControl in _rightSliderArr)
+    {
+        int val=(int)sliderControl.controlSlider.value;
+        [mArr addObject:[NSNumber numberWithInt:val]];
+    }
+    NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"fenWeiSetArr"];
+    NSLog(@"arr-%@",arr);
+    NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
+    [saveArr addObject:mArr];
+    [_rightSliderArr removeAllObjects];
+    NSLog(@"saverArr-%@",saveArr);
+    //新增照明模式
+    [[NSUserDefaults standardUserDefaults] setObject: saveArr forKey:@"fenWeiSetArr"];
+}
 #pragma mark 实现修改界面的代理方法
+-(void)setLedColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue Alpha:(CGFloat)alpha
+{
+    _colorChooseArr=@[[NSNumber numberWithFloat:red] ,[NSNumber numberWithFloat:green],[NSNumber numberWithFloat:blue]];
+    _color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha/255.0];
+        [self reloadUI];
+}
+
 -(void)setRunTimeWithArray:(NSArray *)array
 {
     NSLog(@"1");
     [_runTimeArr addObject:array];
+    [self reloadUI];
+}
+-(void)reloadUI{
+    [_leftSliderArr removeAllObjects];
+    [_rightSliderArr removeAllObjects];
+    [_leftTableView reloadData];
+    [_rightTableView reloadData];
 }
 
--(void)resetSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array
+-(void)resetZhaoMingSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array
 {
-    _sceneName=name;
+    _leftSceneName=name;
     _leftControlArr=array;
+    [self reloadUI];
     //_functionArr=@[_projectName,@"照明模式",_sceneName];
-    NSLog(@"%@-%@",_projectName,_sceneName);}
+    NSLog(@"%@-%@",_projectName,_leftSceneName);
+}
+-(void)resetFenWeiSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array{
+    _rightSceneName=name;
+    NSArray *colorArr=array[0];//颜色数组是第一个元素
+    _rightControlArr=@[@0,array[1],array[2]];
+    CGFloat red= [colorArr[0] floatValue];
+    CGFloat green= [colorArr[1] floatValue];
+    CGFloat blue= [colorArr[2] floatValue];
+    NSLog(@"%f-%f-%f",red,green,blue);
+    _color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
+    [self reloadUI];
+}
 
 -(void)resetProjectNameWithName:(NSString *)string{
    // _functionArr=@[_projectName,@"照明模式",_sceneName];
     _projectName=string;
+    [self reloadUI];
 }
 
 #pragma mark cell的行选择方法
@@ -461,9 +581,15 @@ static NSString *rightCellID=@"rightCellID";
             [changeNameView setDelegate:self];
             [self.navigationController pushViewController:changeNameView animated:YES];
         }
-        else if(indexPath.row==2)
+        else if(indexPath.row==2&&tableView==_leftTableView)
         {
-            ZYY_SceneChooseView *sceneChooseView=[[ZYY_SceneChooseView alloc]init];
+            ZYY_SceneChooseView *sceneChooseView=[[ZYY_SceneChooseView alloc]initWithSelect:0];
+            [sceneChooseView setDelegate:self];
+            [self.navigationController pushViewController:sceneChooseView animated:YES];
+        }
+        else if(indexPath.row==2&&tableView==_rightTableView)
+        {
+            ZYY_SceneChooseView *sceneChooseView=[[ZYY_SceneChooseView alloc]initWithSelect:1];
             [sceneChooseView setDelegate:self];
             [self.navigationController pushViewController:sceneChooseView animated:YES];
         }
@@ -475,6 +601,7 @@ static NSString *rightCellID=@"rightCellID";
    UIImage *image=info[@"UIImagePickerControllerEditedImage"];
     [self dismissViewControllerAnimated:picker completion:^{
         _colorFromImageView=[[ZYY_GetColorFromImage alloc]initWithNibName:@"ZYY_GetColorFromImage" bundle:nil andImage:image];
+        [_colorFromImageView setDelegate:self];
         [self.navigationController pushViewController:_colorFromImageView animated:YES];
     }];
     
@@ -492,7 +619,7 @@ static NSString *rightCellID=@"rightCellID";
     {
         _ledModel=[[ZYY_LED alloc]init];
         _ledModel.deviceName=_projectName;
-        _ledModel.currentSceneName=_sceneName;
+        _ledModel.currentSceneName=_leftSceneName;
         _ledModel.zhaoMingArr=_leftControlArr;
         _ledModel.timeArr=_runTimeArr;
         NSMutableArray *arr=[NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
@@ -507,7 +634,7 @@ static NSString *rightCellID=@"rightCellID";
         NSLog(@"%ld",_num);
         _ledModel=[[ZYY_LED alloc]init];
         _ledModel.deviceName=_projectName;
-        _ledModel.currentSceneName=_sceneName;
+        _ledModel.currentSceneName=_leftSceneName;
         _ledModel.zhaoMingArr=_leftControlArr;
         _ledModel.timeArr=_runTimeArr;
         NSMutableArray *arr=[NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
@@ -529,6 +656,7 @@ static NSString *rightCellID=@"rightCellID";
     if (sender.tag==1002)
     {
         _colorFromImageView=[[ZYY_GetColorFromImage alloc]initWithNibName:@"ZYY_GetColorFromImage" bundle:nil andImage:nil];
+        [_colorFromImageView setDelegate:self];
         [self.navigationController pushViewController:_colorFromImageView animated:YES];
     }
     else if(sender.tag==1001)

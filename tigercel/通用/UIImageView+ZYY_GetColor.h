@@ -10,6 +10,6 @@
 
 @interface UIImageView (ZYY_GetColor)
 
-- (UIColor *) colorOfPoint:(CGPoint)point;
+- (NSArray *) colorOfPoint:(CGPoint)point;
 
 @end

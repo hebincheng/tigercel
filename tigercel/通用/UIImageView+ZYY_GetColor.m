@@ -10,7 +10,7 @@
 
 @implementation UIImageView (ZYY_GetColor)
 
-- (UIColor *) colorOfPoint:(CGPoint)point
+- (NSArray *) colorOfPoint:(CGPoint)point
 {
     unsigned char pixel[4] = {0};
     
@@ -24,12 +24,16 @@
     
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
-    
+    NSString *red=[NSString stringWithFormat:@"%d",pixel[0]];
+    NSString *green=[NSString stringWithFormat:@"%d",pixel[1]];
+    NSString *blue=[NSString stringWithFormat:@"%d",pixel[2]];
+    NSString *apha=[NSString stringWithFormat:@"%d",pixel[3]];
     //NSLog(@"pixel: %d %d %d %d", pixel[0], pixel[1], pixel[2], pixel[3]);
     
-    UIColor *color = [UIColor colorWithRed:pixel[0]/255.0 green:pixel[1]/255.0 blue:pixel[2]/255.0 alpha:pixel[3]/255.0];
+   // UIColor *color = [UIColor colorWithRed:pixel[0]/255.0 green:pixel[1]/255.0 blue:pixel[2]/255.0 alpha:pixel[3]/255.0];
     
-    return color;
+    NSArray *colorArr=@[red,green,blue,apha];
+    return colorArr;
 }
 
 @end
