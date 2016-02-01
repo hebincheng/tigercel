@@ -32,6 +32,12 @@
     FeThreeDotGlow *_threeDot;
     //UDP异步广播包
     AsyncUdpSocket *_socket;
+    //程序时钟
+    CADisplayLink *_runTime;
+    //步数
+    NSInteger _step;
+    //发送的数据
+    NSData *_udpData;
 }
 @end
 
@@ -40,7 +46,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadUI];
-    [self sendUDPData];
 }
 
 #pragma mark -
@@ -52,22 +57,22 @@
     [dateFormat setDateFormat:@"yyyy/MM/dd hh:mm:ss"];
     NSString *dateStr=[dateFormat stringFromDate:date];
     NSLog(@"%@",dateStr);
-
+    
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
     NSLog(@"%@",ipStr);
     
     //获取手机的端口
     
-//    NSDictionary *commentDict=@{@"sourceIP":ipStr, @"sourcePort":@12345, @"timestamp":dateStr};
-//    NSDictionary *json=@{@"discoveryQuery":commentDict};
-//    //把json格式字典转化成data发送出去
-//    NSData *data=[NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
-//    return data;
+    //    NSDictionary *commentDict=@{@"sourceIP":ipStr, @"sourcePort":@12345, @"timestamp":dateStr};
+    //    NSDictionary *json=@{@"discoveryQuery":commentDict};
+    //    //把json格式字典转化成data发送出去
+    //    NSData *data=[NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
+    //    return data;
     
-//
-//    
-    char *hh3 = "{"
+    //
+    //
+    char *hh = "{"
     "\"discoveryQuery\": {"
     "\"sourceIP\": \"129.12.12.12\","
     "\"sourcePort\": \"1234\","
@@ -79,25 +84,24 @@
     int ret;
     
     printf("start:\n");
-    ret = discovery_json_parse(hh3, &tmp_tlv);
+    ret = discovery_json_parse(hh, &tmp_tlv);
     printf("ret=%d\n", ret);
-//    解析
-//    ret = discovery_tlv_parse(tmp_tlv, ret, &tmp_js);
-//    printf("json:\n""%x\n", &tmp_tlv);
-//    printf("ret=%d\n", ret);
-//
-    NSString *mStr=@"";
-    for (int i=0; i<ret; i++)
-    {
-        NSString *str=[NSString stringWithFormat:@"%x",tmp_tlv[i]];
-        mStr=[mStr stringByAppendingString:str];
-    }
+    
+    //    解析
+    //    ret = discovery_tlv_parse(tmp_tlv, ret, &tmp_js);
+    //    printf("json:\n""%x\n", &tmp_tlv);
+    //    printf("ret=%d\n", ret);
+    //
+    NSString *mStr=[NSString stringWithFormat:@"%s",tmp_tlv];
+    //    for (int i=0; i<ret; i++)
+    //    {
+    //        NSString *str=[NSString stringWithFormat:@"%x",tmp_tlv[i]];
+    //        mStr=[mStr stringByAppendingString:str];
+    //    }
     NSLog(@"--------%@",mStr);
     
-  // NSString *dateStr2=[[NSString alloc]initWithCString:tmp_tlv encoding:NSASCIIStringEncoding];
-
     NSData *data=[mStr dataUsingEncoding:NSUTF8StringEncoding];
-   return data;
+    return data;
 }
 #pragma mark 获取手机当前ip
 -(NSString *)getIPAddress {
@@ -130,11 +134,14 @@
 {
     _socket=[[AsyncUdpSocket alloc]initWithDelegate:self];
     [_socket localPort];
-    NSData *data=[self discoveryQuerydata];
+    
     NSError *error=nil;
     [_socket enableBroadcast:YES error:&error];
-    [_socket sendData :data toHost:@"255.255.255.255" port:6666 withTimeout:30 tag:1];
+    
+    _udpData=[self discoveryQuerydata];
+    
     [_socket receiveWithTimeout:-1 tag:0];
+    
     NSLog(@"begin scan");
 }
 
@@ -176,6 +183,7 @@
 #pragma mark 加载UI
 -(void)loadUI{
     [self setTitle:@"连接设备"];
+    _step=0;
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
     [_passwordText setDelegate:self];
     
@@ -289,35 +297,61 @@
     }
     else
     {
-#pragma mark 发送连接消息
-        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
-        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-        NSLog(@"%s",s_authmode);
-        int authmode = atoi(s_authmode);
-        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
-        NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
-        InitSmartConnection();
-        StartSmartConnection(ssid, password, "", authmode);
+        
 #pragma mark发送udp广播包
+        
         [self sendUDPData];
+        //添加时钟循环
+        _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
+        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        
 #pragma mark 添加加载动画
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
         [self.view addSubview:_threeDot];
-
-        //设置最长发送udp广播时间以及模块连接信息时间
-        [_threeDot showWhileExecutingBlock:^{
-            [NSThread sleepForTimeInterval:3.0f];
-        } completion:^{
-            [_threeDot removeFromSuperview];
-       //若执行此段 则说明30秒未检测到设备
-            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"未所搜索到设备，请检查参数配置以及设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [av show];
-        }];
-       // 加载设备控制视图
-//        ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
-//        [self.navigationController pushViewController:equipmentView animated:YES];
+        [_threeDot show];
+        
+        // 加载设备控制视图
+        //        ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
+        //        [self.navigationController pushViewController:equipmentView animated:YES];
     }
 }
+#pragma mark-
+#pragma mark 程序运行时钟
+-(void)step
+{
+    _step++;
+    if (_step%180==0)
+    {
+#pragma mark 发送连接消息
+        const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
+        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
+        //        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
+        //        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
+        NSLog(@"%s",s_authmode);
+        int authmode = atoi(s_authmode);
+        //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
+        const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
+        NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
+        InitSmartConnection();
+        StartSmartConnection(ssid, password, "", 9);
+#pragma mark 发送UDP广播
+        [_socket sendData :_udpData toHost:@"255.255.255.255" port:6666 withTimeout:30 tag:1];
+        
+    }
+    if(_step==60*30)
+    {
+        _step=0;
+        [_runTime invalidate];
+        _runTime=nil;
+        //若执行此段 则说明30秒未检测到设备,关闭加载视图
+        [_threeDot removeFromSuperview];
+        
+        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"未所搜索到设备，请检查参数配置以及设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [av show];
+    }
+}
+
+
 -(NSString *)getMode:(NSString *)str
 {
     for (int i=0; i<7; i++) {
