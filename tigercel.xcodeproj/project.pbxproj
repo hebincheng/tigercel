@@ -19,7 +19,6 @@
 		E711F55B1C3F95D800485406 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E711F5591C3F95D800485406 /* LaunchScreen.storyboard */; };
 		E711F5661C3F95D800485406 /* tigercelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E711F5651C3F95D800485406 /* tigercelTests.m */; };
 		E711F5711C3F95D800485406 /* tigercelUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E711F5701C3F95D800485406 /* tigercelUITests.m */; };
-		E711F5881C3F978900485406 /* ZYY_LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E711F5861C3F978900485406 /* ZYY_LeftViewController.m */; };
 		E711F5921C3F990500485406 /* ZYY_HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E711F5901C3F990500485406 /* ZYY_HomeTableViewCell.m */; };
 		E711F5931C3F990500485406 /* ZYY_HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E711F5911C3F990500485406 /* ZYY_HomeTableViewCell.xib */; };
 		E711F5A01C3FA73A00485406 /* ZYY_HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E711F59E1C3FA73A00485406 /* ZYY_HomeViewController.m */; };
@@ -130,6 +129,8 @@
 		E77BCB431C58D4DF000B8353 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCB221C58D4DF000B8353 /* UIImageView+WebCache.m */; };
 		E77BCB441C58D4DF000B8353 /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = E77BCB231C58D4DF000B8353 /* UIView+WebCacheOperation.h */; };
 		E77BCB451C58D4DF000B8353 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCB241C58D4DF000B8353 /* UIView+WebCacheOperation.m */; };
+		E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E784BD331C5F44DC00FB95A6 /* ZYY_LeftViewController.h */; };
+		E784BD361C5F44DC00FB95A6 /* ZYY_LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
 		E78D1E831C4F7B4D0007A58F /* ZYY_User.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E821C4F7B4D0007A58F /* ZYY_User.m */; };
 		E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */ = {isa = PBXBuildFile; fileRef = E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */; };
@@ -180,8 +181,6 @@
 		E711F56C1C3F95D800485406 /* tigercelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tigercelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E711F5701C3F95D800485406 /* tigercelUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tigercelUITests.m; sourceTree = "<group>"; };
 		E711F5721C3F95D800485406 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E711F5851C3F978900485406 /* ZYY_LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_LeftViewController.h; sourceTree = "<group>"; };
-		E711F5861C3F978900485406 /* ZYY_LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_LeftViewController.m; sourceTree = "<group>"; };
 		E711F58F1C3F990500485406 /* ZYY_HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_HomeTableViewCell.h; sourceTree = "<group>"; };
 		E711F5901C3F990500485406 /* ZYY_HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_HomeTableViewCell.m; sourceTree = "<group>"; };
 		E711F5911C3F990500485406 /* ZYY_HomeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_HomeTableViewCell.xib; sourceTree = "<group>"; };
@@ -344,6 +343,8 @@
 		E77BCB221C58D4DF000B8353 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		E77BCB231C58D4DF000B8353 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		E77BCB241C58D4DF000B8353 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		E784BD331C5F44DC00FB95A6 /* ZYY_LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_LeftViewController.h; sourceTree = "<group>"; };
+		E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_LeftViewController.m; sourceTree = "<group>"; };
 		E78D1E7E1C4F61780007A58F /* ZYY_GetInfoFromInternet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_GetInfoFromInternet.h; sourceTree = "<group>"; };
 		E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_GetInfoFromInternet.m; sourceTree = "<group>"; };
 		E78D1E811C4F7B4D0007A58F /* ZYY_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_User.h; sourceTree = "<group>"; };
@@ -562,8 +563,8 @@
 		E711F5841C3F973D00485406 /* sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				E711F5851C3F978900485406 /* ZYY_LeftViewController.h */,
-				E711F5861C3F978900485406 /* ZYY_LeftViewController.m */,
+				E784BD331C5F44DC00FB95A6 /* ZYY_LeftViewController.h */,
+				E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */,
 			);
 			name = sidebar;
 			path = "侧拉";
@@ -843,6 +844,7 @@
 				E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */,
 				E77BCB381C58D4DF000B8353 /* UIButton+WebCache.h in Headers */,
 				E77BCB2F1C58D4DF000B8353 /* SDWebImageDownloader.h in Headers */,
+				E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */,
 				E77BCB3C1C58D4DF000B8353 /* UIImage+MultiFormat.h in Headers */,
 				E77BCB351C58D4DF000B8353 /* SDWebImageOperation.h in Headers */,
 				E77BCB2D1C58D4DF000B8353 /* SDWebImageDecoder.h in Headers */,
@@ -1034,13 +1036,13 @@
 				E711F5A01C3FA73A00485406 /* ZYY_HomeViewController.m in Sources */,
 				E7169C1A1C4294CB003BD334 /* ZYY_MyInformationView.m in Sources */,
 				E77BCB2A1C58D4DF000B8353 /* SDImageCache.m in Sources */,
+				E784BD361C5F44DC00FB95A6 /* ZYY_LeftViewController.m in Sources */,
 				E757D3791C40ACBE007F3A6D /* MASConstraintMaker.m in Sources */,
 				E77BCB261C58D4DF000B8353 /* MKAnnotationView+WebCache.m in Sources */,
 				E757D37F1C40ACBE007F3A6D /* View+MASAdditions.m in Sources */,
 				E7665B291C5074FD006F3AF0 /* AFURLResponseSerialization.m in Sources */,
 				E77BCB391C58D4DF000B8353 /* UIButton+WebCache.m in Sources */,
 				E7204E641C47A6A6005D6C4D /* ZYY_PickerDayView.m in Sources */,
-				E711F5881C3F978900485406 /* ZYY_LeftViewController.m in Sources */,
 				E757D3781C40ACBE007F3A6D /* MASConstraint.m in Sources */,
 				E7169C101C429399003BD334 /* ZYY_ReBackView.m in Sources */,
 				E7169C0B1C42936C003BD334 /* ZYY_UpdateDeviceView.m in Sources */,
