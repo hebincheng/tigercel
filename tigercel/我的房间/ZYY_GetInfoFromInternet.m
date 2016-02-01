@@ -17,7 +17,7 @@ static NSString *versionStr=@"hufu/app/andriod/getAndroidVersion.do?";//版本�
 static NSString *feedBackStr=@"hufu/app/feedback/addFeedBack.do?";//反馈发送请求
 static NSString *loginStr=@"hufu/app/member/login.do?";//登陆请求
 static NSString *logoutStr=@"hufu/app/member/logout.do?";//注销登录
-static NSString *getListStr=@"hufu/app/userdevice/searchUserDevice.do?";//获取设备列表
+static NSString *getListStr=@"hufu/app/share/findSharedDeviceByUser.do?";//获取设备列表
 static NSString *deleteStr=@"hufu/app/userdevice/deleteUserDevice.do?";//删除设备
 static NSString *sendYZMStr=@"hufu/app/common/getAuthCode.do?";//发送验证码
 static NSString *registStr=@"hufu/app/member/regist.do?";//注册接口
@@ -26,6 +26,7 @@ static NSString *addDeviceStr=@"hufu/app/userdevice/addUserDevice.do?";//添加�
 static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
 static NSString *changeUserImageStr=@"hufu/app/member/updateUserImg.do";//上传用户头像
 static NSString *getUserInfoStr=@"hufu/app/member/getUserInfo.do?";//获取用户信息
+static NSString *changePasswordStr=@"hufu/app/member/changePassword.do?";//修改用户密码
 
 
 static ZYY_GetInfoFromInternet *_instancedObj;
@@ -48,13 +49,33 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     });
     return _instancedObj;
 }
+#pragma mark修改密码
+-(void)changeUserPasswordWithPassword:(NSString *)password andOldPassword:(NSString *)oldPassword andUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId sussecdBlock:(void (^)(void))block{
+    NSString *urlStr=[urlPathStr stringByAppendingString:changePasswordStr];
+    NSDictionary *requestDict=@{@"password":password,@"oldPassword":oldPassword,@"userToken":userToken,@"sessionId":sessionId};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@，%@",[self class],responseObject);
+        if ([responseObject[@"status"] isEqualToString:@"1"])
+        {
+            block();
+        }
+        else{
+            NSLog(@"失败");
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+
+}
+
+
 #pragma mark 获取用户信息
 -(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId{
     NSString *urlStr=[urlPathStr stringByAppendingString:getUserInfoStr];
     
     NSLog(@"%@",[NSString stringWithFormat:@"%@%@&%@&",urlStr,userToken,sessionId]);
-    NSDictionary *requesrDict=@{@"userToken":userToken,@"sessionId":sessionId};
-    [[AFHTTPSessionManager manager]GET:urlStr parameters:requesrDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSDictionary *requestDict=@{@"userToken":userToken,@"sessionId":sessionId};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
@@ -67,14 +88,14 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     
     NSString *urlStr=[urlPathStr stringByAppendingString:changeUserImageStr];
     NSLog(@"%@userId=%@&sessionId=%@&",urlStr,userId,sessionId);
-    NSDictionary *requesrDict=@{@"userId":userId,@"sessionId":sessionId};
+    NSDictionary *requestDict=@{@"userId":userId,@"sessionId":sessionId};
     //NSLog(@"%@?urlStr=%@&sessionId=%@&",urlStr,userId,sessionId);
     
     AFHTTPSessionManager *manager= [AFHTTPSessionManager manager];
    // 设置提交的是二进制流(默认提交的是二进制流)
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
    // manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager  POST:urlStr parameters:requesrDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [manager  POST:urlStr parameters:requestDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         UIImage *image=[UIImage imageWithContentsOfFile:imageStr];
         NSData *imageData=UIImageJPEGRepresentation(image, 0.1);
@@ -197,11 +218,13 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 获取设备列表
--(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserID:(NSString *)userID and:(void (^)(NSArray *))block{
+-(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void (^)(NSArray *))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:getListStr];
-    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userId":userID};
+    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject);
+        
+        NSLog(@"-------------------------%@",responseObject);
+        NSLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"data"] isKindOfClass:[NSNull class]])
         {
             NSLog(@"123");

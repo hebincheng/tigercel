@@ -52,7 +52,7 @@ static NSString *cellID=@"cellID";
     }
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 #pragma mark 由于之前设备做的本地库保存  现在是从网络并刷新 所以暂时有待解决本地与网络之间的冲突
-    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserID:[[ZYY_User instancedObj]userId] and:^(NSArray *lArr) {
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
         //若在云端有设备列表 则赋值给LEDArr
         _LEDArr=[NSMutableArray arrayWithArray:lArr];
         [_tableView reloadData];

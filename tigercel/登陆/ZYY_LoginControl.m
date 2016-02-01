@@ -88,7 +88,7 @@ static NSString *codetext=@"passWordText";
     [self jianpan];
     if (_loadCodeSwitch.isOn==NO)
     {
-        //NSLog(@"我把密码清0了哦");
+        NSLog(@"我把密码清0了哦");
         NSString *str=@"";
         [_userDefault setObject:str forKey:@"passWordText"];
     }
@@ -96,7 +96,7 @@ static NSString *codetext=@"passWordText";
     {
         [_userDefault setObject:_accountTextFiled.text forKey:acountText];
         [_userDefault setObject:_passWordTextFiled.text forKey:codetext];
-        NSLog(@"我把密码存好了");
+        NSLog(@"%@-我把密码存好了",[self class]);
     }
     //添加登陆加载动画
     FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
@@ -107,10 +107,10 @@ static NSString *codetext=@"passWordText";
         NSLog(@"登陆成功");
         [threeDot removeFromSuperview];
         [self connectToMQTT];
-        //登录成功执行的操作
-        //获取用户信息（获取到的信息与登陆成功后反馈的消息是一致的 所以此处可以省略）
-        //        ZYY_User *user=[ZYY_User instancedObj];
-        //        [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:user.userToken andSessionId:user.sessionId];
+    //登录成功执行的操作
+    //获取用户信息（获取到的信息与登陆成功后反馈的消息是一致的 所以此处可以省略）
+    //  ZYY_User *user=[ZYY_User instancedObj];
+    //  [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:user.userToken andSessionId:user.sessionId];
         //把主界面设置为根目录
         AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];

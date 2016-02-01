@@ -8,8 +8,11 @@
 
 #import "ZYY_ChangeCode.h"
 #import "ZYY_RetrievePasswordView.h"
+#import "ZYY_GetInfoFromInternet.h"
+#import "ZYY_User.h"
+#import "AppDelegate.h"
 
-@interface ZYY_ChangeCode ()
+@interface ZYY_ChangeCode ()<UIAlertViewDelegate>
 {
     NSUserDefaults *_userDefaulet;
 }
@@ -60,10 +63,27 @@
         }
         else
         {
-            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"修改密码成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-            [av show];
-            [_userDefaulet setObject:_Password.text forKey:@"passWordText"];
+#pragma mark调用修改密码的接口
+            ZYY_User *user=[ZYY_User instancedObj];
+            
+            [[ZYY_GetInfoFromInternet instancedObj]changeUserPasswordWithPassword:_Password.text andOldPassword:_oldPasswordText.text andUserToken:user.userToken andSessionId: user.sessionId sussecdBlock:^{
+                UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"密码修改成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [av show];
+            [_userDefaulet setObject:@"" forKey:@"passWordText"];
+
+            }];
+//            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"修改密码成功" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            [av show];
         }
     }
 }
+#pragma mark  UIAlertiong代理
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+     ZYY_User *user=[ZYY_User instancedObj];
+#pragma mark如果修改成功则调用退出接口 并退出到登陆界面
+    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:user.sessionId andUserToken:user.userToken and:^{
+        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+    }];
+}
+
 @end

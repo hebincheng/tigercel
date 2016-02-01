@@ -31,7 +31,7 @@
 //注销
 -(void)logoutSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void(^)(void))block;
 //获取设备列表
--(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserID:(NSString *)userID and:(void(^)(NSArray *lArr))block;
+-(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void(^)(NSArray *lArr))block;
 //添加设备
 -(void)addEquipmentWithDeviceModel:(NSString *)deviceModel andSoftWareNumber:(NSString *)softWareNumber andDeviceName:(NSString *)deviceName andSessionId:(NSString *)sessionId andDeviceType:(NSString *)deviceType andDeviceId:(NSString *)deviceId andUserId:(NSString *)userId;
 //删除设备 删除数据后刷新列表
@@ -45,7 +45,7 @@
 //获取用户信息
 -(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId;
 //修改密码
-
+-(void)changeUserPasswordWithPassword:(NSString *)password andOldPassword:(NSString *)oldPassword andUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId sussecdBlock:(void(^)(void))block;
 //找回密码
 
 @end
