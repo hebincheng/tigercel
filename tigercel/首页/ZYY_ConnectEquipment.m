@@ -64,6 +64,7 @@
 //    //把json格式字典转化成data发送出去
 //    NSData *data=[NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
 //
+    
 //    char *hh3 = "{"
 //    "\"discoveryQuery\": {"
 //    "\"sourceIP\": \"129.12.12.12\","
@@ -214,8 +215,7 @@
     [_alert addAction:cancel];
 }
 
-#pragma mark -
-#pragma mark 模式选择器的4个代理方法
+#pragma mark 键盘的代理方法
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
@@ -312,8 +312,8 @@
             [av show];
         }];
        // 加载设备控制视图
-        ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
-        [self.navigationController pushViewController:equipmentView animated:YES];
+//        ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
+//        [self.navigationController pushViewController:equipmentView animated:YES];
     }
 }
 -(NSString *)getMode:(NSString *)str

@@ -236,7 +236,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     [av show];
 }
 #pragma mark 登陆
--(void)loginWithTelNum:(NSString *)telNum andPassWord:(NSString *)password and:(void (^)(void))block
+-(void)loginWithTelNum:(NSString *)telNum andPassWord:(NSString *)password susseced:(void(^)(void))sussesedBlock orFailed:(void(^)(void))failedBlock
 {
     NSString *urlStr=[urlPathStr stringByAppendingString:loginStr];
     NSDictionary *requeseDict=@{@"mobileNumber":telNum,@"password":password};
@@ -247,11 +247,12 @@ static ZYY_GetInfoFromInternet *_instancedObj;
             //用户数据初始化
             [[ZYY_User alloc]initWithDictionary:dict];
              NSLog(@"%@",dict);
-            block();
+            sussesedBlock();
         }
         else{
             UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"您的账号或者密码不正确，请重新输入" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [av show];
+            failedBlock();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);

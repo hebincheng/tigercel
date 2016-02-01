@@ -21,7 +21,7 @@
 //反馈发送请求
 -(void)feddBackWithComment:(NSString *)commentStr andTitle:(NSString *)titleStr andUserID:(NSString *)userID and:(void(^)(void))block;
 //登陆
--(void)loginWithTelNum:(NSString *)telNum andPassWord:(NSString *)password and:(void(^)(void))block;
+-(void)loginWithTelNum:(NSString *)telNum andPassWord:(NSString *)password susseced:(void(^)(void))sussesedBlock orFailed:(void(^)(void))failedBlock;
 //发送验证码
 -(void)sendYZMWithTelNumber:(NSString *)telNumber;
 //注册账号
@@ -44,4 +44,8 @@
 -(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr;
 //获取用户信息
 -(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId;
+//修改密码
+
+//找回密码
+
 @end

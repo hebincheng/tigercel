@@ -250,6 +250,10 @@ static NSString *rightCellID=@"rightCellID";
                 [cell.detailTextLabel setText:_functionArr[indexPath.row]];
                 [cell.detailTextLabel setTextColor:[UIColor blackColor]];
                 [cell.detailTextLabel setFont:[UIFont systemFontOfSize:13.0f]];
+                if (_leftSceneName!=nil&&indexPath.row==2)
+                {
+                    [cell.detailTextLabel setText:_leftSceneName];
+                }
                 [cell.textLabel setText:_menuArr1[indexPath.row]];
             }
             else if(indexPath.section==2)
@@ -563,8 +567,9 @@ static NSString *rightCellID=@"rightCellID";
 }
 
 -(void)resetProjectNameWithName:(NSString *)string{
-   // _functionArr=@[_projectName,@"照明模式",_sceneName];
     _projectName=string;
+    
+     _functionArr=@[_projectName,@"照明模式",@"a"];
     [self reloadUI];
 }
 
