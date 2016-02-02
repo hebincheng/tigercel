@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/13.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  连接至设备界面
 
 #import <UIKit/UIKit.h>
 

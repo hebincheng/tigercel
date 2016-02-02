@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/13.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  连接设备界面
 
 #import "ZYY_ConnectEquipment.h"
 #import "ZYY_EquipmentDetailVie.h"
@@ -31,13 +31,19 @@
     //加载动画
     FeThreeDotGlow *_threeDot;
     //UDP异步广播包
-    AsyncUdpSocket *_socket;
+    AsyncUdpSocket *_udpSocket;
     //程序时钟
     CADisplayLink *_runTime;
     //步数
     NSInteger _step;
     //发送的数据
     NSData *_udpData;
+    //本地端口
+    NSInteger _localPort;
+    //超时
+    NSTimeInterval _timeout;
+    //端口号
+    UInt16 _port;
 }
 @end
 
@@ -47,9 +53,15 @@
     [super viewDidLoad];
     [self loadUI];
 }
+-(void)viewDidDisappear:(BOOL)animated
+{
+    
+    [_runTime invalidate];
+    _runTime=nil;
 
+}
 #pragma mark -
-#pragma mark  广播包发送的json数据
+#pragma mark  一阶段广播包发送的json数据
 -(NSData *)discoveryQuerydata{
     //获取发送的一个时间戳
     NSDate *date=[NSDate date];
@@ -60,49 +72,62 @@
     
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
-    NSLog(@"%@",ipStr);
     
-    //获取手机的端口
-    
-    //    NSDictionary *commentDict=@{@"sourceIP":ipStr, @"sourcePort":@12345, @"timestamp":dateStr};
-    //    NSDictionary *json=@{@"discoveryQuery":commentDict};
-    //    //把json格式字典转化成data发送出去
-    //    NSData *data=[NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
-    //    return data;
-    
-    //
-    //
-    char *hh = "{"
-    "\"discoveryQuery\": {"
-    "\"sourceIP\": \"129.12.12.12\","
-    "\"sourcePort\": \"1234\","
-    "\"timestamp\": \"1234567890\""
-    "}"
-    "}";
-    
+    #pragma mark discovery消息的格式解析操作
+    NSString *str=[NSString stringWithFormat:@"{\"discoveryQuery\": {\"sourceIP\": \"%@\",\"sourcePort\": \"1234\",\"timestamp\": \"%@\"}}",ipStr,dateStr];
+    char *discoverData=(char*)[str UTF8String];
+
+    NSLog(@"discoverData---%s",discoverData);
+    //设置用于接收字符解析出来的字符指针和字符的长度
     char *tmp_tlv;
     int ret;
     
     printf("start:\n");
-    ret = discovery_json_parse(hh, &tmp_tlv);
-    printf("ret=%d\n", ret);
-    
-    //    解析
-    //    ret = discovery_tlv_parse(tmp_tlv, ret, &tmp_js);
-    //    printf("json:\n""%x\n", &tmp_tlv);
-    //    printf("ret=%d\n", ret);
-    //
-    NSString *mStr=[NSString stringWithFormat:@"%s",tmp_tlv];
-    //    for (int i=0; i<ret; i++)
-    //    {
-    //        NSString *str=[NSString stringWithFormat:@"%x",tmp_tlv[i]];
-    //        mStr=[mStr stringByAppendingString:str];
-    //    }
-    NSLog(@"--------%@",mStr);
-    
-    NSData *data=[mStr dataUsingEncoding:NSUTF8StringEncoding];
+    ret = discovery_json_parse(discoverData, &tmp_tlv);
+    printf("ret=%d\n--%s", ret,tmp_tlv);
+    //将解析出来的字符数组转成data
+    NSData *data = [NSData dataWithBytes: tmp_tlv length:ret];
     return data;
 }
+#pragma mark  二阶段发送的数据
+-(NSData *)getEquipmentInfoData
+{
+    char hh[] = "{"
+    "\"operation\":\"readREQ\","
+    "\"sequence\":12345,"
+    "\"object\":{"
+    "\"objId\":\"device\","
+    "\"objInstances\":["
+    "{"
+    "\"objInstanceId\":\"single\","
+    "\"resources\":["
+    "{\"resId\":\"MAC\"},"
+    "{\"resId\":\"manufacturer\"},"
+    "{\"resId\":\"deviceType\"},"
+    "{\"resId\":\"moduleNumber\"},"
+    "{\"resId\":\"serialNumber\"},"
+    "{\"resId\":\"hardwareVersion\"},"
+    "{\"resId\":\"firmwareVersion\"},"
+    "{\"resId\":\"softwareVersion\"},"
+    "{\"resId\":\"rebindFlag\"}"
+    "]"
+    "}"
+    "]"
+    "}"
+    "}";
+
+    
+    iot_mod_json_lwm2m_header_t header;
+    
+    memset(&header, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    
+    int len = iot_mod_json_to_lwm2m(hh, &header);
+    
+    NSData *data = [NSData dataWithBytes: &header length:len];
+    
+    return data;
+}
+
 #pragma mark 获取手机当前ip
 -(NSString *)getIPAddress {
     NSString *address = @"error";
@@ -132,28 +157,49 @@
 #pragma mark 发送广播包
 -(void)sendUDPData
 {
-    _socket=[[AsyncUdpSocket alloc]initWithDelegate:self];
-    [_socket localPort];
+    _udpSocket=[[AsyncUdpSocket alloc]initWithDelegate:self];
+    _localPort=[_udpSocket localPort];
     
+    NSLog(@"%ld",_localPort);
     NSError *error=nil;
-    [_socket enableBroadcast:YES error:&error];
+    [_udpSocket bindToPort:9001 error:&error];     //设置socket发送监听端口
+    if(error!=nil)
+    {
+        NSLog(@"发送广播包处的错误%@",error);
+    }
+    [_udpSocket enableBroadcast:YES error:&error]; //设置广播包可发送
+    _timeout=5000;                              //设置超时
+    _port=6666;
+    _udpData=[self discoveryQuerydata];         //待发送的数据
     
-    _udpData=[self discoveryQuerydata];
-    
-    [_socket receiveWithTimeout:-1 tag:0];
+    [_udpSocket receiveWithTimeout:-1 tag:0];
     
     NSLog(@"begin scan");
 }
 
 #pragma mark AsyncSocket代理方法
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
-    NSString* result;
+    NSLog(@"成功接收到设备反馈的消息");
+    int ret=(int)data.length;//接收到数据的长度
+    char *receiveData=(char *)[data bytes];
+    char *tmp_js;//用于接收解析后的数据
+    discovery_tlv_parse(receiveData, ret, &tmp_js);//将受到的数据转成char*类型后进行解析
+
+    NSData *jsonData=[NSData dataWithBytes:tmp_js length:strlen(tmp_js)];
+    NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];//把解析出来char*转成jsonData 然后转到字典中;
     
-    result = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+#pragma mark根据接收到数据  解析出来数据
+    NSDictionary *dict=receiveDict[@"discoveryQuery"];
+    NSString *sourceIP=dict[@"sourceIP"];
+    NSString *sourcePort=dict[@"sourcePort"];
+    NSString *timestamp=dict[@"timestamp"];
+    NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
     
-    NSLog(@"%@",result);
-    
-    NSLog(@"received");
+    //收到数据后暂停发送广播
+    [_runTime invalidate];
+    _runTime=nil;
+    //把加载动画移除
+    [_threeDot removeFromSuperview];
     return YES;
 }
 -(void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error{
@@ -303,7 +349,7 @@
         [self sendUDPData];
         //添加时钟循环
         _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
-        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+       [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
         
 #pragma mark 添加加载动画
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
@@ -320,14 +366,13 @@
 -(void)step
 {
     _step++;
-    if (_step%180==0)
+    if (_step%120==0)
     {
 #pragma mark 发送连接消息
         const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
         const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
         //        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
         //        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-        NSLog(@"%s",s_authmode);
         int authmode = atoi(s_authmode);
         //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
         const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
@@ -335,10 +380,9 @@
         InitSmartConnection();
         StartSmartConnection(ssid, password, "", 9);
 #pragma mark 发送UDP广播
-        [_socket sendData :_udpData toHost:@"255.255.255.255" port:6666 withTimeout:30 tag:1];
-        
+        [_udpSocket sendData :_udpData toHost:@"255.255.255.255" port:_port withTimeout:_timeout tag:1];
     }
-    if(_step==60*30)
+    if(_step==60*60)
     {
         _step=0;
         [_runTime invalidate];

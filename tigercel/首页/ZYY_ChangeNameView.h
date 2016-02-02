@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/14.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  改变设备名字界面
 
 #import <UIKit/UIKit.h>
 @protocol ZYY_ChangeNameViewDelegate<NSObject>

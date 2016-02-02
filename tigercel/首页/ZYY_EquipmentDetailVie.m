@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/12.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  设备操作界面
 
 #import "ZYY_EquipmentDetailVie.h"
 #import "ZYY_SliderControl.h"
@@ -473,41 +473,52 @@ static NSString *rightCellID=@"rightCellID";
 {
     return 1;
 }
-#pragma mark
--(void)saveZhaoMingScene
+#pragma mark-
+#pragma mark场景模式
+-(void)controlTheEquipmentWithMode:(NSInteger )mode
 {
-    NSLog(@"成功新增照明场景");
+    if (mode==1)
+    {
+        NSArray *zhaoMingArr=[self getZhaoMingSet];
+        NSLog(@"%@",zhaoMingArr);
+    }
+    else{
+        NSArray *fenWeiArr=[self getFenWeiSet];
+        NSLog(@"%@",fenWeiArr);
+    }
+}
+
+
+-(NSArray *)getZhaoMingSet
+{
     NSMutableArray *mArr=[NSMutableArray array];
     //由于loadUI和willappear加载了两次
-    [_leftSliderArr enumerateObjectsUsingBlock:^(ZYY_SliderControl * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx>2)
-        {
-            [_leftSliderArr removeObject:obj];
-        }
-    }];
     for (ZYY_SliderControl *sliderControl in _leftSliderArr)
     {
         int val=(int)sliderControl.controlSlider.value;
         [mArr addObject:[NSNumber numberWithInt:val]];
     }
+    return mArr;
+}
+
+
+
+
+-(void)saveZhaoMingScene
+{
+    NSLog(@"成功新增照明场景");
+
    NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"zhaoMingSetArr"];
     NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
+    NSArray *mArr=[self getZhaoMingSet];
     [saveArr addObject:mArr];
     [_leftSliderArr removeAllObjects];
     NSLog(@"saveArr-%@",saveArr);
     //新增照明模式
     [[NSUserDefaults standardUserDefaults] setObject: saveArr forKey:@"zhaoMingSetArr"];
 }
--(void)saveFenWeiScene
-{
-    NSLog(@"成功新增氛围场景");
-    //由于loadUI和willappear加载了两次,所以删除多余加载对象 只保留两个
-    [_rightSliderArr enumerateObjectsUsingBlock:^(ZYY_SliderControl * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx>1)
-        {
-            [_leftSliderArr removeObject:obj];
-        }
-    }];
+-(NSArray *)getFenWeiSet{
+    
     NSMutableArray *mArr=[NSMutableArray array];
     //首先添加颜色的rgb
     [mArr addObject:_colorChooseArr];
@@ -516,9 +527,18 @@ static NSString *rightCellID=@"rightCellID";
         int val=(int)sliderControl.controlSlider.value;
         [mArr addObject:[NSNumber numberWithInt:val]];
     }
+    return mArr;
+
+}
+
+
+-(void)saveFenWeiScene
+{
+    NSLog(@"成功新增氛围场景");
     NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"fenWeiSetArr"];
     NSLog(@"arr-%@",arr);
     NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
+    NSArray *mArr=[self getFenWeiSet];
     [saveArr addObject:mArr];
     [_rightSliderArr removeAllObjects];
     NSLog(@"saverArr-%@",saveArr);
@@ -532,13 +552,13 @@ static NSString *rightCellID=@"rightCellID";
     _color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha/255.0];
         [self reloadUI];
 }
-
+//设置定时数组  刷新数据
 -(void)setRunTimeWithArray:(NSArray *)array
 {
-    NSLog(@"1");
     [_runTimeArr addObject:array];
     [self reloadUI];
 }
+
 -(void)reloadUI{
     [_leftSliderArr removeAllObjects];
     [_rightSliderArr removeAllObjects];
@@ -554,6 +574,7 @@ static NSString *rightCellID=@"rightCellID";
     //_functionArr=@[_projectName,@"照明模式",_sceneName];
     NSLog(@"%@-%@",_projectName,_leftSceneName);
 }
+
 -(void)resetFenWeiSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array{
     _rightSceneName=name;
     NSArray *colorArr=array[0];//颜色数组是第一个元素
@@ -652,7 +673,6 @@ static NSString *rightCellID=@"rightCellID";
         
     }
     [self.navigationController popToRootViewControllerAnimated:YES];
-    
 }
 
 -(void)tapColorBtn:(UIButton *)sender
