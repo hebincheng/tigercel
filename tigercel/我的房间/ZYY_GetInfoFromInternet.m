@@ -269,7 +269,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         {
             //用户数据初始化
             [[ZYY_User alloc]initWithDictionary:dict];
-             NSLog(@"%@",dict);
+            // NSLog(@"%@",dict);
             sussesedBlock();
         }
         else{

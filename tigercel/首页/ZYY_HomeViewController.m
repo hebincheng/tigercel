@@ -17,6 +17,7 @@
 #import "ZYY_GetInfoFromInternet.h"
 
 
+
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
@@ -199,14 +200,14 @@ static NSString *cellID=@"cellID";
 }
 - (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view
 {
-    NSLog(@"asdasd");
+   // NSLog(@"asdasd");
     if(view==_tableView)
         return NO;
     return YES;
 }
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view
 {
-    NSLog(@"11");
+   // NSLog(@"11");
     return NO;
 }
 

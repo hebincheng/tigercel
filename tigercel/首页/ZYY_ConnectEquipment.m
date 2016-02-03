@@ -12,7 +12,7 @@
 #import "smtiot.h"
 #import "Masonry.h"
 #import "FeThreeDotGlow.h"
-#import "AsyncUdpSocket.h"
+#import "GCDAsyncUdpSocket.h"
 //用于获取ip的两个头文件
 #import <ifaddrs.h>
 #import <arpa/inet.h>
@@ -20,7 +20,10 @@
 #import "iot_mod_lwm2m.h"
 #import "iot_mod_lwm2m_json.h"
 
-@interface ZYY_ConnectEquipment ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,AsyncUdpSocketDelegate>
+#import "MQTTClient.h"
+#import "MQTTClientPersistence.h"
+
+@interface ZYY_ConnectEquipment ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,GCDAsyncUdpSocketDelegate>
 {
     //模式数组
     NSArray *_authModeArr;
@@ -30,8 +33,8 @@
     NSString *_modeStr;
     //加载动画
     FeThreeDotGlow *_threeDot;
-    //UDP异步广播包
-    AsyncUdpSocket *_udpSocket;
+    //UDP连接
+    GCDAsyncUdpSocket *_udpSocket;
     //程序时钟
     CADisplayLink *_runTime;
     //步数
@@ -50,6 +53,7 @@
 @implementation ZYY_ConnectEquipment
 
 - (void)viewDidLoad {
+    // [self text];
     [super viewDidLoad];
     [self loadUI];
 }
@@ -58,9 +62,23 @@
     
     [_runTime invalidate];
     _runTime=nil;
-
+    
 }
 #pragma mark -
+#pragma mark 发送设备连接消息
+-(void)sendConnectMessage
+{
+    const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
+    //        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
+    //        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
+    int authmode = atoi(s_authmode);
+    //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
+    NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
+    InitSmartConnection();
+    StartSmartConnection(ssid, password, "", 9);
+}
 #pragma mark  一阶段广播包发送的json数据
 -(NSData *)discoveryQuerydata{
     //获取发送的一个时间戳
@@ -68,30 +86,29 @@
     NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
     [dateFormat setDateFormat:@"yyyy/MM/dd hh:mm:ss"];
     NSString *dateStr=[dateFormat stringFromDate:date];
-    NSLog(@"%@",dateStr);
+    //NSLog(@"%@",dateStr);
     
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
     
-    #pragma mark discovery消息的格式解析操作
+    // discovery消息的格式解析操作
     NSString *str=[NSString stringWithFormat:@"{\"discoveryQuery\": {\"sourceIP\": \"%@\",\"sourcePort\": \"1234\",\"timestamp\": \"%@\"}}",ipStr,dateStr];
-    char *discoverData=(char*)[str UTF8String];
-
-    NSLog(@"discoverData---%s",discoverData);
-    //设置用于接收字符解析出来的字符指针和字符的长度
-    char *tmp_tlv;
+    char *discoverData=(char*)[str UTF8String];//将NSString转化成char*格式
+    
+    char *tmp_tlv;    //设置用于接收字符解析出来的字符指针和字符的长度
     int ret;
     
-    printf("start:\n");
+    //printf("start:\n");
     ret = discovery_json_parse(discoverData, &tmp_tlv);
-    printf("ret=%d\n--%s", ret,tmp_tlv);
-    //将解析出来的字符数组转成data
+    //将解析出来的字符数组转成data,ret解析出的字节数
+    
     NSData *data = [NSData dataWithBytes: tmp_tlv length:ret];
     return data;
 }
 #pragma mark  二阶段发送的数据
 -(NSData *)getEquipmentInfoData
 {
+    //  char hh2[17]={0x08, 0x00, 0xE, 0xC0, 0x16, 0xC0, 0x00, 0xC0, 0x11, 0xC0, 0x01, 0xC0, 0x02, 0xC0, 0x12, 0xC0, 0x13};
     char hh[] = "{"
     "\"operation\":\"readREQ\","
     "\"sequence\":12345,"
@@ -115,21 +132,59 @@
     "]"
     "}"
     "}";
-
-    
-    iot_mod_json_lwm2m_header_t header;
-    
+    int len;
+    iot_mod_json_lwm2m_header_t header, header2;
     memset(&header, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    memset(&header2, 0, sizeof(iot_mod_json_lwm2m_header_t));
     
-    int len = iot_mod_json_to_lwm2m(hh, &header);
+    len = iot_mod_json_to_lwm2m(hh, &header);
     
+    printf("he\n");
+    printf("len=%d\n", len);
+    
+    for(int i=0; i<len; i++)
+    {
+        printf("%02x\t",header.body[i]);
+    }
+    
+    char aa[300];
+    memcpy(aa, &header, sizeof(header));
+    
+    for (int i=0; i<sizeof(header); i++)
+    {
+        NSLog(@"%d",aa[i]);
+    }
+    
+    
+    
+    //    header2.retCode=0;
+    //    header2.objId=3;
+    //    header2.operation=2;
+    
+    //    len = iot_mod_lwm2m_to_json(hh2, sizeof(hh2), &header2);
+    //    printf("len=%d\n", len);
+    //    printf("json:\n%s\n", header2.body);
+    
+    //    iot_mod_json_lwm2m_header_t header;
+    //
+    //    memset(&header, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    //
+    //    int len = iot_mod_json_to_lwm2m(hh, &header);
+    //    printf("----------%0.2x %0.2x\n", header.body[4], header.body[5]);
+    //    NSLog(@"%d",header.objId);
+    //   char *dataChar=(char *)&header;
     NSData *data = [NSData dataWithBytes: &header length:len];
-    
     return data;
 }
 
+-(void)text{
+    NSData*data=[self getEquipmentInfoData];
+    char *a=(char*)[data bytes];
+    NSLog(@"%s",a);
+}
+
 #pragma mark 获取手机当前ip
--(NSString *)getIPAddress {
+-(NSString *)getIPAddress{
     NSString *address = @"error";
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
@@ -157,34 +212,29 @@
 #pragma mark 发送广播包
 -(void)sendUDPData
 {
-    _udpSocket=[[AsyncUdpSocket alloc]initWithDelegate:self];
-    _localPort=[_udpSocket localPort];
-    
-    NSLog(@"%ld",_localPort);
+    //UDP异步广播包
+    _udpSocket=[[GCDAsyncUdpSocket alloc]initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
     NSError *error=nil;
-    [_udpSocket bindToPort:9001 error:&error];     //设置socket发送监听端口
-    if(error!=nil)
-    {
-        NSLog(@"发送广播包处的错误%@",error);
-    }
-    [_udpSocket enableBroadcast:YES error:&error]; //设置广播包可发送
-    _timeout=5000;                              //设置超时
-    _port=6666;
-    _udpData=[self discoveryQuerydata];         //待发送的数据
+    [_udpSocket enableBroadcast:YES error:&error];//允许广播 必须 否则后面无法发送组播和广播
+    [_udpSocket beginReceiving:nil];//会一直接收设备相应的数据
+    //   [_udpSocket receiveOnce:nil];
+    NSLog(@"开始发送广播包");
+}
+#pragma mark TCP连接
+-(void)connectToEquipmentWithIP:(NSString *)ip andPort:(int)port
+{
     
-    [_udpSocket receiveWithTimeout:-1 tag:0];
-    
-    NSLog(@"begin scan");
 }
 
-#pragma mark AsyncSocket代理方法
--(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
+#pragma mark GCDAsyncUdpSocket代理方法
+-(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext{
+    
     NSLog(@"成功接收到设备反馈的消息");
     int ret=(int)data.length;//接收到数据的长度
     char *receiveData=(char *)[data bytes];
     char *tmp_js;//用于接收解析后的数据
     discovery_tlv_parse(receiveData, ret, &tmp_js);//将受到的数据转成char*类型后进行解析
-
+    
     NSData *jsonData=[NSData dataWithBytes:tmp_js length:strlen(tmp_js)];
     NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];//把解析出来char*转成jsonData 然后转到字典中;
     
@@ -195,36 +245,105 @@
     NSString *timestamp=dict[@"timestamp"];
     NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
     
+    [self connectToMQTTWithIp:sourceIP andPort:[sourcePort intValue]];
+    
+    
     //收到数据后暂停发送广播
     [_runTime invalidate];
     _runTime=nil;
     //把加载动画移除
     [_threeDot removeFromSuperview];
-    return YES;
-}
--(void)onUdpSocket:(AsyncUdpSocket *)sock didNotReceiveDataWithTag:(long)tag dueToError:(NSError *)error{
-    
-    NSLog(@"not received");
     
 }
--(void)onUdpSocket:(AsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error{
+-(void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
+{
+    NSLog(@"未发送数据%@",error.description);
+}
+-(void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag{
+    NSLog(@"广播包发送中........................");
+}
+#pragma mark  连接到mqttServer
+-(void)connectToMQTTWithIp:(NSString *)ip andPort:(int)port;
+{
     
-    NSLog(@"%@",error);
+    struct Options
+    {
+        char* connection;         /**< connection to system under test. */
+        char** haconnections;
+        int hacount;
+        int verbose;
+        int test_no;
+        int MQTTVersion;
+        int iterations;
+    } options =
+    {
+        "tcp://192.168.12.182:1883",
+        NULL,
+        0,
+        0,
+        0,
+        MQTTVERSION_DEFAULT,
+        1,
+    };
+    //    NSString *connectStr=[NSString stringWithFormat:@"tcp://%@:%d",ip,port];
+    //    options.connection=(char *)[connectStr UTF8String];
+    MQTTClient c;
+    MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
+    int subsqos = 2;
+    int rc = 0;
+    char* test_topic = "lwm2mProtocol";//用于连接设备
+    // int failures = 0;
     
-    NSLog(@"not send");
+    
+    opts.keepAliveInterval = 20;
+    opts.cleansession = 1;
+    opts.username = "guest";        //连到设备的账户名 密码
+    opts.password = "guest";
+    opts.MQTTVersion = options.MQTTVersion;
+    if (options.haconnections != NULL)
+    {
+        opts.serverURIs = options.haconnections;
+        opts.serverURIcount = options.hacount;
+    }
+    
+    opts.will = &wopts;
+    opts.will->message = "will message";
+    opts.will->qos = 1;
+    opts.will->retained = 0;
+    opts.will->topicName = "will topic";
+    opts.will = NULL;
+    
+    rc = MQTTClient_create(&c, options.connection, "single_threaded_test",
+                           MQTTCLIENT_PERSISTENCE_DEFAULT, NULL);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
+        MQTTClient_destroy(&c);
+    }
+    
+    printf("----------------------Connecting start\n");
+    printf("connection : %s\n", options.connection);
+    rc = MQTTClient_connect(c, &opts);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
+        MQTTClient_destroy(&c);
+    }
+    printf("----------------------Connecting finish and start subscribe\n\n\n");
+    rc = MQTTClient_subscribe(c, test_topic, subsqos);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
+        MQTTClient_destroy(&c);
+    }
+    else
+    {
+        printf("----------------------subscribe finish!rc(%d)\n\n\n",rc);
+        //[self connectToEquipmentWithIP:ip andPort:port];
+    }
 }
 
--(void)onUdpSocket:(AsyncUdpSocket *)sock didSendDataWithTag:(long)tag{
-    
-    NSLog(@"send");
-    
-}
-
--(void)onUdpSocketDidClose:(AsyncUdpSocket *)sock{
-    
-    NSLog(@"closed");
-    
-}
 #pragma mark -
 #pragma mark 加载UI
 -(void)loadUI{
@@ -272,11 +391,13 @@
 }
 
 #pragma mark 键盘的代理方法
--(BOOL)textFieldShouldReturn:(UITextField *)textField{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
     return YES;
 }
--(void)textFieldDidEndEditing:(UITextField *)textField{
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
     [textField resignFirstResponder];
 }
 
@@ -293,7 +414,8 @@
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
     _modeStr=_authModeArr[row];
 }
 
@@ -349,7 +471,7 @@
         [self sendUDPData];
         //添加时钟循环
         _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
-       [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
         
 #pragma mark 添加加载动画
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
@@ -365,22 +487,16 @@
 #pragma mark 程序运行时钟
 -(void)step
 {
-    _step++;
+    _step++;//帧数++  1秒60次
+    if (_step==1||_step%180==0)
+    {
+        [self sendConnectMessage];
+#pragma mark 发送UDP广播
+        [_udpSocket sendData:[self discoveryQuerydata] toHost:@"255.255.255.255" port:6666 withTimeout:_timeout tag:1];
+    }
     if (_step%120==0)
     {
-#pragma mark 发送连接消息
-        const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
-        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-        //        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
-        //        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-        int authmode = atoi(s_authmode);
-        //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
-        const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
-        NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
-        InitSmartConnection();
-        StartSmartConnection(ssid, password, "", 9);
-#pragma mark 发送UDP广播
-        [_udpSocket sendData :_udpData toHost:@"255.255.255.255" port:_port withTimeout:_timeout tag:1];
+        
     }
     if(_step==60*60)
     {
@@ -394,7 +510,6 @@
         [av show];
     }
 }
-
 
 -(NSString *)getMode:(NSString *)str
 {

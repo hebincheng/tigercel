@@ -98,10 +98,12 @@ static NSString *codetext=@"passWordText";
         [_userDefault setObject:_passWordTextFiled.text forKey:codetext];
         NSLog(@"%@-我把密码存好了",[self class]);
     }
+    
     //添加登陆加载动画
     FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
     [self.view addSubview:threeDot];
     [threeDot show];
+    
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text susseced:^{
         NSLog(@"登陆成功");
@@ -132,79 +134,79 @@ static NSString *codetext=@"passWordText";
 -(void)connectToMQTT
 {
     
-//    struct Options
-//    {
-//        char* connection;         /**< connection to system under test. */
-//        char** haconnections;
-//        int hacount;
-//        int verbose;
-//        int test_no;
-//        int MQTTVersion;
-//        int iterations;
-//    } options =
-//    {
-//        //"tcp://m2m.eclipse.org:1883",
-//        "tcp://192.168.3.49:1243",
-//        //"tcp://192.168.12.157:1243",
-//        NULL,
-//        0,
-//        0,
-//        0,
-//        MQTTVERSION_DEFAULT,
-//        1,
-//    };
-//    
-//    
-//    MQTTClient c;
-//    MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
-//    MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
-//    int subsqos = 2;
-//    int rc = 0;
-//    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
-//  // int failures = 0;
-//    
-//    
-//    opts.keepAliveInterval = 20;
-//    opts.cleansession = 1;
-//    opts.username = "uuuuuuuuuussssssssssrrrrrr000213";
-//    opts.password = "papapapa";
-//    opts.MQTTVersion = options.MQTTVersion;
-//    if (options.haconnections != NULL)
-//    {
-//        opts.serverURIs = options.haconnections;
-//        opts.serverURIcount = options.hacount;
-//    }
-//    
-//    opts.will = &wopts;
-//    opts.will->message = "will message";
-//    opts.will->qos = 1;
-//    opts.will->retained = 0;
-//    opts.will->topicName = "will topic";
-//    opts.will = NULL;
-//    
-//    
-//    
-//    
-//    
-//    
-//    rc = MQTTClient_create(&c, options.connection, "single_threaded_test",
-//                           MQTTCLIENT_PERSISTENCE_DEFAULT, NULL);
-//    if (rc != MQTTCLIENT_SUCCESS)
-//    {
-//        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
-//        MQTTClient_destroy(&c);
-//    }
-//    
-//    
-//    printf("@@@@@@@@@@@@@@@@@Connecting start\n");
-//    printf("connection : %s\n", options.connection);
-//    rc = MQTTClient_connect(c, &opts);
-//    printf("@@@@@@@@@@@@@@@@@Connecting finish and start subscribe\n\n\n");
-//    rc = MQTTClient_subscribe(c, test_topic, subsqos);
-//    printf("@@@@@@@@@@@@@@@@@subscribe finish\n\n\n");
-//    
-//
-//
+    struct Options
+    {
+        char* connection;         /**< connection to system under test. */
+        char** haconnections;
+        int hacount;
+        int verbose;
+        int test_no;
+        int MQTTVersion;
+        int iterations;
+    } options =
+    {
+        //"tcp://m2m.eclipse.org:1883",
+        "tcp://192.168.3.49:1243",
+        //"tcp://192.168.12.157:1243",
+        NULL,
+        0,
+        0,
+        0,
+        MQTTVERSION_DEFAULT,
+        1,
+    };
+    
+    
+    MQTTClient c;
+    MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
+    int subsqos = 2;
+    int rc = 0;
+    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
+  // int failures = 0;
+    
+    
+    opts.keepAliveInterval = 20;
+    opts.cleansession = 1;
+    opts.username = "uuuuuuuuuussssssssssrrrrrr000213";
+    opts.password = "papapapa";
+    opts.MQTTVersion = options.MQTTVersion;
+    if (options.haconnections != NULL)
+    {
+        opts.serverURIs = options.haconnections;
+        opts.serverURIcount = options.hacount;
+    }
+    
+    opts.will = &wopts;
+    opts.will->message = "will message";
+    opts.will->qos = 1;
+    opts.will->retained = 0;
+    opts.will->topicName = "will topic";
+    opts.will = NULL;
+    
+    
+    
+    
+    
+    
+    rc = MQTTClient_create(&c, options.connection, "single_threaded_test",
+                           MQTTCLIENT_PERSISTENCE_DEFAULT, NULL);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
+        MQTTClient_destroy(&c);
+    }
+    
+    
+    printf("@@@@@@@@@@@@@@@@@Connecting start\n");
+    printf("connection : %s\n", options.connection);
+    rc = MQTTClient_connect(c, &opts);
+    printf("@@@@@@@@@@@@@@@@@Connecting finish and start subscribe\n\n\n");
+    rc = MQTTClient_subscribe(c, test_topic, subsqos);
+    printf("@@@@@@@@@@@@@@@@@subscribe finish\n\n\n");
+    
+
+
 }
 
 
