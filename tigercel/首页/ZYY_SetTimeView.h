@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol ZYY_SetTimeViewDelegate <NSObject>
 
--(void)setRunTimeWithArray:(NSArray *)array;
+-(BOOL)setRunTimeWithArray:(NSArray *)array;
 
 @end
 

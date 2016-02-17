@@ -187,8 +187,8 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSDictionary *requsetDict=@{@"emailAddress1":email,@"password":password,@"userName":userName,@"mobileNumber":mobileNumber,@"authCode":authCode};
 [[AFHTTPSessionManager manager]GET:urlStr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-        NSLog(@"%@",responseObject);
-        block(responseObject[@"status"]);
+        NSLog(@"%@",responseObject[@"msg"]);
+        block(responseObject[@"msg"]);
 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     [self showError];
 }];
@@ -227,12 +227,13 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         NSLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"data"] isKindOfClass:[NSNull class]])
         {
-            NSLog(@"123");
+            NSLog(@"没有设备数据");
         }
         else
         {
             NSArray *arr=responseObject[@"data"];
-            NSArray *listArr=[ZYY_LED getEquipmentListWithArr:arr];
+     //       NSArray *listArr=[ZYY_LED getEquipmentListWithArr:arr];
+            NSArray *listArr=[NSArray array];
             block(listArr);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -265,19 +266,21 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSDictionary *requeseDict=@{@"mobileNumber":telNum,@"password":password};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requeseDict progress: nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict=responseObject[@"data"];
+        NSLog(@"登陆反馈信息--%@",responseObject[@"msg"]);
         if (![dict isKindOfClass:[NSNull class]])
         {
             //用户数据初始化
             [[ZYY_User alloc]initWithDictionary:dict];
-            // NSLog(@"%@",dict);
+            NSLog(@"%@",dict);
             sussesedBlock();
         }
         else{
-            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"您的账号或者密码不正确，请重新输入" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message: responseObject[@"msg"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [av show];
             failedBlock();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failedBlock();
         NSLog(@"%@",error);
         [self showError];
     }];

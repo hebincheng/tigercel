@@ -32,14 +32,18 @@
     return self;
 }
 +(NSArray *)getEquipmentListWithArr:(NSArray *)arr{
+    NSLog(@"获取设备---%@",arr);
     NSMutableArray *listArr=[NSMutableArray array];
-    for (NSDictionary *dictObj in arr)
+    if (arr!=nil)
     {
-        ZYY_LED *led=[[ZYY_LED alloc]init];
-        [led setValuesForKeysWithDictionary:dictObj];
-        [listArr addObject:led];
+        for (NSDictionary *dictObj in arr)
+        {
+            ZYY_LED *led=[[ZYY_LED alloc]init];
+            [led setValuesForKeysWithDictionary:dictObj];
+            [listArr addObject:led];
+        }
+        NSLog(@"ZYY_LED---%@",listArr);
     }
-    NSLog(@"ZYY_LED---%@",listArr);
     return listArr;
 }
 

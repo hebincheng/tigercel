@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/8.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  主界面-设备列表界面
 
 #import "ZYY_HomeViewController.h"
 #import "AppDelegate.h"
@@ -40,6 +40,7 @@ static NSString *cellID=@"cellID";
     [_tableView reloadData];
 }
 -(void)viewDidDisappear:(BOOL)animated{
+    //调用单例 页面消失后 禁止滑动
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
@@ -52,7 +53,7 @@ static NSString *cellID=@"cellID";
         _LEDArr=[NSMutableArray array];
     }
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-#pragma mark 由于之前设备做的本地库保存  现在是从网络并刷新 所以暂时有待解决本地与网络之间的冲突
+#pragma mark 由于之前设备做的本地库保存  现在是从网络获取并刷新 所以暂时有待解决本地与网络之间的冲突
     [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
         //若在云端有设备列表 则赋值给LEDArr
         _LEDArr=[NSMutableArray arrayWithArray:lArr];

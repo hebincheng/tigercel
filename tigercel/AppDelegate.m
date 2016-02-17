@@ -27,7 +27,7 @@
     ZYY_LoginControl *loginView=[[ZYY_LoginControl alloc]initWithNibName:@"ZYY_LoginControl" bundle:nil];
     self.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:loginView];
     //设置导航条颜色
-    [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:167.0/255 green:220.0/255 blue:242.0/255 alpha:1.0] ];
+    [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0] ];
 //设置导航标题的颜色
 //     self.homeNavigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithRed:121.0/255 green:121.0/255 blue:121.0/255 alpha:1.0]};
     [self.window setRootViewController:self.homeNavigationController];

@@ -135,6 +135,10 @@
 		E784BD361C5F44DC00FB95A6 /* ZYY_LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
 		E78D1E831C4F7B4D0007A58F /* ZYY_User.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E821C4F7B4D0007A58F /* ZYY_User.m */; };
+		E7B7013E1C7308B3002EAFB4 /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E7B7013A1C7308B3002EAFB4 /* AsyncSocket.h */; };
+		E7B7013F1C7308B3002EAFB4 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B7013B1C7308B3002EAFB4 /* AsyncSocket.m */; };
+		E7B701401C7308B3002EAFB4 /* AsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E7B7013C1C7308B3002EAFB4 /* AsyncUdpSocket.h */; };
+		E7B701411C7308B3002EAFB4 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B7013D1C7308B3002EAFB4 /* AsyncUdpSocket.m */; };
 		E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */ = {isa = PBXBuildFile; fileRef = E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */; };
 		E7CA849B1C5B1EE700BADF92 /* ZYY_AddNewSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */; };
 		E7CA849C1C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */; };
@@ -351,6 +355,10 @@
 		E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_GetInfoFromInternet.m; sourceTree = "<group>"; };
 		E78D1E811C4F7B4D0007A58F /* ZYY_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_User.h; sourceTree = "<group>"; };
 		E78D1E821C4F7B4D0007A58F /* ZYY_User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_User.m; sourceTree = "<group>"; };
+		E7B7013A1C7308B3002EAFB4 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		E7B7013B1C7308B3002EAFB4 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		E7B7013C1C7308B3002EAFB4 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		E7B7013D1C7308B3002EAFB4 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_AddNewSceneView.h; sourceTree = "<group>"; };
 		E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_AddNewSceneView.m; sourceTree = "<group>"; };
 		E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_AddNewSceneView.xib; sourceTree = "<group>"; };
@@ -751,6 +759,10 @@
 		E76818561C61F05A009CCC27 /* AsyncSocket */ = {
 			isa = PBXGroup;
 			children = (
+				E7B7013A1C7308B3002EAFB4 /* AsyncSocket.h */,
+				E7B7013B1C7308B3002EAFB4 /* AsyncSocket.m */,
+				E7B7013C1C7308B3002EAFB4 /* AsyncUdpSocket.h */,
+				E7B7013D1C7308B3002EAFB4 /* AsyncUdpSocket.m */,
 				E76818571C61F05A009CCC27 /* GCDAsyncSocket.h */,
 				E76818581C61F05A009CCC27 /* GCDAsyncSocket.m */,
 				E76818591C61F05A009CCC27 /* GCDAsyncUdpSocket.h */,
@@ -832,6 +844,7 @@
 				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
 				E77BCB421C58D4DF000B8353 /* UIImageView+WebCache.h in Headers */,
 				E77BCB291C58D4DF000B8353 /* SDImageCache.h in Headers */,
+				E7B701401C7308B3002EAFB4 /* AsyncUdpSocket.h in Headers */,
 				E718B3C81C5A38F20024583B /* smtiot.h in Headers */,
 				E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */,
 				E768185B1C61F05A009CCC27 /* GCDAsyncSocket.h in Headers */,
@@ -853,6 +866,7 @@
 				E77BCB351C58D4DF000B8353 /* SDWebImageOperation.h in Headers */,
 				E77BCB2D1C58D4DF000B8353 /* SDWebImageDecoder.h in Headers */,
 				E77BCB331C58D4DF000B8353 /* SDWebImageManager.h in Headers */,
+				E7B7013E1C7308B3002EAFB4 /* AsyncSocket.h in Headers */,
 				E718B3C11C5A38F20024583B /* iot_mod_lwm2m.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1051,6 +1065,7 @@
 				E757D3781C40ACBE007F3A6D /* MASConstraint.m in Sources */,
 				E7169C101C429399003BD334 /* ZYY_ReBackView.m in Sources */,
 				E768185C1C61F05A009CCC27 /* GCDAsyncSocket.m in Sources */,
+				E7B701411C7308B3002EAFB4 /* AsyncUdpSocket.m in Sources */,
 				E7169C0B1C42936C003BD334 /* ZYY_UpdateDeviceView.m in Sources */,
 				E711F5921C3F990500485406 /* ZYY_HomeTableViewCell.m in Sources */,
 				E77AD7501C44FC62000A18C6 /* ZYY_EquipmentDetailVie.m in Sources */,
@@ -1063,6 +1078,7 @@
 				E73275EF1C45EE26002E2570 /* ZYY_ConnectEquipment.m in Sources */,
 				E7204E4F1C477308005D6C4D /* ZYY_GetColorFromImage.m in Sources */,
 				E7665B261C5074FD006F3AF0 /* AFNetworkReachabilityManager.m in Sources */,
+				E7B7013F1C7308B3002EAFB4 /* AsyncSocket.m in Sources */,
 				E77BCAAF1C5860A1000B8353 /* FeThreeDotGlow.m in Sources */,
 				E77AD7461C44D35B000A18C6 /* ZYY_ChangeCode.m in Sources */,
 				E77BCB431C58D4DF000B8353 /* UIImageView+WebCache.m in Sources */,

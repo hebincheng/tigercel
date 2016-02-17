@@ -425,7 +425,7 @@ static NSString *rightCellID=@"rightCellID";
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPat
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60;
 }
@@ -553,11 +553,62 @@ static NSString *rightCellID=@"rightCellID";
         [self reloadUI];
 }
 //设置定时数组  刷新数据
--(void)setRunTimeWithArray:(NSArray *)array
+-(BOOL)setRunTimeWithArray:(NSArray *)array
 {
+    __block BOOL enAble=YES;
+    for (NSArray *arr in _runTimeArr)
+    {
+        for (NSString *week in arr[2])//先判断重复的日期  如果没有相同则直接进入下一段循环
+        {
+            for (NSString *newWeek in array[2])//对比两者中有没有相同的星期数
+            {
+                if ([newWeek isEqualToString:week])
+                {
+                    NSLog(@"--------------");
+                    //检测闹钟是否冲突  
+                    BOOL enable=[self textClockTimeWithTimeArr:arr andAnOtherTimeArr:array];
+                    if (enable==YES)//说明闹钟有冲突
+                    {
+                        return NO;
+                    }
+                    else
+                    {
+                        [_runTimeArr addObject:array];
+                        [self reloadUI];
+                        return YES;
+                    }
+                }
+            }
+        }
+    }
     [_runTimeArr addObject:array];
     [self reloadUI];
+    return enAble;
 }
+#pragma mark  检测时钟是否冲突
+-(BOOL)textClockTimeWithTimeArr:(NSArray *)firstArr andAnOtherTimeArr:(NSArray *)secondArr
+{
+    NSString *firstStartTime=[NSString stringWithFormat:@"%@",firstArr[0]];
+    NSString *firsrEndTime=firstArr[1];
+    NSString *seconedStartTime=[NSString stringWithFormat:@"%@",secondArr[0]];
+    NSString *seconedEndTime=secondArr[1];
+    NSLog(@"%@---%@",firstStartTime,firsrEndTime);
+    NSLog(@"%@---%@",seconedStartTime,seconedEndTime);
+    if ([seconedStartTime compare:firsrEndTime]==NSOrderedDescending)
+    {
+        NSLog(@"开始时间比已有定时终止时间早");
+        return NO;
+    }
+    if ([seconedEndTime compare:firstStartTime]==NSOrderedAscending)
+    {
+        NSLog(@"结束时间比已有定时起始时间早");
+        return NO;
+    }
+    NSLog(@"%ld",[firstStartTime compare:seconedStartTime]);
+ 
+    return YES;
+}
+
 
 -(void)reloadUI{
     [_leftSliderArr removeAllObjects];
@@ -565,6 +616,8 @@ static NSString *rightCellID=@"rightCellID";
     [_leftTableView reloadData];
     [_rightTableView reloadData];
 }
+
+
 
 -(void)resetZhaoMingSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array
 {

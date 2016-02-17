@@ -132,10 +132,10 @@
 /*    DATA TYPE DECLARATIONS                                                 */
 /*****************************************************************************/  
 typedef struct {
-    int operation;
-    int objId;
-    int sequence;
-    int retCode;
+    uint16_t operation;
+    uint16_t objId;
+    uint16_t sequence;
+    uint16_t retCode;
     uint8_t *body;
 } iot_mod_json_lwm2m_header_t;                                                                                 
                                                                                  

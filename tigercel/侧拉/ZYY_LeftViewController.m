@@ -136,13 +136,13 @@ static NSString *cellID=@"tableViewCellID";
     //设置头像自动布局
     _imageBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     ZYY_User *user=[ZYY_User instancedObj];
+    [_imageBtn setBackgroundImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
     if (![user.titleMultiUrl isEqualToString:@""])
     {
            [_imageBtn sd_setImageWithURL:[NSURL URLWithString:user.titleMultiUrl] forState:UIControlStateNormal];
     }
-    else{
-        [_imageBtn setImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
-    }
+   
+
     //设置btn点击样式
     [_imageBtn setShowsTouchWhenHighlighted:YES];
     [_imageBtn addTarget:self action:@selector(tapImageBtn) forControlEvents:UIControlEventTouchUpInside];

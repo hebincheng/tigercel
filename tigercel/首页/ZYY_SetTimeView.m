@@ -85,6 +85,8 @@
 {
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
+    [dateFormatter setDateFormat:@"ahh:mm"];
     _begainTime=[dateFormatter stringFromDate:_beganTime.date];
     _overTime=[dateFormatter stringFromDate:_endTime.date];
     if ([_beganTime.date compare:_endTime.date]==NSOrderedDescending)
@@ -103,8 +105,15 @@
         {
             NSLog(@"%@-%@",_begainTime,_overTime);
             _timeArr=@[_begainTime,_overTime,_againWeek];
-            [_delegate setRunTimeWithArray:_timeArr];
-            [self.navigationController popViewControllerAnimated:YES];
+            BOOL sussece=[_delegate setRunTimeWithArray:_timeArr];
+            if (sussece)
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else{
+                UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"与已有定时冲突，请修改" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [av show];
+            }
         }
     }
 }

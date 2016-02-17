@@ -60,7 +60,7 @@
         [[ZYY_GetInfoFromInternet instancedObj]registAccountWithEmailAddress1:_mailText.text andPassword:_firstCode.text andUserName:nameStr andMobileNumber:_telNumber andAuthCode:_authCode and:^(id data)
         {
            //注册成功才会执行块函数 返回登陆界面
-            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"恭喜您注册成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message: data delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [av show];
         }];
     }

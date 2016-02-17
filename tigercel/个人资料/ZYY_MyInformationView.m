@@ -127,13 +127,12 @@ static NSString *pStr,*cStr,*tStr;
     [_telNumberLabel setText:_user.mobileNumber];
     [_emailLabel setText:_user.emailAddress1];
     [_IDLabel setText:[NSString stringWithFormat:@"ID:%@",_user.userId]];
-    //设置头像为圆形
+    //设置头像为圆形、
+   
+    [_touXiang setBackgroundImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
     if (![_user.titleMultiUrl isEqualToString:@""])
     {
         [_touXiang sd_setImageWithURL:[NSURL URLWithString:_user.titleMultiUrl] forState:UIControlStateNormal];
-    }
-    else{
-        [_touXiang setImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
     }
     [_touXiang.layer setCornerRadius:50.0f];
     [_touXiang.layer setMasksToBounds:YES];

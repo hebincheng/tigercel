@@ -108,7 +108,8 @@ static NSString *codetext=@"passWordText";
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text susseced:^{
         NSLog(@"登陆成功");
         [threeDot removeFromSuperview];
-        [self connectToMQTT];
+        //登陆成功后连接到MQTT服务
+      //  [self connectToMQTT];
     //登录成功执行的操作
     //获取用户信息（获取到的信息与登陆成功后反馈的消息是一致的 所以此处可以省略）
     //  ZYY_User *user=[ZYY_User instancedObj];
