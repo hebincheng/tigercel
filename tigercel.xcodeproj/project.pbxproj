@@ -88,6 +88,8 @@
 		E768185C1C61F05A009CCC27 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E76818581C61F05A009CCC27 /* GCDAsyncSocket.m */; };
 		E768185D1C61F05A009CCC27 /* GCDAsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E76818591C61F05A009CCC27 /* GCDAsyncUdpSocket.h */; };
 		E768185E1C61F05A009CCC27 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E768185A1C61F05A009CCC27 /* GCDAsyncUdpSocket.m */; };
+		E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */; };
+		E77258E11C7589E3001B9375 /* ZYY_MQTTConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */; };
 		E77AD7421C44A62B000A18C6 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = E77AD7411C44A62B000A18C6 /* Address.plist */; };
 		E77AD7461C44D35B000A18C6 /* ZYY_ChangeCode.m in Sources */ = {isa = PBXBuildFile; fileRef = E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */; };
 		E77AD7471C44D35B000A18C6 /* ZYY_ChangeCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = E77AD7451C44D35B000A18C6 /* ZYY_ChangeCode.xib */; };
@@ -300,6 +302,8 @@
 		E76818581C61F05A009CCC27 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		E76818591C61F05A009CCC27 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		E768185A1C61F05A009CCC27 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_MQTTConnect.h; sourceTree = "<group>"; };
+		E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_MQTTConnect.m; sourceTree = "<group>"; };
 		E77AD7411C44A62B000A18C6 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
 		E77AD7431C44D35B000A18C6 /* ZYY_ChangeCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_ChangeCode.h; sourceTree = "<group>"; };
 		E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_ChangeCode.m; sourceTree = "<group>"; };
@@ -827,6 +831,8 @@
 			children = (
 				E78D1E7E1C4F61780007A58F /* ZYY_GetInfoFromInternet.h */,
 				E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */,
+				E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */,
+				E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */,
 			);
 			name = NetWork;
 			path = "我的房间";
@@ -841,6 +847,7 @@
 			files = (
 				E718B3C01C5A38F20024583B /* cJSON.h in Headers */,
 				E77BCB361C58D4DF000B8353 /* SDWebImagePrefetcher.h in Headers */,
+				E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */,
 				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
 				E77BCB421C58D4DF000B8353 /* UIImageView+WebCache.h in Headers */,
 				E77BCB291C58D4DF000B8353 /* SDImageCache.h in Headers */,
@@ -1045,6 +1052,7 @@
 				E7030B6B1C4DF1730015F552 /* ZYY_ScrollView.m in Sources */,
 				E77AD74B1C44E323000A18C6 /* ZYY_RetrievePasswordView.m in Sources */,
 				E7CA849B1C5B1EE700BADF92 /* ZYY_AddNewSceneView.m in Sources */,
+				E77258E11C7589E3001B9375 /* ZYY_MQTTConnect.m in Sources */,
 				E77BCB281C58D4DF000B8353 /* NSData+ImageContentType.m in Sources */,
 				E757D37C1C40ACBE007F3A6D /* MASViewConstraint.m in Sources */,
 				E7665B281C5074FD006F3AF0 /* AFURLRequestSerialization.m in Sources */,

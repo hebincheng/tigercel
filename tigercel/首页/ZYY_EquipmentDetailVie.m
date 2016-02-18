@@ -15,6 +15,12 @@
 #import "ZYY_SetTimeView.h"
 #import "ZYY_TimeTableViewCell.h"
 #import "ZYY_ScrollView.h"
+//用于将jsonStr转化成m2m
+#import "iot_mod_lwm2m.h"
+#import "iot_mod_lwm2m_json.h"
+
+#import "MQTTClient.h"
+#import "MQTTClientPersistence.h"
 
 #define ScreeWidth ([[UIScreen mainScreen] bounds].size.width)
 #define ScreeHeight  ([[UIScreen mainScreen] bounds].size.height)
@@ -52,6 +58,7 @@
     
     //LED的属性
     ZYY_LED *_ledModel;
+    //数组中的第几台设备
     NSInteger _num;
     BOOL sign;
     
@@ -692,6 +699,7 @@ static NSString *rightCellID=@"rightCellID";
 #pragma mark 点击事件
 -(void)tapBack
 {
+#pragma mark 返回时保存设备参数
     NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
     NSLog(@"----%ld",_num);
     if (_num==0)
@@ -725,6 +733,7 @@ static NSString *rightCellID=@"rightCellID";
         [NSKeyedArchiver archiveRootObject:arr toFile:filePath];
         
     }
+    [_delegate reLoadTableView];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -782,4 +791,32 @@ static NSString *rightCellID=@"rightCellID";
     [self.navigationController pushViewController:set animated:YES];
     NSLog(@"添加定时");
 }
+#pragma mark  设备操作
+-(BOOL)controlEquipmentWithJsonString:(NSString *)jsonString
+{
+    char *sendData=(char*)[jsonString UTF8String];//将NSString转化成char*格式
+
+    int len;
+    iot_mod_json_lwm2m_header_t send_header, receive_header,header_test;
+    
+    memset(&send_header, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    memset(&receive_header, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    memset(&header_test, 0, sizeof(iot_mod_json_lwm2m_header_t));
+    
+    len = iot_mod_json_to_lwm2m(sendData, &send_header);//将json格式转化成m2m格式
+    unsigned char myPayload[2048];
+    
+    memcpy(myPayload, &send_header.operation, 2);
+    memcpy(myPayload+2, &send_header.sequence, 2);
+    memcpy(myPayload+4, &send_header.objId, 2);
+    memcpy(myPayload+6, &send_header.retCode, 2);
+    memcpy(myPayload+8, send_header.body, len);
+    
+    for (int i=0; i<len+8; i++)
+    {
+        NSLog(@"%02x",*(myPayload+i));
+    }
+    return YES;
+}
+
 @end

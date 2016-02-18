@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "ZYY_LED.h" 
+@protocol ZYY_EquipmentDetailVieDelegate <NSObject>
 
+-(void)reLoadTableView;
+
+@end
 
 @interface ZYY_EquipmentDetailVie : UIViewController
 
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andLEDInformation:(ZYY_LED *)led andNumber:(NSInteger )number;
 
+@property(nonatomic,weak)id<ZYY_EquipmentDetailVieDelegate> delegate;
 
 @end

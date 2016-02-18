@@ -15,8 +15,8 @@
 #import "ZYY_LED.h"
 #import "ZYY_User.h"
 #import "ZYY_GetInfoFromInternet.h"
-
-
+#import "FeThreeDotGlow.h"
+#import "ZYY_MQTTConnect.h"
 
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -32,6 +32,15 @@ static NSString *cellID=@"cellID";
 @implementation ZYY_HomeViewController
 
 -(void)viewWillAppear:(BOOL)animated{
+    if (_LEDArr==nil)
+    {
+        _LEDArr=[NSMutableArray array];
+    }
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
+        //若在云端有设备列表 则赋值给LEDArr
+        _LEDArr=[NSMutableArray arrayWithArray:lArr];
+        [_tableView reloadData];
+    }];
     //_filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
     //已添加的led设备数组
     //_LEDArr=[NSKeyedUnarchiver unarchiveObjectWithFile:_filePath];
@@ -45,20 +54,13 @@ static NSString *cellID=@"cellID";
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //初始化全局appdelegate
-    if (_LEDArr==nil)
-    {
-        _LEDArr=[NSMutableArray array];
-    }
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 #pragma mark 由于之前设备做的本地库保存  现在是从网络获取并刷新 所以暂时有待解决本地与网络之间的冲突
-    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
-        //若在云端有设备列表 则赋值给LEDArr
-        _LEDArr=[NSMutableArray arrayWithArray:lArr];
-        [_tableView reloadData];
-    }];
+
     [self loadUI];
     [self buildSceneUserDefault];
 }
@@ -137,13 +139,17 @@ static NSString *cellID=@"cellID";
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_LEDArr removeObjectAtIndex:indexPath.row];
-        [NSKeyedArchiver archiveRootObject:_LEDArr toFile:_filePath];
+      
+   //     [NSKeyedArchiver archiveRootObject:_LEDArr toFile:_filePath];
         //删除设备信息
-        [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserId:[[ZYY_User instancedObj] userId]];
-        
-        [_tableView reloadData];
-        [_tableView setEditing:NO animated:YES];
+        NSLog(@"%@",_LEDArr);
+        [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserToken:[[ZYY_User instancedObj] userToken]andBlock:^{
+            //服务器上删除成功后 删除本地缓存数组中对应的设备
+            [_LEDArr removeObjectAtIndex:indexPath.row];
+            //删除成功则刷新表格
+            [_tableView reloadData];
+            [_tableView setEditing:NO animated:YES];
+        }];
        // [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
     }
 }
@@ -179,8 +185,16 @@ static NSString *cellID=@"cellID";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
-    [self.navigationController pushViewController:equipmentView animated:YES];
+    //添加登陆加载动画
+    FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
+    [self.view addSubview:threeDot];
+    [threeDot show];
+#pragma mark调用函数获取设备信息
+    [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
+        NSLog(@"%@",data);
+    }];
+//    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
+//    [self.navigationController pushViewController:equipmentView animated:YES];
 }
 //返回删除模式
 - (UITableViewCellEditingStyle)tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath{
@@ -228,4 +242,5 @@ static NSString *cellID=@"cellID";
         [_homeAD.LeftSlideVC closeLeftView];
     }
 }
+
 @end

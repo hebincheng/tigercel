@@ -39,6 +39,9 @@
         for (NSDictionary *dictObj in arr)
         {
             ZYY_LED *led=[[ZYY_LED alloc]init];
+            //测试。
+            led.currentSceneName=@"休闲";
+            led.zhaoMingArr=@[@"80",@"20",@"20"];
             [led setValuesForKeysWithDictionary:dictObj];
             [listArr addObject:led];
         }

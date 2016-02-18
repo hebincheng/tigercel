@@ -10,6 +10,7 @@
 
 @interface ZYY_HomeViewController : UIViewController
 
+
 @property(nonatomic,strong)UINavigationController *nav;
 
 @end

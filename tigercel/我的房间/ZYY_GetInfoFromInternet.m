@@ -17,7 +17,7 @@ static NSString *versionStr=@"hufu/app/andriod/getAndroidVersion.do?";//版本�
 static NSString *feedBackStr=@"hufu/app/feedback/addFeedBack.do?";//反馈发送请求
 static NSString *loginStr=@"hufu/app/member/login.do?";//登陆请求
 static NSString *logoutStr=@"hufu/app/member/logout.do?";//注销登录
-static NSString *getListStr=@"hufu/app/share/findSharedDeviceByUser.do?";//获取设备列表
+static NSString *getListStr=@"hufu/app/userdevice/searchUserDevice.do?";//获取设备列表
 static NSString *deleteStr=@"hufu/app/userdevice/deleteUserDevice.do?";//删除设备
 static NSString *sendYZMStr=@"hufu/app/common/getAuthCode.do?";//发送验证码
 static NSString *registStr=@"hufu/app/member/regist.do?";//注册接口
@@ -60,7 +60,8 @@ static ZYY_GetInfoFromInternet *_instancedObj;
             block();
         }
         else{
-            NSLog(@"失败");
+            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:responseObject[@"msg"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [av show];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
@@ -72,8 +73,6 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 #pragma mark 获取用户信息
 -(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId{
     NSString *urlStr=[urlPathStr stringByAppendingString:getUserInfoStr];
-    
-    NSLog(@"%@",[NSString stringWithFormat:@"%@%@&%@&",urlStr,userToken,sessionId]);
     NSDictionary *requestDict=@{@"userToken":userToken,@"sessionId":sessionId};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
@@ -87,7 +86,6 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     
     
     NSString *urlStr=[urlPathStr stringByAppendingString:changeUserImageStr];
-    NSLog(@"%@userId=%@&sessionId=%@&",urlStr,userId,sessionId);
     NSDictionary *requestDict=@{@"userId":userId,@"sessionId":sessionId};
     //NSLog(@"%@?urlStr=%@&sessionId=%@&",urlStr,userId,sessionId);
     
@@ -144,13 +142,21 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 添加设备
--(void)addEquipmentWithDeviceModel:(NSString *)deviceModel andSoftWareNumber:(NSString *)softWareNumber andDeviceName:(NSString *)deviceName andSessionId:(NSString *)sessionId andDeviceType:(NSString *)deviceType andDeviceId:(NSString *)deviceId andUserId:(NSString *)userId{
+-(void)addEquipmentWithDeviceModel:(NSString *)deviceModel andSoftWareNumber:(NSString *)softWareNumber andDeviceName:(NSString *)deviceName andSessionId:(NSString *)sessionId andDeviceType:(NSString *)deviceType andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken andBlock:(void (^)(void))block
+{
     NSString *urlStr=[urlPathStr stringByAppendingString:addDeviceStr];
-    NSDictionary*requestDct=@{@"deviceModel":deviceModel,@"softWareNumber":softWareNumber,@"deviceName":deviceName,@"sessionId":sessionId,@"deviceType":deviceType,@"deviceId":deviceId,@"userId":userId};
+    NSDictionary*requestDct=@{@"deviceModel":deviceModel,@"softWareNumber":softWareNumber,@"deviceName":deviceName,@"sessionId":sessionId,@"deviceType":deviceType,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDct progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
             NSLog(@"设备添加成功");
+            block();
+        }
+        else {
+            UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:responseObject[@"msg"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [av show];
+        
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
@@ -207,11 +213,15 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 删除设备
--(void)deleteEquipmentWithSessiosID:(NSString *)sessionID andDeviceToken:(NSString *)deviceToken andUserId:(NSString *)userId{
+-(void)deleteEquipmentWithSessiosID:(NSString *)sessionID andDeviceToken:(NSString *)deviceToken andUserToken:(NSString *)userToken andBlock:(void (^)(void))block{
     NSString *urlSr=[urlPathStr stringByAppendingString:deleteStr];
-    NSDictionary *requsetDict=@{@"sessionId":sessionID,@"deviceToken":deviceToken,@"userId":userId};
+    NSDictionary *requsetDict=@{@"sessionId":sessionID,@"deviceToken":deviceToken,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlSr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"删除设备--%@",responseObject[@"msg"]);
+        if ([responseObject[@"msg"] isEqualToString:@"处理成功"])
+        {
+            block();
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -222,9 +232,6 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:getListStr];
     NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"-------------------------%@",responseObject);
-        NSLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"data"] isKindOfClass:[NSNull class]])
         {
             NSLog(@"没有设备数据");
@@ -232,8 +239,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         else
         {
             NSArray *arr=responseObject[@"data"];
-     //       NSArray *listArr=[ZYY_LED getEquipmentListWithArr:arr];
-            NSArray *listArr=[NSArray array];
+            NSArray *listArr=[ZYY_LED getEquipmentListWithArr:arr];
             block(listArr);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

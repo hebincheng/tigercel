@@ -21,8 +21,10 @@
 #import "iot_mod_lwm2m.h"
 #import "iot_mod_lwm2m_json.h"
 
-#import "MQTTClient.h"
-#import "MQTTClientPersistence.h"
+#import "ZYY_GetInfoFromInternet.h"
+#import "ZYY_User.h"
+
+#import "ZYY_MQTTConnect.h"
 
 @interface ZYY_ConnectEquipment ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,GCDAsyncUdpSocketDelegate,AsyncUdpSocketDelegate>
 {
@@ -34,8 +36,6 @@
     NSString *_modeStr;
     //加载动画
     FeThreeDotGlow *_threeDot;
-    //GCD UDP连接
-    GCDAsyncUdpSocket *_udpSocket;
     // udp连接
     AsyncUdpSocket *_socket;
     //程序时钟
@@ -67,7 +67,7 @@
     
 }
 #pragma mark -
-#pragma mark 发送设备连接消息
+#pragma mark 发送设备wifi连接消息
 -(void)sendConnectMessage
 {
     const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
@@ -89,17 +89,14 @@
     [dateFormat setDateFormat:@"yyyy/MM/dd hh:mm:ss"];
     NSString *dateStr=[dateFormat stringFromDate:date];
     //NSLog(@"%@",dateStr);
-    
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
-    
     // discovery消息的格式解析操作
     NSString *str=[NSString stringWithFormat:@"{\"discoveryQuery\": {\"sourceIP\": \"%@\",\"sourcePort\": \"1234\",\"timestamp\": \"%@\"}}",ipStr,dateStr];
     char *discoverData=(char*)[str UTF8String];//将NSString转化成char*格式
     
     char *tmp_tlv;    //设置用于接收字符解析出来的字符指针和字符的长度
     int ret;
-    
     //printf("start:\n");
     ret = discovery_json_parse(discoverData, &tmp_tlv);
     //将解析出来的字符数组转成data,ret解析出的字节数
@@ -107,59 +104,6 @@
     NSData *data = [NSData dataWithBytes: tmp_tlv length:ret];
     return data;
 }
-#pragma mark  二阶段发送的数据
--(NSData *)getEquipmentInfoData
-{
-    //  char hh2[17]={0x08, 0x00, 0xE, 0xC0, 0x16, 0xC0, 0x00, 0xC0, 0x11, 0xC0, 0x01, 0xC0, 0x02, 0xC0, 0x12, 0xC0, 0x13};
-    char hh[] = "{"
-    "\"operation\":\"readREQ\","
-    "\"sequence\":12345,"
-    "\"object\":{"
-    "\"objId\":\"device\","
-    "\"objInstances\":["
-    "{"
-    "\"objInstanceId\":\"single\","
-    "\"resources\":["
-    "{\"resId\":\"MAC\"},"
-    "{\"resId\":\"manufacturer\"},"
-    "{\"resId\":\"deviceType\"},"
-    "{\"resId\":\"moduleNumber\"},"
-    "{\"resId\":\"serialNumber\"},"
-    "{\"resId\":\"hardwareVersion\"},"
-    "{\"resId\":\"firmwareVersion\"},"
-    "{\"resId\":\"softwareVersion\"},"
-    "{\"resId\":\"rebindFlag\"}"
-    "]"
-    "}"
-    "]"
-    "}"
-    "}";
-    int len;
-    iot_mod_json_lwm2m_header_t send_header;
-    memset(&send_header, 0, sizeof(iot_mod_json_lwm2m_header_t));
-    
-    len = iot_mod_json_to_lwm2m(hh, &send_header);
-    
-    printf("he\n");
-    printf("len=%d\n", len);
-    
-    for(int i=0; i<len; i++)
-    {
-        printf("%02x\t",send_header.body[i]);
-    }
-    
-    char aa[300];
-    memcpy(aa, &send_header, sizeof(send_header));
-    
-    for (int i=0; i<sizeof(send_header); i++)
-    {
-        NSLog(@"%d",aa[i]);
-    }
-    
-    NSData *data = [NSData dataWithBytes: &send_header length:len];
-    return data;
-}
-
 
 #pragma mark 获取手机当前ip
 -(NSString *)getIPAddress{
@@ -190,27 +134,23 @@
 #pragma mark 发送广播包
 -(void)sendUDPData
 {
-//    //UDP异步广播包
-//    _udpSocket=[[GCDAsyncUdpSocket alloc]initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-//    
-    NSError *error=nil;
-//    [_udpSocket bindToPort:6666 error:&error];//绑定端口
-//    [_udpSocket enableBroadcast:YES error:&error];//允许广播 必须 否则后面无法发送组播和广播
-//    [_udpSocket beginReceiving:nil];//会一直接收设备相应的数据
-//    
-//    //   [_udpSocket receiveOnce:nil];
-//    NSLog(@"开始发送广播包");
     _socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
-    //绑定端口
+     NSError *error=nil;
+    
     [_socket bindToPort:9001 error:&error];
+    
     [_socket enableBroadcast:YES error:&error];
-    NSLog(@"11111111");
+//    [_socket closeAfterReceiving];
     NSLog(@"开始广播>>>>>>>>>>>>>>>>>>>");
 }
 
 
 #pragma mark AsyncUdpSocket代理方法
 
+-(void)onUdpSocket:(AsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
+{
+    NSLog(@"%@",error.description);
+}
 
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
     
@@ -220,20 +160,55 @@
     char *receiveData=(char *)[data bytes];
     char *tmp_js;//用于接收解析后的数据
     discovery_tlv_parse(receiveData, ret, &tmp_js);//将受到的数据转成char*类型后进行解析
-    
+#pragma mark 解析第一阶段收到设备返回的数据
     NSData *jsonData=[NSData dataWithBytes:tmp_js length:strlen(tmp_js)];
     NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];//把解析出来char*转成jsonData 然后转到字典中;
     
-#pragma mark  根据接收到数据 解析出来数据
+// 根据接收到数据 解析出来数据
     NSDictionary *dict=receiveDict[@"discoveryQuery"];
     NSString *sourceIP=dict[@"sourceIP"];
     NSString *sourcePort=dict[@"sourcePort"];
     NSString *timestamp=dict[@"timestamp"];
     NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
+
+    [[ZYY_MQTTConnect instancedObj]connectToNewDeviceWithIp:sourceIP andPort:[sourcePort intValue] block:^(id data) {
+        //解析得到的json类型的data
+        NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSDictionary *objDict=receiveDict[@"object"];
+        NSArray *insArr=objDict[@"objInstances"];
+        NSDictionary *insDict=insArr[0];
+        NSArray *resourceArr=insDict[@"resources"];//此层为资源层。设备反馈的消息都在此数组。
+        //获取deviceType 设备类型
+        NSDictionary *deviceTypeDict=resourceArr[2];
+        NSArray *typeArr=deviceTypeDict[@"resInstances"];
+        NSDictionary *typeDict=typeArr[0];
+        NSString *deviceType=typeDict[@"value"];
+        //获取softWareNumber 软件版本
+        NSDictionary *softWareDict=resourceArr[6];
+        NSArray *softWareArr=softWareDict[@"resInstances"];
+        NSDictionary *softDict=softWareArr[0];
+        NSString *softWareNumber=softDict[@"value"];
+        //获取设备ID
+        NSDictionary *MACDict=resourceArr[0];
+        NSArray *MACArr=MACDict[@"resInstances"];
+        NSDictionary *MACIdDict=MACArr[0];
+        NSString *deviceId=MACIdDict[@"value"];
+        //设备名字
+        NSString *deviceName=@"LED";//默认新的设备名字为LED
+        
+        NSLog(@"%@--%@--%@--%@",deviceType,softWareNumber,deviceId,deviceName);
+        
+#pragma mark 第三阶段调用方法添加新设备
+        NSString * deviceModel=@"123";//设备型号
+        ZYY_User *user=[ZYY_User instancedObj];
+        
+        [[ZYY_GetInfoFromInternet instancedObj]addEquipmentWithDeviceModel:deviceModel andSoftWareNumber: softWareNumber andDeviceName: deviceName andSessionId:user.sessionId andDeviceType:deviceType andDeviceId:deviceId andUserToken:user.userToken andBlock:^{
+            // 加载设备控制视图
+            ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
+            [self.navigationController pushViewController:equipmentView animated:YES];
+        }];
+    }];
     
-    [self connectToMQTTWithIp:sourceIP andPort:[sourcePort intValue]];
-    
-    [_udpSocket close];
     //收到数据后暂停发送广播
     [_runTime invalidate];
     _runTime=nil;
@@ -241,268 +216,6 @@
     [_threeDot removeFromSuperview];
 
     return YES;
-}
-
-
-
-#pragma mark GCDAsyncUdpSocket代理方法
--(void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error{
-    NSLog(@"%@",error);
-}
--(void)udpSocket:(GCDAsyncUdpSocket *)sock didConnectToAddress:(NSData *)address{
-    NSLog(@"已连接上%@",address);
-}
--(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext{
-    
-    NSLog(@"成功接收到设备反馈的消息");
-    int ret=(int)data.length;//接收到数据的长度
-    char *receiveData=(char *)[data bytes];
-    char *tmp_js;//用于接收解析后的数据
-    discovery_tlv_parse(receiveData, ret, &tmp_js);//将受到的数据转成char*类型后进行解析
-    
-    NSData *jsonData=[NSData dataWithBytes:tmp_js length:strlen(tmp_js)];
-    NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];//把解析出来char*转成jsonData 然后转到字典中;
-    
-#pragma mark  根据接收到数据 解析出来数据
-    NSDictionary *dict=receiveDict[@"discoveryQuery"];
-    NSString *sourceIP=dict[@"sourceIP"];
-    NSString *sourcePort=dict[@"sourcePort"];
-    NSString *timestamp=dict[@"timestamp"];
-    NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
-    
-    [self connectToMQTTWithIp:sourceIP andPort:[sourcePort intValue]];
-    
-    [_udpSocket close];
-    //收到数据后暂停发送广播
-    [_runTime invalidate];
-    _runTime=nil;
-    //把加载动画移除
-    [_threeDot removeFromSuperview];
-    
-}
--(void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error{
-    NSLog(@"%@",error.description);
-}
-
--(void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag{
-    NSLog(@"广播包发送中........................");
-}
-#pragma mark  连接到mqttServer
--(void)connectToMQTTWithIp:(NSString *)ip andPort:(int)port;
-{
-    struct Options
-    {
-        char* connection;         /**< connection to system under test. */
-        char** haconnections;
-        int hacount;
-        int verbose;
-        int test_no;
-        int MQTTVersion;
-        int iterations;
-    } options =
-    {
-        "tcp://192.168.12.182:1883",
-        NULL,
-        0,
-        0,
-        0,
-        MQTTVERSION_DEFAULT,
-        1,
-    };
-    //    NSString *connectStr=[NSString stringWithFormat:@"tcp://%@:%d",ip,port];
-    //    options.connection=(char *)[connectStr UTF8String];
-    MQTTClient c;
-    MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
-  //  int subsqos = 2;
-    int rc = 0;
-    char* test_topic ="lwm2mProtocol";//用于连接设备
-    // int failures = 0;
-    
-    
-    opts.keepAliveInterval = 20;
-    opts.cleansession = 1;
-    opts.username = "guest";        //连到设备的账户名 密码
-    opts.password = "guest";
-    opts.MQTTVersion = options.MQTTVersion;
-    if (options.haconnections != NULL)
-    {
-        opts.serverURIs = options.haconnections;
-        opts.serverURIcount = options.hacount;
-    }
-    
-    opts.will = &wopts;
-    opts.will->message = "will message";
-    opts.will->qos = 1;
-    opts.will->retained = 0;
-    opts.will->topicName = "will topic";
-    opts.will = NULL;
-    
-    rc = MQTTClient_create(&c, options.connection, "single_threaded_test",
-                           MQTTCLIENT_PERSISTENCE_DEFAULT, NULL);
-    if (rc != MQTTCLIENT_SUCCESS)
-    {
-        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
-        MQTTClient_destroy(&c);
-    }
-    printf("----------------------Connecting start\n");
-    printf("connection : %s\n", options.connection);
-    rc = MQTTClient_connect(c, &opts);
-    if (rc != MQTTCLIENT_SUCCESS)
-    {
-        printf("(rc != MQTTCLIENT_SUCCESS)(%d)\n\n\n\n\n", rc);
-        MQTTClient_destroy(&c);
-    }
-    printf("----------------------Connecting finish and start subscribe\n\n\n");
-    MQTTClient_deliveryToken dt;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_message* m = NULL;
-    char* topicName = NULL;
-    int topicLen;
-    int i = 0;
-    int iterations = 50;
-      //------------------------------------------待解析的数据
-    char hh[] = "{"
-    "\"operation\":\"readREQ\","
-    "\"sequence\":12345,"
-    "\"object\":{"
-    "\"objId\":\"device\","
-    "\"objInstances\":["
-    "{"
-    "\"objInstanceId\":\"single\","
-    "\"resources\":["
-    "{\"resId\":\"MAC\"},"
-    "{\"resId\":\"manufacturer\"},"
-    "{\"resId\":\"deviceType\"},"
-    "{\"resId\":\"moduleNumber\"},"
-    "{\"resId\":\"serialNumber\"},"
-    "{\"resId\":\"hardwareVersion\"},"
-//    "{\"resId\":\"firmwareVersion\"},"//无法反馈对应数据
-    "{\"resId\":\"softwareVersion\"},"
-    "{\"resId\":\"rebindFlag\"}"
-    "]"
-    "}"
-    "]"
-    "}"
-    "}";
-    int len;
-    iot_mod_json_lwm2m_header_t send_header, receive_header,header_test;
-    
-    memset(&send_header, 0, sizeof(iot_mod_json_lwm2m_header_t));
-    memset(&receive_header, 0, sizeof(iot_mod_json_lwm2m_header_t));
-    memset(&header_test, 0, sizeof(iot_mod_json_lwm2m_header_t));
-    
-    len = iot_mod_json_to_lwm2m(hh, &send_header);//将json格式转化成m2m格式
-    unsigned char myPayload[2048];
-    
-    memcpy(myPayload, &send_header.operation, 2);
-    memcpy(myPayload+2, &send_header.sequence, 2);
-    memcpy(myPayload+4, &send_header.objId, 2);
-    memcpy(myPayload+6, &send_header.retCode, 2);
-    memcpy(myPayload+8, send_header.body, len);
-    
-    for (int i=0; i<len+8; i++) {
-        NSLog(@"%02x",*(myPayload+i));
-    }
-
-    //
-//    NSLog(@"测试解析后的数据是否能够正确还原-------开始------------");
-//    
-//    header_text.retCode=0;
-//    header_text.objId=3;
-//    header_text.operation=2;
-//    int len_text;
-//    len_text = iot_mod_lwm2m_to_json((char *)(myPayload+8), len, &header_text);
-//    printf("len=%d\n", len_text);
-//    printf("json:\n%s\n", header_text.body);
-
-    
-//    MyLog(LOGA_DEBUG, "%d messages at QoS %d", iterations, qos);
-#pragma mark  发出数据----------------------------------
-
-    pubmsg.payload = myPayload;
-    pubmsg.payloadlen = 8+len;
-    pubmsg.qos = 0;
-    pubmsg.retained = 0;
-    
-    for (i = 0; i< iterations; ++i)
-    {
-        if (i % 10 == 0)
-            rc = MQTTClient_publish(c, test_topic, pubmsg.payloadlen, pubmsg.payload, pubmsg.qos, pubmsg.retained, &dt);
-        else
-            rc = MQTTClient_publishMessage(c, test_topic, &pubmsg, &dt);
-        
-        if(rc != MQTTCLIENT_SUCCESS)
-        {
-            printf("@@@@@(rc != MQTTCLIENT_SUCCESS)1\n");
-        }
-        
-//        if (0 > 0)
-//        {
-//            rc = MQTTClient_waitForCompletion(c, dt, 5000L);
-//            if(rc != MQTTCLIENT_SUCCESS)
-//            {
-//                printf("@@@@@(rc != MQTTCLIENT_SUCCESS)2\n");
-//            }
-//        }
-        
-        rc = MQTTClient_receive(c, &topicName, &topicLen, &m, 5000);
-        if(rc != MQTTCLIENT_SUCCESS)
-        {
-            printf("@@@@@(rc != MQTTCLIENT_SUCCESS)3\n");
-        }
-#pragma mark读取数据--------------------------------------
-        NSLog(@"/---------------------------------------/");
-       
-        //memcpy(receiveData, m->payload, m->payloadlen);
-        NSLog(@"%d",m->payloadlen);
-        for (int i=0; i<m->payloadlen; i++)
-        {
-            NSLog(@"%02x",*((char *)(m->payload)+i));
-        }
-        
-//        iot_mod_json_lwm2m_header_t *header3;
-//        header3 = (iot_mod_json_lwm2m_header_t *)m->payload;
-        
-        receive_header.retCode=0;
-        receive_header.objId=3;
-        receive_header.operation=2;
-        
-        len = iot_mod_lwm2m_to_json(m->payload+8, m->payloadlen-8, &receive_header);
-        
-        printf("len=%d\n", len);
-        printf("json:\n%s\n", receive_header.body);
-        
-        
-        
-        NSLog(@"/---------------------------------------/");
-        if (topicName)
-        {
-//            MyLog(LOGA_DEBUG, "Message received on topic %s is %.*s", topicName, m->payloadlen, (char*)(m->payload));
-            if (pubmsg.payloadlen != m->payloadlen ||
-                memcmp(m->payload, pubmsg.payload, m->payloadlen) != 0)
-            {
-//                failures++;
-//                MyLog(LOGA_INFO, "Error: wrong data - received lengths %d %d", pubmsg.payloadlen, m->payloadlen);
-                break;
-            }
-            MQTTClient_free(topicName);
-            MQTTClient_freeMessage(&m);
-        }
-        else
-            printf("No message received within timeout period\n");
-    }
-    
-    /* receive any outstanding messages */
-    MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
-    while (topicName)
-    {
-        printf("Message received on topic %s is %.*s.\n", topicName, m->payloadlen, (char*)(m->payload));
-        MQTTClient_free(topicName);
-        MQTTClient_freeMessage(&m);
-        MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
-    }
-
 }
 
 #pragma mark -
@@ -638,10 +351,6 @@
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
         [self.view addSubview:_threeDot];
         [_threeDot show];
-        
-// 加载设备控制视图
-//        ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
-//        [self.navigationController pushViewController:equipmentView animated:YES];
     }
 }
 #pragma mark-

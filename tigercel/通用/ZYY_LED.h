@@ -18,7 +18,7 @@
 @property(nonatomic,copy)NSString *currentSceneName;
 //照明模式应用场景
 @property(nonatomic,strong)NSArray *zhaoMingArr;
-//氛围模式应用场景
+//氛围模式应用场景  只存储照明模式
 @property(nonatomic,strong)NSArray *fenWeiArr;
 //定时数组
 @property(nonatomic,strong)NSArray *timeArr;
@@ -38,7 +38,8 @@
 @property (nonatomic, copy) NSString *deviceToken;
 //设备模式
 @property (nonatomic, copy) NSString *deviceModel;
-
+//用户设备ID
+@property (nonatomic, copy) NSString *userDeviceId;
 +(NSArray *)getEquipmentListWithArr:(NSArray *)arr;
 
 
