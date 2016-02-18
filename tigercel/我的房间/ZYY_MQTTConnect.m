@@ -320,15 +320,13 @@ static ZYY_MQTTConnect *_instancedObj;
 
 #pragma mark-
 #pragma mark mqtt publish/receive函数
--(void)sendRequsetMessageWithContent:(char *)requestContent DeviceToken:(NSString *)deviceToken andReceiveDataBlock:(void (^)(id))block{
+-(void)sendRequsetMessageWithContent:(char *)requestContent andTopicString:(char *)topic  andReceiveDataBlock:(void (^)(id))block{
     NSLog(@"首页的mqtt的地址%p",_MQTTClint);
     MQTTClient_deliveryToken dt;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_message* m = NULL;
     //把deviceToken转成char*
-    NSString *topicStr=[NSString stringWithFormat:@"/control_request/device/appliance/lamp/%@/user/%@",deviceToken,[[ZYY_User instancedObj] userToken]];
-    char *test_topic=(char*)[topicStr UTF8String];
-    NSLog(@"%s",test_topic);
+   
     //读取灯的基本信息
     
     //  NSLog(@"%s",requestContent);
@@ -361,7 +359,7 @@ static ZYY_MQTTConnect *_instancedObj;
     pubmsg.qos = 0;
     pubmsg.retained = 0;
     
-    rc = MQTTClient_publish(_MQTTClint, test_topic, pubmsg.payloadlen, pubmsg.payload, pubmsg.qos, pubmsg.retained, &dt);
+    rc = MQTTClient_publish(_MQTTClint, topic, pubmsg.payloadlen, pubmsg.payload, pubmsg.qos, pubmsg.retained, &dt);
     NSLog(@"publish---%d",rc);
     rc = MQTTClient_receive(_MQTTClint, &topicName, &topicLen, &m, 5000);
     NSLog(@"receive---%d",rc);
@@ -414,8 +412,11 @@ static ZYY_MQTTConnect *_instancedObj;
     "]"
     "}"
     "}";
+    NSString *topicStr=[NSString stringWithFormat:@"/control_request/device/appliance/lamp/%@/user/%@",deviceToken,[[ZYY_User instancedObj] userToken]];
+    char *test_topic=(char*)[topicStr UTF8String];
+    NSLog(@"%s",test_topic);
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent DeviceToken:deviceToken andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent  andTopicString:test_topic andReceiveDataBlock:^(id data) {
         block(data);
     }];
 }

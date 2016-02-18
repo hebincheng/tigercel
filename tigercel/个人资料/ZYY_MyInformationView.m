@@ -368,7 +368,9 @@ static NSString *pStr,*cStr,*tStr;
     [appDelegate.leftView.imageBtn setImage:image forState:UIControlStateNormal];
     
 #pragma mark 调用头像修改的接口
-    [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath];
+    [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath block:^{
+        
+    }] ;
 }
 
 #pragma mark  退出按钮

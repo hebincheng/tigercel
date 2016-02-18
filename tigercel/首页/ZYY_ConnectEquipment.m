@@ -156,6 +156,8 @@
     
     NSLog(@"成功接收到设备反馈的消息");
     NSLog(@"%d",port);
+    //收到相应则停止发送连接消息
+    StopSmartConnection();
     int ret=(int)data.length;//接收到数据的长度
     char *receiveData=(char *)[data bytes];
     char *tmp_js;//用于接收解析后的数据
@@ -208,7 +210,6 @@
             [self.navigationController pushViewController:equipmentView animated:YES];
         }];
     }];
-    
     //收到数据后暂停发送广播
     [_runTime invalidate];
     _runTime=nil;
@@ -339,7 +340,6 @@
     }
     else
     {
-         [self sendConnectMessage];
 #pragma mark发送udp广播包
         
         [self sendUDPData];
@@ -358,7 +358,10 @@
 -(void)step
 {
     _step++;//帧数++  1秒60次
-    if (_step==1||_step%180==0)
+    if(_step==1){
+        [self sendConnectMessage];
+    }
+    if (_step==1||_step%120==0)
     {
        
 #pragma mark 发送UDP广播

@@ -41,7 +41,7 @@
 //修改个人信息
 -(void)commitUserInformationWithBirthdate:(NSString *)birthdate andSex:(NSString *)sex andSessionId:(NSString *)sessionId andAddress:(NSString *)address andUserToken:(NSString *)userToken;
 //修改头像信息
--(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr;
+-(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr block:(void(^)(void))block;
 //获取用户信息
 -(void)getUserInfoWithUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId;
 //修改密码

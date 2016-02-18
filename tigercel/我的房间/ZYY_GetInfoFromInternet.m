@@ -82,7 +82,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 修改用户头像
--(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr{
+-(void)changeUserImageWithUserId:(NSString *)userId andSessionId:(NSString *)sessionId andImageStr:(NSString *)imageStr block:(void (^)(void))block{
     
     
     NSString *urlStr=[urlPathStr stringByAppendingString:changeUserImageStr];
@@ -102,6 +102,10 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
         NSLog(@"%@",responseObject[@"msg"]);
+        if ([responseObject[@"msg"] isEqualToString:@"处理成功"])
+        {
+            block();
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
     {
         [self showError];
