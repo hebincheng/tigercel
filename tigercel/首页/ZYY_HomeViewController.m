@@ -18,12 +18,19 @@
 #import "FeThreeDotGlow.h"
 #import "ZYY_MQTTConnect.h"
 
+
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
+    //appDelegate代理
     AppDelegate *_homeAD;
+    //灯光数组
     NSMutableArray *_LEDArr;
     NSString *_filePath;
+    //程序运行时钟
+    CADisplayLink *_runTime;
+    //步数
+    NSInteger _step;
 }
 @end
 
@@ -53,16 +60,32 @@ static NSString *cellID=@"cellID";
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
-
+-(void)step{
+    _step++;
+//    MQTTClient mqtt=[[ZYY_MQTTConnect instancedObj]MQTTClint];
+//    if (_step%(20*60)==0)
+//    {
+//        MQTTClient_retry();
+//        NSLog(@"11111");
+//    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     //初始化全局appdelegate
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 #pragma mark 由于之前设备做的本地库保存  现在是从网络获取并刷新 所以暂时有待解决本地与网络之间的冲突
-
+    _step=0;
+    _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
+    [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    
     [self loadUI];
     [self buildSceneUserDefault];
+    //订阅设备
+    for (ZYY_LED *led in _LEDArr)
+    {
+        [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
+    }
 }
 #pragma mark-
 #pragma mark如果设备第一次登陆登陆 则将默认的照明模式数组 和氛围模式数据存储
@@ -191,6 +214,7 @@ static NSString *cellID=@"cellID";
     [threeDot show];
 #pragma mark调用函数获取设备信息
     [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
+        [threeDot removeFromSuperview];
         NSLog(@"%@",data);
     }];
 //    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];

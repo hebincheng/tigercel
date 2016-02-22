@@ -918,6 +918,7 @@ DLLExport void MQTTClient_free(void* ptr);
   */
 DLLExport void MQTTClient_destroy(MQTTClient* handle);
 
+DLLExport void MQTTClient_retry(void);
 #endif
 #ifdef __cplusplus
      }

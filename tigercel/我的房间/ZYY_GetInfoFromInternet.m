@@ -27,7 +27,7 @@ static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
 static NSString *changeUserImageStr=@"hufu/app/member/updateUserImg.do";//上传用户头像
 static NSString *getUserInfoStr=@"hufu/app/member/getUserInfo.do?";//获取用户信息
 static NSString *changePasswordStr=@"hufu/app/member/changePassword.do?";//修改用户密码
-
+static NSString *shareUserListStr=@"hufu/app/share/findUserByDevice.do?";//根据设备找用户
 
 static ZYY_GetInfoFromInternet *_instancedObj;
 
@@ -48,6 +48,16 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         _instancedObj=[super allocWithZone:zone];
     });
     return _instancedObj;
+}
+#pragma mark 根据设备查找用户
+-(void)getUserListWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+    NSString *urlStr=[urlPathStr stringByAppendingString:shareUserListStr];
+    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken,@"deviceToken":deviceToken};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject[@"msg"]);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
 }
 #pragma mark修改密码
 -(void)changeUserPasswordWithPassword:(NSString *)password andOldPassword:(NSString *)oldPassword andUserToken:(NSString *)userToken andSessionId:(NSString *)sessionId sussecdBlock:(void (^)(void))block{

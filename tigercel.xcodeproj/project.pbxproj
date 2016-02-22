@@ -88,6 +88,14 @@
 		E768185C1C61F05A009CCC27 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E76818581C61F05A009CCC27 /* GCDAsyncSocket.m */; };
 		E768185D1C61F05A009CCC27 /* GCDAsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E76818591C61F05A009CCC27 /* GCDAsyncUdpSocket.h */; };
 		E768185E1C61F05A009CCC27 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E768185A1C61F05A009CCC27 /* GCDAsyncUdpSocket.m */; };
+		E76A82341C7713E600FBDFCB /* ZYY_DeviceList.h in Headers */ = {isa = PBXBuildFile; fileRef = E76A82311C7713E600FBDFCB /* ZYY_DeviceList.h */; };
+		E76A82351C7713E600FBDFCB /* ZYY_DeviceList.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A82321C7713E600FBDFCB /* ZYY_DeviceList.m */; };
+		E76A82361C7713E600FBDFCB /* ZYY_DeviceList.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76A82331C7713E600FBDFCB /* ZYY_DeviceList.xib */; };
+		E76A823B1C771CBA00FBDFCB /* ZYY_DeviceListCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E76A82381C771CBA00FBDFCB /* ZYY_DeviceListCell.h */; };
+		E76A823C1C771CBA00FBDFCB /* ZYY_DeviceListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A82391C771CBA00FBDFCB /* ZYY_DeviceListCell.m */; };
+		E76A823D1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76A823A1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib */; };
+		E76A82401C771FD800FBDFCB /* ZYY_UserListView.h in Headers */ = {isa = PBXBuildFile; fileRef = E76A823E1C771FD800FBDFCB /* ZYY_UserListView.h */; };
+		E76A82411C771FD800FBDFCB /* ZYY_UserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */; };
 		E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */; };
 		E77258E11C7589E3001B9375 /* ZYY_MQTTConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */; };
 		E77AD7421C44A62B000A18C6 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = E77AD7411C44A62B000A18C6 /* Address.plist */; };
@@ -302,6 +310,14 @@
 		E76818581C61F05A009CCC27 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		E76818591C61F05A009CCC27 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		E768185A1C61F05A009CCC27 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		E76A82311C7713E600FBDFCB /* ZYY_DeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_DeviceList.h; sourceTree = "<group>"; };
+		E76A82321C7713E600FBDFCB /* ZYY_DeviceList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_DeviceList.m; sourceTree = "<group>"; };
+		E76A82331C7713E600FBDFCB /* ZYY_DeviceList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_DeviceList.xib; sourceTree = "<group>"; };
+		E76A82381C771CBA00FBDFCB /* ZYY_DeviceListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_DeviceListCell.h; sourceTree = "<group>"; };
+		E76A82391C771CBA00FBDFCB /* ZYY_DeviceListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_DeviceListCell.m; sourceTree = "<group>"; };
+		E76A823A1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_DeviceListCell.xib; sourceTree = "<group>"; };
+		E76A823E1C771FD800FBDFCB /* ZYY_UserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_UserListView.h; sourceTree = "<group>"; };
+		E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_UserListView.m; sourceTree = "<group>"; };
 		E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_MQTTConnect.h; sourceTree = "<group>"; };
 		E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_MQTTConnect.m; sourceTree = "<group>"; };
 		E77AD7411C44A62B000A18C6 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
@@ -415,11 +431,17 @@
 		E7030B6F1C4DF3F50015F552 /* ShareEquipment */ = {
 			isa = PBXGroup;
 			children = (
+				E76A82371C771C9800FBDFCB /* tableViewCell */,
 				E7030B701C4DF3F50015F552 /* ZYY_ChooseShareWayView.h */,
 				E7030B711C4DF3F50015F552 /* ZYY_ChooseShareWayView.m */,
 				E7030B721C4DF3F50015F552 /* ZYY_ShareMessageView.h */,
 				E7030B731C4DF3F50015F552 /* ZYY_ShareMessageView.m */,
 				E7030B741C4DF3F50015F552 /* ZYY_ShareMessageView.xib */,
+				E76A82311C7713E600FBDFCB /* ZYY_DeviceList.h */,
+				E76A82321C7713E600FBDFCB /* ZYY_DeviceList.m */,
+				E76A82331C7713E600FBDFCB /* ZYY_DeviceList.xib */,
+				E76A823E1C771FD800FBDFCB /* ZYY_UserListView.h */,
+				E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */,
 			);
 			name = ShareEquipment;
 			path = "我的分享";
@@ -775,6 +797,16 @@
 			path = AsyncSocket;
 			sourceTree = "<group>";
 		};
+		E76A82371C771C9800FBDFCB /* tableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E76A82381C771CBA00FBDFCB /* ZYY_DeviceListCell.h */,
+				E76A82391C771CBA00FBDFCB /* ZYY_DeviceListCell.m */,
+				E76A823A1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib */,
+			);
+			name = tableViewCell;
+			sourceTree = "<group>";
+		};
 		E77BCA9A1C585B7A000B8353 /* LoadingAnimationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -846,6 +878,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E718B3C01C5A38F20024583B /* cJSON.h in Headers */,
+				E76A823B1C771CBA00FBDFCB /* ZYY_DeviceListCell.h in Headers */,
 				E77BCB361C58D4DF000B8353 /* SDWebImagePrefetcher.h in Headers */,
 				E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */,
 				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
@@ -868,8 +901,10 @@
 				E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */,
 				E77BCB381C58D4DF000B8353 /* UIButton+WebCache.h in Headers */,
 				E77BCB2F1C58D4DF000B8353 /* SDWebImageDownloader.h in Headers */,
+				E76A82401C771FD800FBDFCB /* ZYY_UserListView.h in Headers */,
 				E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */,
 				E77BCB3C1C58D4DF000B8353 /* UIImage+MultiFormat.h in Headers */,
+				E76A82341C7713E600FBDFCB /* ZYY_DeviceList.h in Headers */,
 				E77BCB351C58D4DF000B8353 /* SDWebImageOperation.h in Headers */,
 				E77BCB2D1C58D4DF000B8353 /* SDWebImageDecoder.h in Headers */,
 				E77BCB331C58D4DF000B8353 /* SDWebImageManager.h in Headers */,
@@ -989,9 +1024,11 @@
 				E7169C1B1C4294CB003BD334 /* ZYY_MyInformationView.xib in Resources */,
 				E7204E5B1C4793A8005D6C4D /* ZYY_SetTimeView.xib in Resources */,
 				E757D3861C40CD61007F3A6D /* ZYY_LoginControl.xib in Resources */,
+				E76A82361C7713E600FBDFCB /* ZYY_DeviceList.xib in Resources */,
 				E7204E421C473B78005D6C4D /* ZYY_ChangeNameView.xib in Resources */,
 				E7204E501C477308005D6C4D /* ZYY_GetColorFromImage.xib in Resources */,
 				E711F55B1C3F95D800485406 /* LaunchScreen.storyboard in Resources */,
+				E76A823D1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib in Resources */,
 				E77AD7471C44D35B000A18C6 /* ZYY_ChangeCode.xib in Resources */,
 				E711F5581C3F95D800485406 /* Assets.xcassets in Resources */,
 				E7169C161C4293F0003BD334 /* ZYY_RoomView.xib in Resources */,
@@ -1069,6 +1106,7 @@
 				E757D37F1C40ACBE007F3A6D /* View+MASAdditions.m in Sources */,
 				E7665B291C5074FD006F3AF0 /* AFURLResponseSerialization.m in Sources */,
 				E77BCB391C58D4DF000B8353 /* UIButton+WebCache.m in Sources */,
+				E76A823C1C771CBA00FBDFCB /* ZYY_DeviceListCell.m in Sources */,
 				E7204E641C47A6A6005D6C4D /* ZYY_PickerDayView.m in Sources */,
 				E757D3781C40ACBE007F3A6D /* MASConstraint.m in Sources */,
 				E7169C101C429399003BD334 /* ZYY_ReBackView.m in Sources */,
@@ -1079,6 +1117,7 @@
 				E77AD7501C44FC62000A18C6 /* ZYY_EquipmentDetailVie.m in Sources */,
 				E757D37B1C40ACBE007F3A6D /* MASViewAttribute.m in Sources */,
 				E7169C061C428C07003BD334 /* ZYY_AboutView.m in Sources */,
+				E76A82351C7713E600FBDFCB /* ZYY_DeviceList.m in Sources */,
 				E757D37E1C40ACBE007F3A6D /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				E711F5A91C3FB8C700485406 /* UIView_extra.m in Sources */,
 				E7204E561C478308005D6C4D /* UIImageView+ZYY_GetColor.m in Sources */,
@@ -1109,6 +1148,7 @@
 				E7EE6CAB1C434A2F00CB3810 /* ZYY_UserReglationView.m in Sources */,
 				E77BCB371C58D4DF000B8353 /* SDWebImagePrefetcher.m in Sources */,
 				E77BCB3F1C58D4DF000B8353 /* UIImage+WebP.m in Sources */,
+				E76A82411C771FD800FBDFCB /* ZYY_UserListView.m in Sources */,
 				E711F5A81C3FB8C700485406 /* LeftSlideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

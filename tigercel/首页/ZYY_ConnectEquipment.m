@@ -26,7 +26,7 @@
 
 #import "ZYY_MQTTConnect.h"
 
-@interface ZYY_ConnectEquipment ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,GCDAsyncUdpSocketDelegate,AsyncUdpSocketDelegate>
+@interface ZYY_ConnectEquipment ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,GCDAsyncUdpSocketDelegate,AsyncUdpSocketDelegate,UIAlertViewDelegate>
 {
     //模式数组
     NSArray *_authModeArr;
@@ -50,6 +50,8 @@
     NSTimeInterval _timeout;
     //端口号
     UInt16 _port;
+    //二阶段返回的设备信息data
+    NSData *_deviceData;
 }
 @end
 
@@ -91,6 +93,7 @@
     //NSLog(@"%@",dateStr);
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
+    NSLog(@"%@",ipStr);
     // discovery消息的格式解析操作
     NSString *str=[NSString stringWithFormat:@"{\"discoveryQuery\": {\"sourceIP\": \"%@\",\"sourcePort\": \"1234\",\"timestamp\": \"%@\"}}",ipStr,dateStr];
     char *discoverData=(char*)[str UTF8String];//将NSString转化成char*格式
@@ -137,7 +140,7 @@
     _socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
      NSError *error=nil;
     
-    [_socket bindToPort:9001 error:&error];
+//    [_socket bindToPort:9001 error:&error];
     
     [_socket enableBroadcast:YES error:&error];
 //    [_socket closeAfterReceiving];
@@ -155,7 +158,6 @@
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
     
     NSLog(@"成功接收到设备反馈的消息");
-    NSLog(@"%d",port);
     //收到相应则停止发送连接消息
     StopSmartConnection();
     int ret=(int)data.length;//接收到数据的长度
@@ -166,55 +168,25 @@
     NSData *jsonData=[NSData dataWithBytes:tmp_js length:strlen(tmp_js)];
     NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];//把解析出来char*转成jsonData 然后转到字典中;
     
+    //收到数据后暂停发送广播
+    [_runTime invalidate];
+    _runTime=nil;
+    //把加载动画移除
+    [_threeDot removeFromSuperview];
+    
 // 根据接收到数据 解析出来数据
     NSDictionary *dict=receiveDict[@"discoveryQuery"];
     NSString *sourceIP=dict[@"sourceIP"];
     NSString *sourcePort=dict[@"sourcePort"];
     NSString *timestamp=dict[@"timestamp"];
     NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
-
+//获取新设备详情，成功后输入设备名字
     [[ZYY_MQTTConnect instancedObj]connectToNewDeviceWithIp:sourceIP andPort:[sourcePort intValue] block:^(id data) {
-        //解析得到的json类型的data
-        NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSDictionary *objDict=receiveDict[@"object"];
-        NSArray *insArr=objDict[@"objInstances"];
-        NSDictionary *insDict=insArr[0];
-        NSArray *resourceArr=insDict[@"resources"];//此层为资源层。设备反馈的消息都在此数组。
-        //获取deviceType 设备类型
-        NSDictionary *deviceTypeDict=resourceArr[2];
-        NSArray *typeArr=deviceTypeDict[@"resInstances"];
-        NSDictionary *typeDict=typeArr[0];
-        NSString *deviceType=typeDict[@"value"];
-        //获取softWareNumber 软件版本
-        NSDictionary *softWareDict=resourceArr[6];
-        NSArray *softWareArr=softWareDict[@"resInstances"];
-        NSDictionary *softDict=softWareArr[0];
-        NSString *softWareNumber=softDict[@"value"];
-        //获取设备ID
-        NSDictionary *MACDict=resourceArr[0];
-        NSArray *MACArr=MACDict[@"resInstances"];
-        NSDictionary *MACIdDict=MACArr[0];
-        NSString *deviceId=MACIdDict[@"value"];
-        //设备名字
-        NSString *deviceName=@"LED";//默认新的设备名字为LED
-        
-        NSLog(@"%@--%@--%@--%@",deviceType,softWareNumber,deviceId,deviceName);
-        
-#pragma mark 第三阶段调用方法添加新设备
-        NSString * deviceModel=@"123";//设备型号
-        ZYY_User *user=[ZYY_User instancedObj];
-        
-        [[ZYY_GetInfoFromInternet instancedObj]addEquipmentWithDeviceModel:deviceModel andSoftWareNumber: softWareNumber andDeviceName: deviceName andSessionId:user.sessionId andDeviceType:deviceType andDeviceId:deviceId andUserToken:user.userToken andBlock:^{
-            // 加载设备控制视图
-            ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil];
-            [self.navigationController pushViewController:equipmentView animated:YES];
-        }];
+        _deviceData=[NSData dataWithData:data];
+        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"请输入保存设备名字" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [av show];
     }];
-    //收到数据后暂停发送广播
-    [_runTime invalidate];
-    _runTime=nil;
-    //把加载动画移除
-    [_threeDot removeFromSuperview];
 
     return YES;
 }
@@ -264,7 +236,49 @@
     [_alert addAction:ok];
     [_alert addAction:cancel];
 }
-
+#pragma mark UIAlertView
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1)
+    {
+        UITextField *nameText=[alertView textFieldAtIndex:0];
+        
+        NSString *deviceName=nameText.text;
+        deviceName=[deviceName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //解析得到的json类型的data
+        NSDictionary *receiveDict=[NSJSONSerialization JSONObjectWithData:_deviceData options:NSJSONReadingAllowFragments error:nil];
+        NSDictionary *objDict=receiveDict[@"object"];
+        NSArray *insArr=objDict[@"objInstances"];
+        NSDictionary *insDict=insArr[0];
+        NSArray *resourceArr=insDict[@"resources"];//此层为资源层。设备反馈的消息都在此数组。
+        //获取deviceType 设备类型
+        NSDictionary *deviceTypeDict=resourceArr[2];
+        NSArray *typeArr=deviceTypeDict[@"resInstances"];
+        NSDictionary *typeDict=typeArr[0];
+        NSString *deviceType=typeDict[@"value"];
+        //获取softWareNumber 软件版本
+        NSDictionary *softWareDict=resourceArr[6];
+        NSArray *softWareArr=softWareDict[@"resInstances"];
+        NSDictionary *softDict=softWareArr[0];
+        NSString *softWareNumber=softDict[@"value"];
+        //获取设备ID
+        NSDictionary *MACDict=resourceArr[0];
+        NSArray *MACArr=MACDict[@"resInstances"];
+        NSDictionary *MACIdDict=MACArr[0];
+        NSString *deviceId=MACIdDict[@"value"];
+        
+        NSLog(@"%@--%@--%@--%@",deviceType,softWareNumber,deviceId,deviceName);
+        
+#pragma mark 第三阶段调用方法添加新设备
+        NSString * deviceModel=@"休闲";//设备型号
+        deviceModel=[deviceModel stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        ZYY_User *user=[ZYY_User instancedObj];
+        
+        [[ZYY_GetInfoFromInternet instancedObj]addEquipmentWithDeviceModel:deviceModel andSoftWareNumber: softWareNumber andDeviceName: deviceName andSessionId:user.sessionId andDeviceType:deviceType andDeviceId:deviceId andUserToken:user.userToken andBlock:^{
+            // 添加成功后返回首页
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+}
 #pragma mark 键盘的代理方法
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -340,13 +354,13 @@
     }
     else
     {
+        //wifi连接请求
+        [self sendConnectMessage];
 #pragma mark发送udp广播包
-        
         [self sendUDPData];
         //添加时钟循环
         _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
         [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        
 #pragma mark 添加加载动画
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
         [self.view addSubview:_threeDot];
@@ -358,9 +372,6 @@
 -(void)step
 {
     _step++;//帧数++  1秒60次
-    if(_step==1){
-        [self sendConnectMessage];
-    }
     if (_step==1||_step%120==0)
     {
        
@@ -374,11 +385,14 @@
     if(_step==60*60)
     {
         _step=0;
+        //停止发送wifi信息
+        StopSmartConnection();
+        //暂停时钟
         [_runTime invalidate];
         _runTime=nil;
         //若执行此段 则说明30秒未检测到设备,关闭加载视图
         [_threeDot removeFromSuperview];
-        
+
         UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"未所搜索到设备，请检查参数配置以及设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [av show];
     }

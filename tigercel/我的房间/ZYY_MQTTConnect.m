@@ -14,7 +14,9 @@
 static ZYY_MQTTConnect *_instancedObj;
 
 @implementation ZYY_MQTTConnect
-
+{
+   
+}
 #pragma mark-
 #pragma mark单例
 +(id)instancedObj{
@@ -32,7 +34,34 @@ static ZYY_MQTTConnect *_instancedObj;
     });
     return _instancedObj;
 }
-#pragma mark-
+
+
+
+volatile int test2_arrivedcount = 0;
+int test2_deliveryCompleted = 0;
+MQTTClient_message test2_pubmsg = MQTTClient_message_initializer;
+
+void test2_deliveryComplete(void* context, MQTTClient_deliveryToken dt)
+{
+    ++test2_deliveryCompleted;
+}
+
+int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClient_message* m)
+{
+    ++test2_arrivedcount;
+    printf("Callback: %d message received on topic %s is %.*s.",
+          test2_arrivedcount, topicName, m->payloadlen, (char*)(m->payload));
+    if (test2_pubmsg.payloadlen != m->payloadlen ||
+        memcmp(m->payload, test2_pubmsg.payload, m->payloadlen) != 0)
+    {
+        //failures++;
+        printf("Error: wrong data received lengths %d %d\n", test2_pubmsg.payloadlen, m->payloadlen);
+    }
+    MQTTClient_free(topicName);
+    MQTTClient_freeMessage(&m);
+    return 1;
+}
+
 #pragma mark登陆的时候连接到mqttserver
 -(void)connectToMQTTServerBlock:(void (^)(void))block{
     struct Options
@@ -47,8 +76,8 @@ static ZYY_MQTTConnect *_instancedObj;
     } options =
     {
         //"tcp://m2m.eclipse.org:1883",
-        "tcp://192.168.3.49:1243",
-        //"tcp://192.168.12.157:1243",
+        //"tcp://192.168.3.49:1243",
+        "tcp://192.168.12.124:1243",
         NULL,
         0,
         0,
@@ -59,9 +88,9 @@ static ZYY_MQTTConnect *_instancedObj;
     
     MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
     MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
-    int subsqos = 2;
+
     int rc = 0;
-    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
+//    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
     // int failures = 0;
     
     
@@ -91,16 +120,44 @@ static ZYY_MQTTConnect *_instancedObj;
         MQTTClient_destroy(&_MQTTClint);
     }
     
+    rc = MQTTClient_setCallbacks(_MQTTClint, NULL, NULL, test2_messageArrived, test2_deliveryComplete);
+    if (rc != MQTTCLIENT_SUCCESS)
+    {
+        printf("(rc != MQTTCLIENT_SUCCESS)(%d) in MQTTClient_setCallbacks()\n\n\n\n\n", rc);
+        MQTTClient_destroy(&_MQTTClint);
+    }
+    
+    
     printf("@@@@@@@@@@@@@@@@@Connecting start\n");
     printf("connection : %s\n", options.connection);
     rc = MQTTClient_connect(_MQTTClint, &opts);
     printf("@@@@@@@@@@@@@@@@@Connecting finish and start subscribe\n\n\n");
-    rc = MQTTClient_subscribe(_MQTTClint, test_topic, subsqos);
-    printf("@@@@@@@@@@@@@@@@@subscribe finish\n\n\n");
+    
     NSLog(@"登陆成功后的mqtt的地址%p",_MQTTClint);
+    
+    
+    
+    
     block();
+    
+    
 }
-#pragma mark-
+#pragma mark 订阅设备
+-(void)subscribeDeviceWithDeviceToken:(NSString *)deviceToken{
+    char * test_topic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    NSLog(@"%s",test_topic);
+    int rc;
+    int subsqos = 0;
+    rc = MQTTClient_subscribe(_MQTTClint, test_topic, subsqos);
+    NSLog(@"订阅设备----%@",rc?@"成功":@"失败");
+}
+#pragma mark订阅设备的topic
+-(char *)getGenerateTopicWithDeviceToken:(NSString *)deviceToken{
+    NSString *topicStr=[NSString stringWithFormat:@"/control_response/user/%@/device/appliance/lamp/%@",[[ZYY_User instancedObj] userToken],deviceToken];
+    char *test_topic=(char*)[topicStr UTF8String];
+    return test_topic;
+}
+
 #pragma mark发现新设备时候获取设备详情
 -(void)connectToNewDeviceWithIp:(NSString *)ip andPort:(int)port block:(void (^)(id data))block {
     struct Options
@@ -238,6 +295,8 @@ static ZYY_MQTTConnect *_instancedObj;
     pubmsg.qos = 0;
     pubmsg.retained = 0;
     
+    NSData *data=[NSData data];//用于接收收到的数据
+    
     for (i = 0; i< iterations; ++i)
     {
         if (i % 10 == 0)
@@ -286,26 +345,32 @@ static ZYY_MQTTConnect *_instancedObj;
         //printf("len=%d\n", len);//body的长度
         //printf("json:\n%s\n", receive_header.body);//数据内容
 #pragma mark 解析第二阶段收到设备返回的数据
-        NSData *data=[NSData dataWithBytes:receive_header.body length:len];
-        //返回data
-        block(data);
+        printf("No message received within timeout period1\n");
+        data=[NSData dataWithBytes:receive_header.body length:len];
+     
+     printf("No message received within timeout period2\n");
         if (topicName)
         {
+            printf("No message received within timeout period !!!\n");
             //            MyLog(LOGA_DEBUG, "Message received on topic %s is %.*s", topicName, m->payloadlen, (char*)(m->payload));
             if (pubmsg.payloadlen != m->payloadlen ||
                 memcmp(m->payload, pubmsg.payload, m->payloadlen) != 0)
             {
-                //                failures++;
-                //                MyLog(LOGA_INFO, "Error: wrong data - received lengths %d %d", pubmsg.payloadlen, m->payloadlen);
+                block(data);
+                //failures++;
+                //MyLog(LOGA_INFO, "Error: wrong data - received lengths %d %d", pubmsg.payloadlen, m->payloadlen);
+                NSLog(@"1111111111111111111111111");
                 break;
             }
             MQTTClient_free(topicName);
             MQTTClient_freeMessage(&m);
+            block(data);
         }
         else
             printf("No message received within timeout period\n");
+        printf("No message received within timeout period3\n");
+        //获取完data后返回data
     }
-    
     /* receive any outstanding messages */
     MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
     while (topicName)
@@ -315,10 +380,11 @@ static ZYY_MQTTConnect *_instancedObj;
         MQTTClient_freeMessage(&m);
         MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
     }
-
+    //返回data
+   
 }
 
-#pragma mark-
+
 #pragma mark mqtt publish/receive函数
 -(void)sendRequsetMessageWithContent:(char *)requestContent andTopicString:(char *)topic  andReceiveDataBlock:(void (^)(id))block{
     NSLog(@"首页的mqtt的地址%p",_MQTTClint);
@@ -391,13 +457,11 @@ static ZYY_MQTTConnect *_instancedObj;
         block(data);
     }
     else{
-        NSLog(@"未收到返回数据");
+        block(nil);
     }
     
 }
 
-
-#pragma mark-
 #pragma mark 控制设备的时候获取设备状态详情
 -(void)getDeviceInfoAndConnectToMQTTWithDeviceToken:(NSString *)deviceToken block:(void (^)(id))block{
     char *requestContent="{"
@@ -412,13 +476,17 @@ static ZYY_MQTTConnect *_instancedObj;
     "]"
     "}"
     "}";
+    
     NSString *topicStr=[NSString stringWithFormat:@"/control_request/device/appliance/lamp/%@/user/%@",deviceToken,[[ZYY_User instancedObj] userToken]];
     char *test_topic=(char*)[topicStr UTF8String];
     NSLog(@"%s",test_topic);
+    
     //调用mqtt publish发送请求
     [self sendRequsetMessageWithContent:requestContent  andTopicString:test_topic andReceiveDataBlock:^(id data) {
         block(data);
     }];
 }
+
+
 
 @end

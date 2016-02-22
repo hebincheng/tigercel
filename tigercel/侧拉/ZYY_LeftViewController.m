@@ -15,7 +15,7 @@
 #import "ZYY_UpdateDeviceView.h"
 #import "Masonry.h"
 #import "AppDelegate.h"
-#import "ZYY_ChooseShareWayView.h"
+#import "ZYY_DeviceList.h"
 #import "ZYY_User.h"
 #import "UIButton+WebCache.h"
 
@@ -75,10 +75,10 @@ static NSString *cellID=@"tableViewCellID";
     _menuImageArr=@[image1,image2,image3,image4,image5];
     ZYY_AboutView *aboutView=[[ZYY_AboutView alloc]initWithNibName:@"ZYY_AboutView" bundle:nil];
     ZYY_ReBackView *reback=[[ZYY_ReBackView alloc]initWithNibName:@"ZYY_ReBackView" bundle:nil];
-    ZYY_ChooseShareWayView *chooseShareWayView=[[ZYY_ChooseShareWayView alloc]init];
+    ZYY_DeviceList *deviceList=[[ZYY_DeviceList alloc]initWithNibName:@"ZYY_DeviceList" bundle:nil];
     ZYY_UpdateDeviceView *upDateView=[[ZYY_UpdateDeviceView alloc]initWithNibName:@"ZYY_UpdateDeviceView" bundle:nil];
     ZYY_RoomView *roomView=[[ZYY_RoomView alloc]initWithNibName:@"ZYY_RoomView" bundle:nil];
-    _controllers=@[roomView,upDateView,chooseShareWayView,reback,aboutView];
+    _controllers=@[roomView,upDateView,deviceList,reback,aboutView];
     
 }
 #pragma mark-

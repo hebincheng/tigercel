@@ -17,12 +17,22 @@
 @property (nonatomic,assign)MQTTClient MQTTClint;
 //登陆的时候连接至MQTTSever
 -(void)connectToMQTTServerBlock:(void(^)(void))block;
+
+//获取完设备列表后订阅设备
+-(void)subscribeDeviceWithDeviceToken:(NSString *)deviceToken;
+
 //获取新设备详情
 -(void)connectToNewDeviceWithIp:(NSString *)ip andPort:(int)port block:(void(^)(id data))block;
+
 //获取设备状态基本信息
 -(void)getDeviceInfoAndConnectToMQTTWithDeviceToken:(NSString *)deviceToken block:(void(^)(id data))block;
+
 //发送请求的消息并且返回内容
 -(void)sendRequsetMessageWithContent:(char *)requestContent andTopicString:(char *)topic  andReceiveDataBlock:(void(^)(id data))block;
+
+//订阅的topic
+-(char * )getGenerateTopicWithDeviceToken:(NSString *)deviceToken;
+
 //1.调节设备亮度
 //2.调节设备色温
 //3.设置设备呼吸速度的接口
