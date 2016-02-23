@@ -2,8 +2,9 @@
 //  LeftSlideViewController.m
 //  LeftSlideViewController
 //
-//  Created by huangzhenyu on 15/06/18.
-//  Copyright (c) 2015年 huangzhenyu. All rights reserved.
+//  Created by 虎符通信 on 16/1/8.
+//  Copyright © 2016年 虎符通信. All rights reserved.
+//
 
 #import "LeftSlideViewController.h"
 

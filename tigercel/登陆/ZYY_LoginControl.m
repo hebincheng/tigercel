@@ -124,9 +124,6 @@ static NSString *codetext=@"passWordText";
         [threeDot removeFromSuperview];
     }];
 
-
-    
-
 }
 
 
