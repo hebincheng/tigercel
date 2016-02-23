@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@",_authCode);
+    MYLog(@"%@",_authCode);
     // Do any additional setup after loading the view from its nib.
     [self setTitle:@"完善信息"];
    

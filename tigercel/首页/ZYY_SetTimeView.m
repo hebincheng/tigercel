@@ -10,8 +10,6 @@
 #import "ZYY_SceneChooseView.h"
 #import "ZYY_PickerDayView.h"
 
-#define ScreeWidth ([[UIScreen mainScreen] bounds].size.width)
-
 @interface ZYY_SetTimeView ()<UITableViewDataSource,UITableViewDelegate,ZYY_PickerDayViewDelegate>
 {
     UITableView *_tableView;
@@ -37,13 +35,26 @@
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
     [self.beganTime setBackgroundColor:[UIColor whiteColor]];
     [self.endTime setBackgroundColor:[UIColor whiteColor]];
-    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 400, ScreeWidth, 88) style:UITableViewStylePlain];
+    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 400, SCREE_WIDTH, 88) style:UITableViewStylePlain];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
     [_tableView setScrollEnabled:NO];
     [self.view addSubview:_tableView];
+    
+    //自定义返回的按钮
+    UIButton *back=[UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 0, 15 , 15)];
+    [back addTarget:self action:@selector(tapBackBtn) forControlEvents:UIControlEventTouchUpInside];
+    //[back setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    UIBarButtonItem *backBtn=[[UIBarButtonItem alloc]initWithCustomView:back];
+    self.navigationItem.leftBarButtonItem=backBtn;
 }
-
+#pragma mark 添加返回用户按钮事件
+-(void)tapBackBtn
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark-
 #pragma mark协议代理方法
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -103,7 +114,7 @@
         }
         else
         {
-            NSLog(@"%@-%@",_begainTime,_overTime);
+            MYLog(@"%@-%@",_begainTime,_overTime);
             _timeArr=@[_begainTime,_overTime,_againWeek];
             BOOL sussece=[_delegate setRunTimeWithArray:_timeArr];
             if (sussece)

@@ -187,7 +187,7 @@ static NSString *cellID=@"tableViewCellID";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@",_menuTitleArr[indexPath.row]);
+    MYLog(@"%@",_menuTitleArr[indexPath.row]);
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC closeLeftView];
 

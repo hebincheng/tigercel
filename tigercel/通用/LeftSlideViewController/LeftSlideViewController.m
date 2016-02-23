@@ -121,7 +121,7 @@
         
         CGFloat leftTabCenterX = kLeftCenterX + ((kScreenWidth - kMainPageDistance) * 0.5 - kLeftCenterX) * (rec.view.frame.origin.x / (kScreenWidth - kMainPageDistance));
 
-       // NSLog(@"%f",leftTabCenterX);
+       // MYLog(@"%f",leftTabCenterX);
         
         
         //leftScale kLeftScale~1.0
@@ -281,12 +281,12 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
 //    if(touch.view.tag == vDeckCanNotPanViewTag)
 //    {
-////        NSLog(@"不响应侧滑");
+////        MYLog(@"不响应侧滑");
 //        return NO;
 //    }
 //    else
 //    {
-////        NSLog(@"响应侧滑");
+////        MYLog(@"响应侧滑");
 //        return YES;
 //    }
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"])

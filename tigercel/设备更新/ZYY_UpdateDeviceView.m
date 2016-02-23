@@ -28,7 +28,7 @@
         //若在云端有设备列表 则赋值给LEDArr
         _LEDArr=[NSMutableArray arrayWithArray:lArr];
     }];
-    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height) style:UITableViewStylePlain];
+    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH, SCREE_HEIGHT) style:UITableViewStylePlain];
     [_tableView setScrollEnabled:NO];
     [_tableView setDataSource:self];
     [self.view addSubview:_tableView];

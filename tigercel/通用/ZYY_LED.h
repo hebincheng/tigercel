@@ -40,6 +40,7 @@
 @property (nonatomic, copy) NSString *deviceModel;
 //用户设备ID
 @property (nonatomic, copy) NSString *userDeviceId;
+
 +(NSArray *)getEquipmentListWithArr:(NSArray *)arr;
 
 

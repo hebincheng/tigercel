@@ -59,17 +59,18 @@
 @property (nonatomic, copy) NSString *image;
 //email
 @property (nonatomic, copy) NSString *emailAddress1;
-//??
+//用户token
 @property (nonatomic, copy) NSString *userToken;
 //sessionID
 @property (nonatomic, copy) NSString *sessionId;
 //标题链接？？
 @property (nonatomic, copy) NSString *titleMultiUrl;
-//登录牌
+//登录牌？？
 @property (nonatomic, copy) NSString *loginFlag;
 
 -(void)initWithDictionary:(NSDictionary *)dict;
 
-//-(id)initWithNumber:(NSString *)telNumber andPassword:(NSString *)passWord andUserName:(NSString *)userName andUserID:(NSString *)userID andSessionID:(NSString *)sessionID andSex:(NSString *)sex andBirthday:(NSString *)birthday andLocation:(NSString *)location andRecentlyTime:(NSString *)recentlyTime andEquipNum:(NSString *)equipmentNum andEmail:(NSString *)email;
+-(NSArray *)getUserArrWithArr:(NSArray *)arr;
+
 
 @end

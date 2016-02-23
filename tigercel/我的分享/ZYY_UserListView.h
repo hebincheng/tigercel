@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZYY_LED;
+
 @interface ZYY_UserListView : UIViewController
 
--(id)initWithUserArr:(NSArray *)userArr;
+-(id)initWithUserArr:(NSArray *)userArr andLED:(ZYY_LED *)LED;
 
 @end

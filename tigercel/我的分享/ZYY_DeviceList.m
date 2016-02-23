@@ -11,6 +11,8 @@
 #import "ZYY_User.h"
 #import "ZYY_LED.h"
 #import "ZYY_DeviceListCell.h"
+#import "ZYY_UserListView.h"
+
 @interface ZYY_DeviceList ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
@@ -38,7 +40,7 @@ static NSString *deviceListCellID=@"deviceListCellID";
 -(void)loadUI{
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
     [self setTitle:@"设备分享列表"];
-    _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width,[[UIScreen mainScreen] bounds].size.height)];
+    _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH,SCREE_HEIGHT)];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
@@ -50,8 +52,21 @@ static NSString *deviceListCellID=@"deviceListCellID";
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [_tableView registerNib:[UINib nibWithNibName:@"ZYY_DeviceListCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:deviceListCellID];
     [self.view addSubview:_tableView];
+    
+    //自定义返回的按钮
+    UIButton *back=[UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 0, 15 , 15)];
+    [back addTarget:self action:@selector(tapBackBtn) forControlEvents:UIControlEventTouchUpInside];
+    //[back setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    UIBarButtonItem *backBtn=[[UIBarButtonItem alloc]initWithCustomView:back];
+    self.navigationItem.leftBarButtonItem=backBtn;
 }
-
+#pragma mark 添加返回用户按钮事件
+-(void)tapBackBtn
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark-
 #pragma marktableView协议方法
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -68,16 +83,27 @@ static NSString *deviceListCellID=@"deviceListCellID";
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     //显示设备名字和设备模式
     ZYY_LED *led=_LEDArr[indexPath.row];
+
     [cell.deviceNameLabel setText:led.deviceName];
     [cell.deviceModeLabel setText:led.deviceModel];
+    
+    //自定义分割线
+    UIView *speView=[[UIView alloc]initWithFrame:CGRectMake(0, 68, [UIScreen mainScreen].bounds.size.width, 1)];
+    [speView setBackgroundColor:[UIColor lightGrayColor]];
+    [cell.contentView addSubview:speView];
+    
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZYY_LED *led=_LEDArr[indexPath.row];
     ZYY_User *user=[ZYY_User instancedObj];
-    __block NSArray *userAr=[NSArray array];
     [[ZYY_GetInfoFromInternet instancedObj]getUserListWithSessionId:user.sessionId andUserToken:user.userToken andDeviceToken:led.deviceToken block:^(id data) {
-        userAr=[NSArray arrayWithArray:data];
+        MYLog(@"%@",data);
+        //根据获得的分享用户 来初始化界面
+        NSArray *listArr=[[ZYY_User alloc] getUserArrWithArr:data];
+        ZYY_UserListView *sharedUserView=[[ZYY_UserListView alloc]initWithUserArr:listArr andLED:led];
+        MYLog(@"%@---%p",[self class],led);
+        [self.navigationController pushViewController:sharedUserView animated:YES];
     }];
 }
 

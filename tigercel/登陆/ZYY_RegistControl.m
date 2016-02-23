@@ -67,7 +67,7 @@
         else{
 #pragma mark  发送验证码接口
             [[ZYY_GetInfoFromInternet instancedObj]sendYZMWithTelNumber:_telPhoneText.text];
-            NSLog(@"向%@发送验证码",_telPhoneText.text);
+            MYLog(@"向%@发送验证码",_telPhoneText.text);
             [sender setSelected:YES];
             [_sendButton setTitle:@"90秒" forState:UIControlStateNormal];
             _date=[NSDate date];
@@ -96,7 +96,7 @@
 {
     if (_sureButton.selected)
     {
-        NSLog(@"已阅读协议，进入下一步");
+        MYLog(@"已阅读协议，进入下一步");
         #pragma mark  待填写确认验证码是否正确接口
         ZYY_WriteInformation *writeViewControl=[[ZYY_WriteInformation alloc]init];
         writeViewControl.authCode=_checkText.text;

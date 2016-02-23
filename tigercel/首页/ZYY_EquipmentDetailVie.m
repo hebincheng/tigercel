@@ -22,9 +22,6 @@
 #import "MQTTClient.h"
 #import "MQTTClientPersistence.h"
 
-#define ScreeWidth ([[UIScreen mainScreen] bounds].size.width)
-#define ScreeHeight  ([[UIScreen mainScreen] bounds].size.height)
-
 @interface ZYY_EquipmentDetailVie ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ZYY_ChangeNameViewDelegate,ZYY_SceneChooseViewDelegate,ZYY_SetTimeViewDelegate,ZYY_GetColorFromImageDelegate>
 {
     ZYY_ScrollView *_scrollView;
@@ -143,7 +140,7 @@ static NSString *rightCellID=@"rightCellID";
 -(void)loadUI
 {
     [self setTitle:@"设备详情"];
-    _scrollView=[[ZYY_ScrollView alloc]initWithFrame:CGRectMake(0, 0, ScreeWidth,ScreeHeight)];
+    _scrollView=[[ZYY_ScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH,SCREE_HEIGHT)];
     //设置分页
     [_scrollView setPagingEnabled:YES];
     [_scrollView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
@@ -153,11 +150,11 @@ static NSString *rightCellID=@"rightCellID";
     [_scrollView setShowsHorizontalScrollIndicator:YES];
     [_scrollView setShowsVerticalScrollIndicator:YES];
     //设置滚动区域
-    [_scrollView setContentSize:CGSizeMake(ScreeWidth*2, ScreeHeight-64)];
+    [_scrollView setContentSize:CGSizeMake(SCREE_WIDTH*2, SCREE_HEIGHT-64)];
     [self.view addSubview:_scrollView];
     
     //设置左边tableView
-    _leftTableView =[[UITableView alloc]initWithFrame:CGRectMake(0, -1, ScreeWidth, ScreeHeight-64) style:UITableViewStyleGrouped];
+    _leftTableView =[[UITableView alloc]initWithFrame:CGRectMake(0, -1, SCREE_WIDTH, SCREE_HEIGHT-64) style:UITableViewStyleGrouped];
     _leftTableView.tag=100;
     [_leftTableView setDataSource:self];
     [_leftTableView setDelegate:self];
@@ -166,7 +163,7 @@ static NSString *rightCellID=@"rightCellID";
     [_leftTableView registerNib:[UINib nibWithNibName:@"ZYY_SliderControl" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:sliderCellID];
     [_scrollView addSubview:_leftTableView];
     //设置右边tableView
-    _rightTableView =[[UITableView alloc]initWithFrame:CGRectMake(ScreeWidth, -1, ScreeWidth, ScreeHeight-64) style:UITableViewStyleGrouped];
+    _rightTableView =[[UITableView alloc]initWithFrame:CGRectMake(SCREE_WIDTH, -1, SCREE_WIDTH, SCREE_HEIGHT-64) style:UITableViewStyleGrouped];
     _rightTableView.tag=200;
     [_rightTableView setDelegate:self];
     [_rightTableView setDataSource:self];
@@ -188,7 +185,7 @@ static NSString *rightCellID=@"rightCellID";
 #pragma mark 协议方法
 - (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view
 {
-    NSLog(@"asdasd");
+    MYLog(@"asdasd");
     if(view==_leftTableView||view==_rightTableView)
         return NO;
     return YES;
@@ -196,7 +193,7 @@ static NSString *rightCellID=@"rightCellID";
 
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view
 {
-    NSLog(@"11");
+    MYLog(@"11");
     return NO;
 }
 
@@ -315,7 +312,7 @@ static NSString *rightCellID=@"rightCellID";
                 NSArray *titleArr=@[@"拍照",@"图片",@"圆环"];
                 for (int i=0; i<3; i++)
                 {
-                    UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(ScreeWidth-80-80*i, 15, 60, 30)];
+                    UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(SCREE_WIDTH-80-80*i, 15, 60, 30)];
                     [btn setTitle:titleArr[i] forState:UIControlStateNormal];
                     [btn.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
                     [btn setTag:i+1000];
@@ -415,7 +412,7 @@ static NSString *rightCellID=@"rightCellID";
                 weekStr=[weekStr stringByAppendingPathComponent:obj];
             }
             [cell.detailTextLabel setText:weekStr];
-            NSLog(@"%@",weekStr);
+            MYLog(@"%@",weekStr);
             UISwitch *modeSwitch=[[UISwitch alloc]init];
             [cell.contentView addSubview:modeSwitch];
             [modeSwitch setOn:YES];
@@ -448,7 +445,7 @@ static NSString *rightCellID=@"rightCellID";
     CGFloat red= [colorArr[0] floatValue];
     CGFloat green= [colorArr[1] floatValue];
     CGFloat blue= [colorArr[2] floatValue];
-    NSLog(@"%f-%f-%f",red,green,blue);
+    MYLog(@"%f-%f-%f",red,green,blue);
     _colorChooseArr=@[[NSNumber numberWithFloat:red] ,[NSNumber numberWithFloat:green],[NSNumber numberWithFloat:blue]];
     UIColor *color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
     return color;
@@ -487,11 +484,11 @@ static NSString *rightCellID=@"rightCellID";
     if (mode==1)
     {
         NSArray *zhaoMingArr=[self getZhaoMingSet];
-        NSLog(@"%@",zhaoMingArr);
+        MYLog(@"%@",zhaoMingArr);
     }
     else{
         NSArray *fenWeiArr=[self getFenWeiSet];
-        NSLog(@"%@",fenWeiArr);
+        MYLog(@"%@",fenWeiArr);
     }
 }
 
@@ -513,14 +510,14 @@ static NSString *rightCellID=@"rightCellID";
 
 -(void)saveZhaoMingScene
 {
-    NSLog(@"成功新增照明场景");
+    MYLog(@"成功新增照明场景");
 
    NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"zhaoMingSetArr"];
     NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
     NSArray *mArr=[self getZhaoMingSet];
     [saveArr addObject:mArr];
     [_leftSliderArr removeAllObjects];
-    NSLog(@"saveArr-%@",saveArr);
+    MYLog(@"saveArr-%@",saveArr);
     //新增照明模式
     [[NSUserDefaults standardUserDefaults] setObject: saveArr forKey:@"zhaoMingSetArr"];
 }
@@ -541,14 +538,14 @@ static NSString *rightCellID=@"rightCellID";
 
 -(void)saveFenWeiScene
 {
-    NSLog(@"成功新增氛围场景");
+    MYLog(@"成功新增氛围场景");
     NSArray *arr= [[NSUserDefaults standardUserDefaults]objectForKey:@"fenWeiSetArr"];
-    NSLog(@"arr-%@",arr);
+    MYLog(@"arr-%@",arr);
     NSMutableArray *saveArr=[NSMutableArray arrayWithArray:arr];
     NSArray *mArr=[self getFenWeiSet];
     [saveArr addObject:mArr];
     [_rightSliderArr removeAllObjects];
-    NSLog(@"saverArr-%@",saveArr);
+    MYLog(@"saverArr-%@",saveArr);
     //新增照明模式
     [[NSUserDefaults standardUserDefaults] setObject: saveArr forKey:@"fenWeiSetArr"];
 }
@@ -571,7 +568,7 @@ static NSString *rightCellID=@"rightCellID";
             {
                 if ([newWeek isEqualToString:week])
                 {
-                    NSLog(@"--------------");
+                    MYLog(@"--------------");
                     //检测闹钟是否冲突  
                     BOOL enable=[self textClockTimeWithTimeArr:arr andAnOtherTimeArr:array];
                     if (enable==YES)//说明闹钟有冲突
@@ -599,19 +596,19 @@ static NSString *rightCellID=@"rightCellID";
     NSString *firsrEndTime=firstArr[1];
     NSString *seconedStartTime=[NSString stringWithFormat:@"%@",secondArr[0]];
     NSString *seconedEndTime=secondArr[1];
-    NSLog(@"%@---%@",firstStartTime,firsrEndTime);
-    NSLog(@"%@---%@",seconedStartTime,seconedEndTime);
+    MYLog(@"%@---%@",firstStartTime,firsrEndTime);
+    MYLog(@"%@---%@",seconedStartTime,seconedEndTime);
     if ([seconedStartTime compare:firsrEndTime]==NSOrderedDescending)
     {
-        NSLog(@"开始时间比已有定时终止时间早");
+        MYLog(@"开始时间比已有定时终止时间早");
         return NO;
     }
     if ([seconedEndTime compare:firstStartTime]==NSOrderedAscending)
     {
-        NSLog(@"结束时间比已有定时起始时间早");
+        MYLog(@"结束时间比已有定时起始时间早");
         return NO;
     }
-    NSLog(@"%ld",[firstStartTime compare:seconedStartTime]);
+    MYLog(@"%ld",[firstStartTime compare:seconedStartTime]);
  
     return YES;
 }
@@ -632,7 +629,7 @@ static NSString *rightCellID=@"rightCellID";
     _leftControlArr=array;
     [self reloadUI];
     //_functionArr=@[_projectName,@"照明模式",_sceneName];
-    NSLog(@"%@-%@",_projectName,_leftSceneName);
+    MYLog(@"%@-%@",_projectName,_leftSceneName);
 }
 
 -(void)resetFenWeiSceneNameWithName:(NSString *)name andSceneSetWithArr:(NSArray *)array{
@@ -642,7 +639,7 @@ static NSString *rightCellID=@"rightCellID";
     CGFloat red= [colorArr[0] floatValue];
     CGFloat green= [colorArr[1] floatValue];
     CGFloat blue= [colorArr[2] floatValue];
-    NSLog(@"%f-%f-%f",red,green,blue);
+    MYLog(@"%f-%f-%f",red,green,blue);
     _color=[UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
     [self reloadUI];
 }
@@ -657,7 +654,7 @@ static NSString *rightCellID=@"rightCellID";
 #pragma mark cell的行选择方法
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%ld---%ld",(long)indexPath.section,(long)indexPath.row);
+    MYLog(@"%ld---%ld",(long)indexPath.section,(long)indexPath.row);
     if (indexPath.section==0)
     {
         //修改名称
@@ -701,7 +698,7 @@ static NSString *rightCellID=@"rightCellID";
 {
 #pragma mark 返回时保存设备参数
     NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
-    NSLog(@"----%ld",_num);
+    MYLog(@"----%ld",_num);
     if (_num==0)
     {
         _ledModel=[[ZYY_LED alloc]init];
@@ -718,7 +715,7 @@ static NSString *rightCellID=@"rightCellID";
         [NSKeyedArchiver archiveRootObject:arr toFile:filePath];
     }
     else {
-        NSLog(@"%ld",_num);
+        MYLog(@"%ld",_num);
         _ledModel=[[ZYY_LED alloc]init];
         _ledModel.deviceName=_projectName;
         _ledModel.currentSceneName=_leftSceneName;
@@ -739,7 +736,7 @@ static NSString *rightCellID=@"rightCellID";
 
 -(void)tapColorBtn:(UIButton *)sender
 {
-    NSLog(@"%ld",(long)sender.tag);
+    MYLog(@"%ld",(long)sender.tag);
     if (sender.tag==1002)
     {
         _colorFromImageView=[[ZYY_GetColorFromImage alloc]initWithNibName:@"ZYY_GetColorFromImage" bundle:nil andImage:nil];
@@ -781,7 +778,7 @@ static NSString *rightCellID=@"rightCellID";
 
 -(void)tapModeSwitch:(UISwitch *)sender
 {
-    NSLog(@"%d",sender.isOn);
+    MYLog(@"%d",sender.isOn);
 }
 
 -(void)tapAddBtn
@@ -789,7 +786,7 @@ static NSString *rightCellID=@"rightCellID";
     ZYY_SetTimeView *set=[[ZYY_SetTimeView alloc]initWithNibName:@"ZYY_SetTimeView" bundle:nil];
     [set setDelegate:self];
     [self.navigationController pushViewController:set animated:YES];
-    NSLog(@"添加定时");
+    MYLog(@"添加定时");
 }
 #pragma mark  设备操作
 -(BOOL)controlEquipmentWithJsonString:(NSString *)jsonString
@@ -814,7 +811,7 @@ static NSString *rightCellID=@"rightCellID";
     
     for (int i=0; i<len+8; i++)
     {
-        NSLog(@"%02x",*(myPayload+i));
+        MYLog(@"%02x",*(myPayload+i));
     }
     return YES;
 }

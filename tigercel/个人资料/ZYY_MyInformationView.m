@@ -59,7 +59,7 @@ static NSString *pStr,*cStr,*tStr;
     if(sign==YES)
     {
         NSString *sex=[_detailArr[0] isEqualToString:@"男"]?@"1":@"0";
-        NSLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
+        MYLog(@"保存的个人信息%@-%@-%@",_detailArr[1],sex,_detailArr[2]);
         NSString *adress=[_detailArr[2] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString *birthady=[_detailArr[1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [[ZYY_GetInfoFromInternet instancedObj]commitUserInformationWithBirthdate:birthady andSex:sex andSessionId:_user.sessionId andAddress:adress andUserToken:_user.userToken];
@@ -81,11 +81,11 @@ static NSString *pStr,*cStr,*tStr;
     NSString *monStr=[birthday substringWithRange:midRange];
     NSString *dayStr=[birthday substringFromIndex:8];
     NSString *birStr=[NSString stringWithFormat:@"%@-%@-%@",yeatStr,monStr,dayStr];
-    NSLog(@"%@",birStr);
+    MYLog(@"%@",birStr);
     //初始化cell像是数组
     NSString *sex=[_user.sex isEqualToString:@"1"]?@"男":@"女";
     _detailArr=[NSMutableArray arrayWithObjects:sex,birStr,_user.address1,@"",_user.lastLoginDate,nil];
-    NSLog(@"-------------%@",_user.address1);
+    MYLog(@"-------------%@",_user.address1);
     //标题内容
     if (_menuArr==nil)
     {
@@ -139,7 +139,7 @@ static NSString *pStr,*cStr,*tStr;
     //设置按钮点击效果
     [_touXiang setAdjustsImageWhenHighlighted:NO];
     
-    _tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 180+60, [[UIScreen mainScreen] bounds].size.width, 5*RowHeight) style:UITableViewStylePlain];
+    _tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 180+60, SCREE_WIDTH, 5*RowHeight) style:UITableViewStylePlain];
     //[_tableView setAutoresizesSubviews:YES];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
@@ -257,7 +257,7 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  从网络获取数据后修改_detailArr的内容后 刷新表格
     
     [cell.detailTextLabel setText:_detailArr[indexPath.row]];
-    NSLog(@"%@",_detailArr[indexPath.row]);
+    MYLog(@"%@",_detailArr[indexPath.row]);
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:15.0f]];
     
     //添加分割线
@@ -369,7 +369,8 @@ static NSString *pStr,*cStr,*tStr;
     
 #pragma mark 调用头像修改的接口
     [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath block:^{
-        
+        //修改成功后，获取用户信息  刷新头像链接
+        [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:_user.userToken andSessionId:_user.sessionId];
     }] ;
 }
 

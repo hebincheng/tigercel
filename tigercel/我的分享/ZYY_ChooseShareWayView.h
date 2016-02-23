@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class  ZYY_LED;
 
 @interface ZYY_ChooseShareWayView : UIViewController
+
+@property(nonatomic,strong) ZYY_LED *LED;
 
 @end

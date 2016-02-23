@@ -80,7 +80,7 @@
     NSString *contentText=[_contentTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *titleText=[_titleOfContentText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:contentText andTitle:titleText andUserID:[[ZYY_User instancedObj] sessionId] and:^{
-        NSLog(@"反馈发送成功");
+        MYLog(@"反馈发送成功");
         [self clossView];
     }];
 }

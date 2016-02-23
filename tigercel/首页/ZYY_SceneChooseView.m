@@ -9,9 +9,6 @@
 #import "ZYY_SceneChooseView.h"
 #import "ZYY_AddNewSceneView.h"
 
-#define ScreeWidth ([[UIScreen mainScreen] bounds].size.width)
-#define ScreeHeight  ([[UIScreen mainScreen] bounds].size.height)
-
 @interface ZYY_SceneChooseView ()<UITableViewDataSource,UITableViewDelegate,ZYY_AddNewSceneViewDelegate>
 {
     UITableView *_tableView;
@@ -44,15 +41,15 @@ static NSString *cellID=@"cellID";
     {
         _setArr=[NSMutableArray arrayWithArray:[userDefaults objectForKey:@"zhaoMingSetArr"]];
         _titleArr=[NSMutableArray arrayWithArray:[userDefaults objectForKey:@"zhaoMingtitleArr"]];
-        NSLog(@"%@",_setArr);
-        NSLog(@"%@",_titleArr);
+        MYLog(@"%@",_setArr);
+        MYLog(@"%@",_titleArr);
     }
     else
     {
-        NSLog(@"123");
+        MYLog(@"123");
         _setArr=[NSMutableArray arrayWithArray:[userDefaults objectForKey:@"fenWeiSetArr"]];
         _titleArr=[NSMutableArray arrayWithArray:[userDefaults objectForKey:@"fenWeiTitleArr"]];
-        NSLog(@"%@",_titleArr);
+        MYLog(@"%@",_titleArr);
     }
 //    _controlArr=@[@[@80,@20,@30],@[@70,@20,@60],@[@50,@50,@30],@[@56,@60,@10],@[@87,@20,@38],@[@15,@20,@83],@[@16,@20,@35],@[@80,@90,@80],@[@96,@20,@37],@[@16,@20,@36]];
 //    
@@ -65,7 +62,7 @@ static NSString *cellID=@"cellID";
         [_imageArr addObject:image];
     }
     
-    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreeWidth, ScreeHeight) style:UITableViewStylePlain];
+    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH, SCREE_HEIGHT) style:UITableViewStylePlain];
     [_tableView setDataSource:self];
     [_tableView setDelegate:self];
     //[_tableView setScrollEnabled:NO];
@@ -79,7 +76,15 @@ static NSString *cellID=@"cellID";
     
     [self.navigationItem setRightBarButtonItem:rightBtn];
     // Do any additional setup after loading the view from its nib.
-
+    
+    //自定义返回的按钮
+    UIButton *back=[UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 0, 15 , 15)];
+    [back addTarget:self action:@selector(tapBackBtn) forControlEvents:UIControlEventTouchUpInside];
+    //[back setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    UIBarButtonItem *backBtn=[[UIBarButtonItem alloc]initWithCustomView:back];
+    self.navigationItem.leftBarButtonItem=backBtn;
 }
 
 
@@ -102,7 +107,11 @@ static NSString *cellID=@"cellID";
     }
     return self;
 }
-
+#pragma mark 添加返回用户按钮事件
+-(void)tapBackBtn
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark 添加场景
 -(void)addNewScene
@@ -119,7 +128,7 @@ static NSString *cellID=@"cellID";
     return _setArr.count;
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"123");
+    MYLog(@"123");
     
     NSUserDefaults *def=[NSUserDefaults standardUserDefaults];
     
@@ -131,7 +140,7 @@ static NSString *cellID=@"cellID";
     else
     {
         [_titleArr removeObjectAtIndex:indexPath.row];
-        NSLog(@"%@",_setArr);
+        MYLog(@"%@",_setArr);
         [_setArr removeObjectAtIndex:indexPath.row];
         if (_selectSign==0)
         {
@@ -160,7 +169,7 @@ static NSString *cellID=@"cellID";
     
     [cell.imageView setImage:_imageArr[arc4random_uniform(10)]];
     [cell.detailTextLabel setText:_titleArr[indexPath.row]];
-    NSLog(@"%ld",indexPath.row);
+    MYLog(@"%ld",indexPath.row);
     [cell.detailTextLabel setTextColor:[UIColor blackColor]];
     
     return cell;

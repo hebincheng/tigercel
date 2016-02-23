@@ -43,7 +43,7 @@
 
 - (IBAction)changeCode {
     NSString *str=[_userDefaulet objectForKey:@"passWordText"];
-    //NSLog(@"%@",str);
+    //MYLog(@"%@",str);
     if (![str isEqualToString: _oldPasswordText.text])
     {
         UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不对，请重新输入" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];

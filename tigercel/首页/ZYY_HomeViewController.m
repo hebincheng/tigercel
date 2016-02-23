@@ -47,6 +47,11 @@ static NSString *cellID=@"cellID";
         //若在云端有设备列表 则赋值给LEDArr
         _LEDArr=[NSMutableArray arrayWithArray:lArr];
         [_tableView reloadData];
+        //获取到列表后进行订阅
+        for (ZYY_LED *led in _LEDArr)
+        {
+            [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
+        }
     }];
     //_filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
     //已添加的led设备数组
@@ -66,7 +71,7 @@ static NSString *cellID=@"cellID";
 //    if (_step%(20*60)==0)
 //    {
 //        MQTTClient_retry();
-//        NSLog(@"11111");
+//        MYLog(@"11111");
 //    }
 }
 
@@ -82,10 +87,7 @@ static NSString *cellID=@"cellID";
     [self loadUI];
     [self buildSceneUserDefault];
     //订阅设备
-    for (ZYY_LED *led in _LEDArr)
-    {
-        [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
-    }
+
 }
 #pragma mark-
 #pragma mark如果设备第一次登陆登陆 则将默认的照明模式数组 和氛围模式数据存储
@@ -141,7 +143,7 @@ static NSString *cellID=@"cellID";
     
     [self.navigationItem setRightBarButtonItems:@[rightBtn,rightBtn1]];
     //设置_tableView属性
-    _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width,[[UIScreen mainScreen] bounds].size.height)];
+    _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH,SCREE_HEIGHT)];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
@@ -165,7 +167,7 @@ static NSString *cellID=@"cellID";
       
    //     [NSKeyedArchiver archiveRootObject:_LEDArr toFile:_filePath];
         //删除设备信息
-        NSLog(@"%@",_LEDArr);
+        MYLog(@"%@",_LEDArr);
         [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserToken:[[ZYY_User instancedObj] userToken]andBlock:^{
             //服务器上删除成功后 删除本地缓存数组中对应的设备
             [_LEDArr removeObjectAtIndex:indexPath.row];
@@ -190,8 +192,15 @@ static NSString *cellID=@"cellID";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZYY_HomeTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+    
     [cell.contentView setBackgroundColor:[UIColor whiteColor]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    //自定义分割线
+    UIView *speView=[[UIView alloc]initWithFrame:CGRectMake(0, 68, [UIScreen mainScreen].bounds.size.width, 1)];
+    [speView setBackgroundColor:[UIColor lightGrayColor]];
+    [cell.contentView addSubview:speView];
+    
     if (_LEDArr!=nil)
     {
         ZYY_LED *ledInformation=_LEDArr[indexPath.row];
@@ -215,7 +224,7 @@ static NSString *cellID=@"cellID";
 #pragma mark调用函数获取设备信息
     [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
         [threeDot removeFromSuperview];
-        NSLog(@"%@",data);
+        MYLog(@"%@",data);
     }];
 //    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
 //    [self.navigationController pushViewController:equipmentView animated:YES];
@@ -239,14 +248,14 @@ static NSString *cellID=@"cellID";
 }
 - (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view
 {
-   // NSLog(@"asdasd");
+   // MYLog(@"asdasd");
     if(view==_tableView)
         return NO;
     return YES;
 }
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view
 {
-   // NSLog(@"11");
+   // MYLog(@"11");
     return NO;
 }
 

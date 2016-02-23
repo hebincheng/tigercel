@@ -42,7 +42,7 @@
     UIImage *image2=[UIImage imageNamed:@"about_two"];
     UIImage *image3=[UIImage imageNamed:@"about_three"];
     _imageArr=@[image1,image2,image3];
-    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 64+150, [[UIScreen mainScreen] bounds].size.width, HeightOfRow*_menuArr.count)];
+    _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 64+150, SCREE_WIDTH, HeightOfRow*_menuArr.count)];
     [_tableView setDataSource:self];
     [_tableView setDelegate:self];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -80,7 +80,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@",_menuArr[indexPath.row]);
+    MYLog(@"%@",_menuArr[indexPath.row]);
     if (indexPath.row==0)
     {
         //检测设备版本号与服务器版本号  如果不用更新

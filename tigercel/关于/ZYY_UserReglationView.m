@@ -31,7 +31,7 @@
 }
 -(void)loadUI
 {
-    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height-64)];
+    UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH, SCREE_HEIGHT-64)];
     label.text=_comment;
     [label setNumberOfLines:0];
     [label setFont:[UIFont systemFontOfSize:18.0f]];

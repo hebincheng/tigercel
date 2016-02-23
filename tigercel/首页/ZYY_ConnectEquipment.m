@@ -68,6 +68,12 @@
     _runTime=nil;
     
 }
+#pragma mark 添加返回用户按钮事件
+-(void)tapBackBtn
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark -
 #pragma mark 发送设备wifi连接消息
 -(void)sendConnectMessage
@@ -79,7 +85,7 @@
     int authmode = atoi(s_authmode);
     //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
     const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
-    NSLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
+    MYLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
     InitSmartConnection();
     StartSmartConnection(ssid, password, "", 9);
 }
@@ -90,10 +96,10 @@
     NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
     [dateFormat setDateFormat:@"yyyy/MM/dd hh:mm:ss"];
     NSString *dateStr=[dateFormat stringFromDate:date];
-    //NSLog(@"%@",dateStr);
+    //MYLog(@"%@",dateStr);
     //获取手机的ip
     NSString *ipStr=[self getIPAddress];
-    NSLog(@"%@",ipStr);
+    MYLog(@"%@",ipStr);
     // discovery消息的格式解析操作
     NSString *str=[NSString stringWithFormat:@"{\"discoveryQuery\": {\"sourceIP\": \"%@\",\"sourcePort\": \"1234\",\"timestamp\": \"%@\"}}",ipStr,dateStr];
     char *discoverData=(char*)[str UTF8String];//将NSString转化成char*格式
@@ -144,7 +150,7 @@
     
     [_socket enableBroadcast:YES error:&error];
 //    [_socket closeAfterReceiving];
-    NSLog(@"开始广播>>>>>>>>>>>>>>>>>>>");
+    MYLog(@"开始广播>>>>>>>>>>>>>>>>>>>");
 }
 
 
@@ -152,12 +158,12 @@
 
 -(void)onUdpSocket:(AsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
 {
-    NSLog(@"%@",error.description);
+    MYLog(@"%@",error.description);
 }
 
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port{
     
-    NSLog(@"成功接收到设备反馈的消息");
+    MYLog(@"成功接收到设备反馈的消息");
     //收到相应则停止发送连接消息
     StopSmartConnection();
     int ret=(int)data.length;//接收到数据的长度
@@ -179,7 +185,7 @@
     NSString *sourceIP=dict[@"sourceIP"];
     NSString *sourcePort=dict[@"sourcePort"];
     NSString *timestamp=dict[@"timestamp"];
-    NSLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
+    MYLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
 //获取新设备详情，成功后输入设备名字
     [[ZYY_MQTTConnect instancedObj]connectToNewDeviceWithIp:sourceIP andPort:[sourcePort intValue] block:^(id data) {
         _deviceData=[NSData dataWithData:data];
@@ -235,6 +241,16 @@
     }];
     [_alert addAction:ok];
     [_alert addAction:cancel];
+    
+    
+    //自定义返回的按钮
+    UIButton *back=[UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 0, 15 , 15)];
+    [back addTarget:self action:@selector(tapBackBtn) forControlEvents:UIControlEventTouchUpInside];
+    //[back setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    UIBarButtonItem *backBtn=[[UIBarButtonItem alloc]initWithCustomView:back];
+    self.navigationItem.leftBarButtonItem=backBtn;
 }
 #pragma mark UIAlertView
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -266,7 +282,7 @@
         NSDictionary *MACIdDict=MACArr[0];
         NSString *deviceId=MACIdDict[@"value"];
         
-        NSLog(@"%@--%@--%@--%@",deviceType,softWareNumber,deviceId,deviceName);
+        MYLog(@"%@--%@--%@--%@",deviceType,softWareNumber,deviceId,deviceName);
         
 #pragma mark 第三阶段调用方法添加新设备
         NSString * deviceModel=@"休闲";//设备型号
@@ -379,7 +395,7 @@
         [_socket sendData :[self discoveryQuerydata] toHost:@"255.255.255.255" port:6666 withTimeout:5000 tag:1];
         
         [_socket receiveWithTimeout:-1 tag:0];
-        NSLog(@"2222222222");
+        MYLog(@"2222222222");
 //        [_udpSocket sendData:[self discoveryQuerydata] toHost:@"255.255.255.255" port:6666 withTimeout:_timeout tag:1];
     }
     if(_step==60*60)

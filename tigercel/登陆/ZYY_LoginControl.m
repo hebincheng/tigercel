@@ -52,7 +52,7 @@ static NSString *codetext=@"passWordText";
         [_passWordTextFiled setText:str2];
     }
 
-    //NSLog(@"%@",str1);
+    //MYLog(@"%@",str1);
     
 }
 -(void)jianpan{
@@ -74,12 +74,12 @@ static NSString *codetext=@"passWordText";
 
 - (IBAction)fogetPassWord
 {
-    NSLog(@"我是忘记密码");
+    MYLog(@"我是忘记密码");
 }
 
 - (IBAction)loadCode:(UISwitch *)sender
 {
-   // NSLog(@"%d",sender.isOn);
+   // MYLog(@"%d",sender.isOn);
 }
 
 - (IBAction)loginBtn
@@ -87,7 +87,7 @@ static NSString *codetext=@"passWordText";
     [self jianpan];
     if (_loadCodeSwitch.isOn==NO)
     {
-        NSLog(@"我把密码清0了哦");
+        MYLog(@"我把密码清0了哦");
         NSString *str=@"";
         [_userDefault setObject:str forKey:@"passWordText"];
     }
@@ -95,7 +95,7 @@ static NSString *codetext=@"passWordText";
     {
         [_userDefault setObject:_accountTextFiled.text forKey:acountText];
         [_userDefault setObject:_passWordTextFiled.text forKey:codetext];
-        NSLog(@"%@-我把密码存好了",[self class]);
+        MYLog(@"%@-我把密码存好了",[self class]);
     }
     
     //添加登陆加载动画
@@ -105,25 +105,21 @@ static NSString *codetext=@"passWordText";
     
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text susseced:^{
-        NSLog(@"登陆成功");
+        MYLog(@"登陆成功");
         [threeDot removeFromSuperview];
-    //登陆成功后连接到MQTT服务
+    //登陆成功后
+    //1,连接到MQTT服务
     [[ZYY_MQTTConnect instancedObj]connectToMQTTServerBlock:^{
        
     }];
-        
-    //登录成功执行的操作
-    //获取用户信息（获取到的信息与登陆成功后反馈的消息是一致的 所以此处可以省略）
-    //  ZYY_User *user=[ZYY_User instancedObj];
-    //  [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:user.userToken andSessionId:user.sessionId];
-        //把主界面设置为根目录
+    //2,把主界面设置为根目录
         AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
-        //把mqtt作为全局传到下一个页面
         appDelegate.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
         appDelegate.leftView=[[ZYY_LeftViewController alloc]init];
         appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
         [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];
+        
     } orFailed:^{
         [threeDot removeFromSuperview];
     }];
@@ -139,7 +135,7 @@ static NSString *codetext=@"passWordText";
 
 - (IBAction)weChatLoginBtn
 {
-    NSLog(@"微信登陆");
+    MYLog(@"微信登陆");
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

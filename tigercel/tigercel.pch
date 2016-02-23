@@ -1,0 +1,30 @@
+//
+//  tigercel.pch
+//  tigercel
+//
+//  Created by 虎符通信 on 16/2/23.
+//  Copyright © 2016年 虎符通信. All rights reserved.
+//
+
+#ifndef tigercel_pch
+#define tigercel_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* tigercel_pch */
+
+//预编译内容
+#define SCREE_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREE_HEIGHT  ([[UIScreen mainScreen] bounds].size.height)
+
+//自定义MyLog/myprintf  在debug版本打印 在release版本不打印
+#ifdef DEBUG
+#define MYLog(...) NSLog(__VA_ARGS__)
+#define myprintf(...) printf(__VA_ARGS__)
+
+#else
+#define MYLog(...)
+#define myprintf(...)
+
+#endif

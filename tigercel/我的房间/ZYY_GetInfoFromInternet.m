@@ -21,13 +21,16 @@ static NSString *getListStr=@"hufu/app/userdevice/searchUserDevice.do?";//获取
 static NSString *deleteStr=@"hufu/app/userdevice/deleteUserDevice.do?";//删除设备
 static NSString *sendYZMStr=@"hufu/app/common/getAuthCode.do?";//发送验证码
 static NSString *registStr=@"hufu/app/member/regist.do?";//注册接口
-static NSString *commitUserInfo=@"hufu/app/member/updateUserInfo.do?";//修改信息接口
+static NSString *commitUserInfoStr=@"hufu/app/member/updateUserInfo.do?";//修改信息接口
 static NSString *addDeviceStr=@"hufu/app/userdevice/addUserDevice.do?";//添加设备
-static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
 static NSString *changeUserImageStr=@"hufu/app/member/updateUserImg.do";//上传用户头像
 static NSString *getUserInfoStr=@"hufu/app/member/getUserInfo.do?";//获取用户信息
 static NSString *changePasswordStr=@"hufu/app/member/changePassword.do?";//修改用户密码
-static NSString *shareUserListStr=@"hufu/app/share/findUserByDevice.do?";//根据设备找用户
+static NSString *shareUserListStr=@"hufu/app/share/findUserByDevice.do?";//根据设备找分享用户
+static NSString *findDeviceByUserStr=@"hufu/app/share/findSharedDeviceByUser.do?";//根据用户查找分享设备
+static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
+static NSString *deleteShareUserStr=@"hufu/app/share/deleteShare.do?";//删除分享用户
+static NSString *checkUserStr=@"hufu/app/userdevice/todeviceUser.do?";//检查用户是否可以分享设备
 
 static ZYY_GetInfoFromInternet *_instancedObj;
 
@@ -49,12 +52,32 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     });
     return _instancedObj;
 }
-#pragma mark 根据设备查找用户
+#pragma mark 删除用户分享
+-(void)deleteSharedUserWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void (^)(id))block{
+    
+    NSString *urlStr=[urlPathStr stringByAppendingString:shareUserListStr];
+    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken,@"deviceToken":deviceToken};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        MYLog(@"%@",responseObject[@"msg"]);
+        //问题，此处会提示处理成功 但是仍然没有实际删除成功
+        if ([responseObject[@"status"] isEqualToString:@"1"])
+        {
+            block(responseObject[@"msg"]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+}
+#pragma mark 根据设备查找分享用户
 -(void)getUserListWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareUserListStr];
     NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken,@"deviceToken":deviceToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject[@"msg"]);
+       // MYLog(@"%@",responseObject[@"msg"]);
+        if ([responseObject[@"status"] isEqualToString:@"1"])
+        {
+            block(responseObject[@"data"]);
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -64,7 +87,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:changePasswordStr];
     NSDictionary *requestDict=@{@"password":password,@"oldPassword":oldPassword,@"userToken":userToken,@"sessionId":sessionId};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@，%@",[self class],responseObject);
+        MYLog(@"%@，%@",[self class],responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
             block();
@@ -85,7 +108,10 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:getUserInfoStr];
     NSDictionary *requestDict=@{@"userToken":userToken,@"sessionId":sessionId};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject);
+        
+        NSDictionary *dict=responseObject[@"data"];
+        [[ZYY_User alloc]initWithDictionary:dict];
+        MYLog(@"%@",[ZYY_User instancedObj]);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -97,7 +123,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     
     NSString *urlStr=[urlPathStr stringByAppendingString:changeUserImageStr];
     NSDictionary *requestDict=@{@"userId":userId,@"sessionId":sessionId};
-    //NSLog(@"%@?urlStr=%@&sessionId=%@&",urlStr,userId,sessionId);
+    //MYLog(@"%@?urlStr=%@&sessionId=%@&",urlStr,userId,sessionId);
     
     AFHTTPSessionManager *manager= [AFHTTPSessionManager manager];
    // 设置提交的是二进制流(默认提交的是二进制流)
@@ -111,7 +137,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-        NSLog(@"%@",responseObject[@"msg"]);
+        MYLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"msg"] isEqualToString:@"处理成功"])
         {
             block();
@@ -134,21 +160,51 @@ static ZYY_GetInfoFromInternet *_instancedObj;
          //解析data
          NSDictionary *dict=responseObject[@"data"];
          comment=dict[@"comment"];
-         NSLog(@"%@",dict[@"comment"]);
+         MYLog(@"%@",dict[@"comment"]);
          block(comment);
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          [self showError];
      }];
 }
-#pragma mark 分享设备
--(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserId:(NSString *)userId and:(void (^)(id))block{
+#pragma mark 根据用户ID分享设备
+-(void)shareDeviceWithShareUserId:(NSString *)shareUserId andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
-    NSDictionary *requestDict=@{@"sharePhone":sharePhone,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userId":userId};
+    NSDictionary *requestDict=@{@"shareUserId":shareUserId,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if ([responseObject[@"status"]isEqualToString:@"0"])
-        {
-            NSLog(@"分享出现错误");
-        }
+        block(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+
+}
+#pragma mark 根据用户邮箱分享设备
+-(void)shareDeviceWithShareEmail:(NSString *)shareEmail andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+    NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
+    NSDictionary *requestDict=@{@"shareEmail":shareEmail,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        block(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+
+}
+#pragma mark 根据用户名设备
+-(void)shareDeviceWithShareUserName:(NSString *)shareUserName andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+    NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
+    NSDictionary *requestDict=@{@"shareUserName":shareUserName,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        block(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self showError];
+    }];
+
+}
+#pragma mark 根据手机号分享设备
+-(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+    NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
+    NSDictionary *requestDict=@{@"sharePhone":sharePhone,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
+    [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        block(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -161,10 +217,10 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:addDeviceStr];
     NSDictionary*requestDct=@{@"deviceModel":deviceModel,@"softWareNumber":softWareNumber,@"deviceName":deviceName,@"sessionId":sessionId,@"deviceType":deviceType,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDct progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject[@"msg"]);
+        MYLog(@"%@",responseObject[@"msg"]);
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
-            NSLog(@"设备添加成功");
+            MYLog(@"设备添加成功");
             block();
         }
         else {
@@ -179,18 +235,18 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 
 #pragma mark 修改个人信息
 -(void)commitUserInformationWithBirthdate:(NSString *)birthdate andSex:(NSString *)sex andSessionId:(NSString *)sessionId andAddress:(NSString *)address andUserToken:(NSString *)userToken{
-    NSString *urlStr=[urlPathStr stringByAppendingString:commitUserInfo];
+    NSString *urlStr=[urlPathStr stringByAppendingString:commitUserInfoStr];
     NSDictionary *requestDict=@{@"address":address,@"userToken":userToken,@"sessionId":sessionId,@"sex":sex,@"birthdate":birthdate};
-    NSLog(@"%@--%@",birthdate,address);
+    MYLog(@"%@--%@",birthdate,address);
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
             NSDictionary *dict=responseObject[@"data"];
            [[ZYY_User alloc]initWithDictionary:dict];
-           // NSLog(@"信息修改成功",);
+           // MYLog(@"信息修改成功",);
         }
         else{
-            NSLog(@"shibai");
+            MYLog(@"shibai");
         }
        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
@@ -207,7 +263,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSDictionary *requsetDict=@{@"emailAddress1":email,@"password":password,@"userName":userName,@"mobileNumber":mobileNumber,@"authCode":authCode};
 [[AFHTTPSessionManager manager]GET:urlStr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
     {
-        NSLog(@"%@",responseObject[@"msg"]);
+        MYLog(@"%@",responseObject[@"msg"]);
         block(responseObject[@"msg"]);
 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     [self showError];
@@ -220,7 +276,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:sendYZMStr];
     NSDictionary *requsetDict=@{@"type":@"1",@"mobileNumber":telNumber};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject[@"msg"]);
+        MYLog(@"%@",responseObject[@"msg"]);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -231,7 +287,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlSr=[urlPathStr stringByAppendingString:deleteStr];
     NSDictionary *requsetDict=@{@"sessionId":sessionID,@"deviceToken":deviceToken,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlSr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"删除设备--%@",responseObject[@"msg"]);
+        MYLog(@"删除设备--%@",responseObject[@"msg"]);
         if ([responseObject[@"msg"] isEqualToString:@"处理成功"])
         {
             block();
@@ -248,7 +304,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"data"] isKindOfClass:[NSNull class]])
         {
-            NSLog(@"没有设备数据");
+            MYLog(@"没有设备数据");
         }
         else
         {
@@ -257,7 +313,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
             block(listArr);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self showError];
+        //[self showError];
     }];
 }
 
@@ -286,12 +342,12 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSDictionary *requeseDict=@{@"mobileNumber":telNum,@"password":password};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requeseDict progress: nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict=responseObject[@"data"];
-        NSLog(@"登陆反馈信息--%@",responseObject[@"msg"]);
+        MYLog(@"登陆反馈信息--%@",responseObject[@"msg"]);
         if (![dict isKindOfClass:[NSNull class]])
         {
             //用户数据初始化
             [[ZYY_User alloc]initWithDictionary:dict];
-            NSLog(@"%@",dict);
+            MYLog(@"%@",dict);
             sussesedBlock();
         }
         else{
@@ -301,7 +357,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failedBlock();
-        NSLog(@"%@",error);
+        MYLog(@"%@",error);
         [self showError];
     }];
 }
@@ -332,7 +388,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
         //解析data
         NSDictionary *dict=responseObject[@"data"];
         comment=dict[@"comment"];
-        NSLog(@"%@",dict[@"comment"]);
+        MYLog(@"%@",dict[@"comment"]);
         block(comment);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
@@ -349,7 +405,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
          //解析data
          NSDictionary *dict=responseObject[@"data"];
          comment=dict[@"comment"];
-         NSLog(@"%@",dict[@"comment"]);
+         MYLog(@"%@",dict[@"comment"]);
          block(comment);
      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          [self showError];
@@ -359,7 +415,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 -(void)getVersionUpdate:(void (^)(id))block{
     __block NSString *versionNum=nil;
     NSString *urlStr=[urlPathStr stringByAppendingString:versionStr];
-    NSLog(@"%@",urlStr);
+    MYLog(@"%@",urlStr);
     [[AFHTTPSessionManager manager]GET:urlStr parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //解析data  iOS版本
         //NSDictionary *dict=responseObject[@"data"];

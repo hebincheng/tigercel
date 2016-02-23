@@ -27,7 +27,7 @@
                         <constraint firstAttribute="height" constant="30" id="YXd-P8-fjX"/>
                         <constraint firstAttribute="width" constant="201" id="bGJ-DQ-P7n"/>
                     </constraints>
-                    <state key="normal" title="下一步" backgroundImage="icon_bg_btn">
+                    <state key="normal" title="分享" backgroundImage="icon_bg_btn">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>

@@ -292,6 +292,7 @@
 		E757D3871C413CE8007F3A6D /* ZYY_RegistControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_RegistControl.h; sourceTree = "<group>"; };
 		E757D3881C413CE8007F3A6D /* ZYY_RegistControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_RegistControl.m; sourceTree = "<group>"; };
 		E757D3891C413CE8007F3A6D /* ZYY_RegistControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_RegistControl.xib; sourceTree = "<group>"; };
+		E765D2E41C7BF786004E36C6 /* tigercel.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tigercel.pch; path = ../tigercel.pch; sourceTree = "<group>"; };
 		E7665B181C5074FD006F3AF0 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		E7665B191C5074FD006F3AF0 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		E7665B1A1C5074FD006F3AF0 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -591,6 +592,7 @@
 				E711F54E1C3F95D800485406 /* AppDelegate.h */,
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
 				E77AD7411C44A62B000A18C6 /* Address.plist */,
+				E765D2E41C7BF786004E36C6 /* tigercel.pch */,
 			);
 			name = basic;
 			path = "通用";
@@ -657,13 +659,13 @@
 		E711F5A21C3FB82500485406 /* Information */ = {
 			isa = PBXGroup;
 			children = (
-				E77AD7481C44E323000A18C6 /* ZYY_RetrievePasswordView.h */,
 				E7169C171C4294CB003BD334 /* ZYY_MyInformationView.h */,
 				E7169C181C4294CB003BD334 /* ZYY_MyInformationView.m */,
 				E7169C191C4294CB003BD334 /* ZYY_MyInformationView.xib */,
 				E77AD7431C44D35B000A18C6 /* ZYY_ChangeCode.h */,
 				E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */,
 				E77AD7451C44D35B000A18C6 /* ZYY_ChangeCode.xib */,
+				E77AD7481C44E323000A18C6 /* ZYY_RetrievePasswordView.h */,
 				E77AD7491C44E323000A18C6 /* ZYY_RetrievePasswordView.m */,
 				E77AD74A1C44E323000A18C6 /* ZYY_RetrievePasswordView.xib */,
 			);
@@ -1286,6 +1288,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/tigercel/tigercel.pch";
 				INFOPLIST_FILE = tigercel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1309,6 +1313,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/tigercel/tigercel.pch";
 				INFOPLIST_FILE = tigercel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

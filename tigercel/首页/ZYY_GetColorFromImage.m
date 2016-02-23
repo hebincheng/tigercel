@@ -22,7 +22,21 @@
     [super viewDidLoad];
     [self setTitle:@"选择颜色"];
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
+    
+    //自定义返回的按钮
+    UIButton *back=[UIButton buttonWithType:UIButtonTypeCustom];
+    [back setFrame:CGRectMake(0, 0, 15 , 15)];
+    [back addTarget:self action:@selector(tapBackBtn) forControlEvents:UIControlEventTouchUpInside];
+    //[back setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    UIBarButtonItem *backBtn=[[UIBarButtonItem alloc]initWithCustomView:back];
+    self.navigationItem.leftBarButtonItem=backBtn;
     // Do any additional setup after loading the view from its nib.
+}
+#pragma mark 添加返回用户按钮事件
+-(void)tapBackBtn
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andImage:(UIImage *)image{

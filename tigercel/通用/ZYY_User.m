@@ -19,21 +19,34 @@ static ZYY_User *_instancedObj;
     });
     return _instancedObj;
 }
-//通过 alloc init来初始化的也是单例
-+(instancetype)allocWithZone:(struct _NSZone *)zone{
-    static dispatch_once_t oneTime;
-    dispatch_once(&oneTime, ^{
-        _instancedObj=[super allocWithZone:zone];
-    });
-    return _instancedObj;
-}
+////通过 alloc init来初始化的也是单例
+//+(instancetype)allocWithZone:(struct _NSZone *)zone{
+//    static dispatch_once_t oneTime;
+//    dispatch_once(&oneTime, ^{
+//        _instancedObj=[super allocWithZone:zone];
+//    });
+//    return _instancedObj;
+//}
 -(void)initWithDictionary:(NSDictionary *)dict
 {
-    ZYY_User *user=[[ZYY_User alloc]init];
+    //通过instancedObj初始化的均为单例，
+    ZYY_User *user=[ZYY_User instancedObj];
     if (user!=nil)
     {
         [user setValuesForKeysWithDictionary:dict];
     }
+}
+
+-(NSArray *)getUserArrWithArr:(NSArray *)arr{
+    NSMutableArray *mArr=[NSMutableArray array];
+    for (NSDictionary *dict in arr)
+    {
+        //必须用alloc来初始化
+        ZYY_User *user=[[ZYY_User alloc]init];
+        [user setValuesForKeysWithDictionary:dict];
+        [mArr addObject:user];
+    }
+    return mArr;
 }
 
 @end
