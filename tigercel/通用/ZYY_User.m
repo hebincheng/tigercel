@@ -19,7 +19,7 @@ static ZYY_User *_instancedObj;
     });
     return _instancedObj;
 }
-////通过 alloc init来初始化的也是单例
+////通过 alloc init来初始化的也是单例  此处因为需要在查询某设备的分享用户的时候，会产生用户数组 ，所以alloc init不用做单例来处理
 //+(instancetype)allocWithZone:(struct _NSZone *)zone{
 //    static dispatch_once_t oneTime;
 //    dispatch_once(&oneTime, ^{

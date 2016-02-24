@@ -82,7 +82,7 @@
      ZYY_User *user=[ZYY_User instancedObj];
 #pragma mark如果修改成功则调用退出接口 并退出到登陆界面
     [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:user.sessionId andUserToken:user.userToken and:^{
-        [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+        [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
     }];
 }
 

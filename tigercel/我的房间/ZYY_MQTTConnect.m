@@ -35,8 +35,6 @@ static ZYY_MQTTConnect *_instancedObj;
     return _instancedObj;
 }
 
-
-
 volatile int test2_arrivedcount = 0;
 int test2_deliveryCompleted = 0;
 MQTTClient_message test2_pubmsg = MQTTClient_message_initializer;
@@ -92,12 +90,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     int rc = 0;
 //    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
     // int failures = 0;
-    
-    
+    ZYY_User *user=[ZYY_User instancedObj];
+
     opts.keepAliveInterval = 20;
     opts.cleansession = 1;
-    opts.username = "uuuuuuuuuussssssssssrrrrrr000213";
-    opts.password = "papapapa";
+    opts.username = (char *)[user.userToken UTF8String];
+    opts.password = (char *)[user.sessionId UTF8String];
+    NSLog(@"username:%s---password:%s",opts.username,opts.password);
     opts.MQTTVersion = options.MQTTVersion;
     if (options.haconnections != NULL)
     {
@@ -149,12 +148,21 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     int rc;
     int subsqos = 0;
     rc = MQTTClient_subscribe(_MQTTClint, test_topic, subsqos);
-    MYLog(@"订阅设备----%@",rc?@"成功":@"失败");
+    NSLog(@"%d",rc);
+    if(rc==128)
+    {
+        MYLog(@"订阅设备----失败---rc=%d",rc);
+    }
+    else if(rc==0||rc==1||rc==2)
+    {
+        MYLog(@"订阅设备----成功");
+    }
 }
 #pragma mark订阅设备的topic
 -(char *)getGenerateTopicWithDeviceToken:(NSString *)deviceToken{
     NSString *topicStr=[NSString stringWithFormat:@"/control_response/user/%@/device/appliance/lamp/%@",[[ZYY_User instancedObj] userToken],deviceToken];
     char *test_topic=(char*)[topicStr UTF8String];
+    MYLog(@"%s",test_topic);
     return test_topic;
 }
 
@@ -391,10 +399,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     MQTTClient_deliveryToken dt;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_message* m = NULL;
-    //把deviceToken转成char*
-   
-    //读取灯的基本信息
-    
+
     //  MYLog(@"%s",requestContent);
     int len;
     iot_mod_json_lwm2m_header_t send_header, receive_header,header_test;
@@ -453,7 +458,10 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         myprintf("json:\n%s\n", receive_header.body);//数据内容
         //将数据内容转成data格式并回调
         NSData *data=[NSData dataWithBytes:receive_header.body length:bodyLen];
+        
+        MYLog(@"%@",data);
         //回调
+        
         block(data);
     }
     else{
@@ -462,7 +470,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
 }
 
-#pragma mark 控制设备的时候获取设备状态详情
+#pragma mark 控制设备的时候获取设备基本状态详情
 -(void)getDeviceInfoAndConnectToMQTTWithDeviceToken:(NSString *)deviceToken block:(void (^)(id))block{
     char *requestContent="{"
     "\"operation\":\"readREQ\","
@@ -486,7 +494,185 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         block(data);
     }];
 }
+#pragma mark 1.调节设备亮度
+-(void)changeDeviceBrightnessWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
 
+    MYLog(@"调节设备亮度");
+     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightBright\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",value];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 2.调节设备色温
+-(void)changeDeviceColorWarmWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+    MYLog(@"调节设备色温");
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightColorTemp\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",value];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 3.调节设备色温
+-(void)changeRespiratoryRateWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+    MYLog(@"调节设备色温");
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightBlinkFreq\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",value];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 4.设备颜色
+-(void)changeDeviceColorWithDeviceToken:(NSString *)deviceToken andRed:(int)redValue andGreen:(int)greenValue andBlue:(int)blueValue block:(void (^)(id data))block{
+    MYLog(@"设备颜色");
+  //      char *requestContent="{"
+//            "\"operation\":\"writeREQ\","
+//            "\"sequence\":12345,"
+//            "\"object\":{"
+//            "\"objId\":\"lamp\","
+//            "\"objInstances\":["
+//            "{"
+//            "\"objInstanceId\":\"single\","
+//            "\"resources\":["
+//            "{"
+//            "\"resId\":\"lightColor\","
+//            "\"resInstances\":["
+//            "{"
+//            "\"resInstanceId\":\"red\","
+//            "\"dataType\":\"integer\","
+//            "\"value\":\"50\""
+//            "},"
+//            "{"
+//            "\"resInstanceId\":\"green\","
+//            "\"dataType\":\"integer\","
+//            "\"value\":\"50\""
+//            "},"
+//            "{"
+//            "\"resInstanceId\":\"blue\","
+//            "\"dataType\":\"integer\","
+//            "\"value\":\"50\""
+//            "}"
+//            "]"
+//            "}"
+//            "]"
+//            "}"
+//            "]"
+//            "}"
+//            "}";
+    
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightColor\",\"resInstances\":[{\"resInstanceId\":\"red\",\"dataType\":\"integer\",\"value\":\"%d\"},{\"resInstanceId\":\"green\",\"dataType\":\"integer\",\"value\":\"%d\"},{\"resInstanceId\":\"blue\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",redValue,greenValue,blueValue];
+    
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 5.设置省电模式
+-(void)changeDeviceSavingPowerWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block{
+    MYLog(@"设置省电模式");
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightPowerSaving\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"boolean\",\"value\":\"%s\"}]}]}]}}",trueOrfalse];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 6.设置设备开光
+-(void)changeDeviceIsOnWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block{
+    MYLog(@"设置设备开光");
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightSwitch\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"boolean\",\"value\":\"%s\"}]}]}]}}",trueOrfalse];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+#pragma mark 7.设置设备当前应用的场景的接口
+-(void)changeDeviceCurrentSceneWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+    //value  是指设备的第几个场景;
+    MYLog(@"设置设备当前应用的场景的接口");
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightScenario\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",value];
+    char *requestContent=(char *)[requestStr UTF8String];
 
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
 
+#pragma mark 8.设置设备当前应用的工作模式的接口
+-(void)changeDeviceCurrentModeWithDeviceToken:(NSString *)deviceToken andModeString:(char *)modeStr block:(void (^)(id data))block{
+    MYLog(@"设置设备当前应用的工作模式的接口");
+    //modeStr  是指设备氛围模式和照明模式 Atmosphere /Light
+    NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":12345,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightMode\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"string\",\"value\":\"%s\"}]}]}]}}",modeStr];
+    char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
+//“0101010”，0代表不工作，1代表工作。最高位代表周日，最低位代表周六
+#pragma mark 9.为设备添加定时任务
+-(void)addDeviceTimeWithDeviceToken:(NSString *)deviceToken startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday block:(void (^)(id data))block{
+      char *requestContent="{"
+            "\"operation\":\"writeREQ\","
+            "\"sequence\":12345,"
+            "\"object\":{"
+            "\"objId\":\"lamp\","
+            "\"objInstances\":["
+            "{"
+            "\"objInstanceId\":\"single\","
+            "\"resources\":["
+            "{"
+            "\"resId\":\"lightColor\","
+            "\"resInstances\":["
+            "{"
+            "\"resInstanceId\":\"red\","
+            "\"dataType\":\"integer\","
+            "\"value\":\"50\""
+            "},"
+            "{"
+            "\"resInstanceId\":\"green\","
+            "\"dataType\":\"integer\","
+            "\"value\":\"50\""
+            "},"
+            "{"
+            "\"resInstanceId\":\"blue\","
+            "\"dataType\":\"integer\","
+            "\"value\":\"50\""
+            "}"
+            "]"
+            "}"
+            "]"
+            "}"
+            "]"
+            "}"
+            "}";
+   // char *requestContent=(char *)[requestStr UTF8String];
+    
+    char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    //调用mqtt publish发送请求
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+        block(data);
+    }];
+}
 @end

@@ -10,90 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-changeUserPasswordWithPassword:andOldPassword:andUserToken:andSessionId:sussecdBlock:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet changeUserPasswordWithPassword:andOldPassword:andUserToken:andSessionId:sussecdBlock:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.577872"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "99"
-                  endingLineNumber = "99"
-                  offsetFromSymbolStart = "604">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__112-[ZYY_GetInfoFromInternet changeUserPasswordWithPassword:andOldPassword:andUserToken:andSessionId:sussecdBlock:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.57826"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "99"
-                  endingLineNumber = "99"
-                  offsetFromSymbolStart = "492">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_112"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.578402"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_113"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.578533"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__112-[ZYY_GetInfoFromInternet changeUserPasswordWithPassword:andOldPassword:andUserToken:andSessionId:sussecdBlock:]_block_invoke115"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.57866"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "99"
-                  endingLineNumber = "99"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -103,60 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-getUserInfoWithUserToken:andSessionId:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet getUserInfoWithUserToken:andSessionId:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.594323"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
-                  offsetFromSymbolStart = "344">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__65-[ZYY_GetInfoFromInternet getUserInfoWithUserToken:andSessionId:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.594725"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
-                  offsetFromSymbolStart = "272">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__65-[ZYY_GetInfoFromInternet getUserInfoWithUserToken:andSessionId:]_block_invoke_2"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.594883"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -166,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "-changeUserImageWithUserId:andSessionId:andImageStr:block:"
             landmarkType = "5">
          </BreakpointContent>
@@ -182,90 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "-registProrocolView:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet registProrocolView:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.610623"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "165"
-                  endingLineNumber = "165"
-                  offsetFromSymbolStart = "540">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__46-[ZYY_GetInfoFromInternet registProrocolView:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.611022"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "165"
-                  endingLineNumber = "165"
-                  offsetFromSymbolStart = "300">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_172"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.611149"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_173"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.611483"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__46-[ZYY_GetInfoFromInternet registProrocolView:]_block_invoke175"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.611614"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "165"
-                  endingLineNumber = "165"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -275,90 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "-shareDeviceWithSharePhone:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet shareDeviceWithSharePhone:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.613584"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__110-[ZYY_GetInfoFromInternet shareDeviceWithSharePhone:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.613904"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_210"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.614057"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_211"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.614203"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__110-[ZYY_GetInfoFromInternet shareDeviceWithSharePhone:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke213"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.614504"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -368,90 +90,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "-addEquipmentWithDeviceModel:andSoftWareNumber:andDeviceName:andSessionId:andDeviceType:andDeviceId:andUserToken:andBlock:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet addEquipmentWithDeviceModel:andSoftWareNumber:andDeviceName:andSessionId:andDeviceType:andDeviceId:andUserToken:andBlock:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.616873"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "772">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__148-[ZYY_GetInfoFromInternet addEquipmentWithDeviceModel:andSoftWareNumber:andDeviceName:andSessionId:andDeviceType:andDeviceId:andUserToken:andBlock:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.617019"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "532">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_227"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.617142"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_228"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.617264"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__148-[ZYY_GetInfoFromInternet addEquipmentWithDeviceModel:andSoftWareNumber:andDeviceName:andSessionId:andDeviceType:andDeviceId:andUserToken:andBlock:]_block_invoke230"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.617384"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "231"
-                  endingLineNumber = "231"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -461,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "-commitUserInformationWithBirthdate:andSex:andSessionId:andAddress:andUserToken:"
             landmarkType = "5">
          </BreakpointContent>
@@ -477,90 +122,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "-registAccountWithEmailAddress1:andPassword:andUserName:andMobileNumber:andAuthCode:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet registAccountWithEmailAddress1:andPassword:andUserName:andMobileNumber:andAuthCode:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.619308"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "268"
-                  endingLineNumber = "268"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__114-[ZYY_GetInfoFromInternet registAccountWithEmailAddress1:andPassword:andUserName:andMobileNumber:andAuthCode:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.619444"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "268"
-                  endingLineNumber = "268"
-                  offsetFromSymbolStart = "256">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_258"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.619564"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_259"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.619679"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__114-[ZYY_GetInfoFromInternet registAccountWithEmailAddress1:andPassword:andUserName:andMobileNumber:andAuthCode:and:]_block_invoke261"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.619793"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "268"
-                  endingLineNumber = "268"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -570,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
             landmarkName = "-loginWithTelNum:andPassWord:susseced:orFailed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -586,90 +154,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "-feddBackWithComment:andTitle:andUserID:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet feddBackWithComment:andTitle:andUserID:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.622389"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "524">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__70-[ZYY_GetInfoFromInternet feddBackWithComment:andTitle:andUserID:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.622532"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_315"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.622656"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_316"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.622771"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__70-[ZYY_GetInfoFromInternet feddBackWithComment:andTitle:andUserID:and:]_block_invoke318"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.622899"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "375"
-                  endingLineNumber = "375"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -679,90 +170,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "-getVersionExplain:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet getVersionExplain:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.624235"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "393"
-                  endingLineNumber = "393"
-                  offsetFromSymbolStart = "540">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[ZYY_GetInfoFromInternet getVersionExplain:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.624454"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "393"
-                  endingLineNumber = "393"
-                  offsetFromSymbolStart = "300">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_322"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.624584"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_323"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.624703"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[ZYY_GetInfoFromInternet getVersionExplain:]_block_invoke325"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.624823"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "393"
-                  endingLineNumber = "393"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -772,90 +186,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "-getUserReglation:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet getUserReglation:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.626176"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "410"
-                  endingLineNumber = "410"
-                  offsetFromSymbolStart = "540">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[ZYY_GetInfoFromInternet getUserReglation:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.626337"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "410"
-                  endingLineNumber = "410"
-                  offsetFromSymbolStart = "300">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_329"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.626473"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_330"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.62659"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[ZYY_GetInfoFromInternet getUserReglation:]_block_invoke332"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.626708"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "410"
-                  endingLineNumber = "410"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -865,90 +202,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
+            startingLineNumber = "427"
+            endingLineNumber = "427"
             landmarkName = "-getVersionUpdate:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet getVersionUpdate:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.627962"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "428"
-                  endingLineNumber = "428"
-                  offsetFromSymbolStart = "372">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[ZYY_GetInfoFromInternet getVersionUpdate:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.628099"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "428"
-                  endingLineNumber = "428"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_336"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.628226"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_337"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.628347"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__44-[ZYY_GetInfoFromInternet getVersionUpdate:]_block_invoke339"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.628475"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "428"
-                  endingLineNumber = "428"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -958,90 +218,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "-shareDeviceWithShareUserId:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet shareDeviceWithShareUserId:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.629831"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__111-[ZYY_GetInfoFromInternet shareDeviceWithShareUserId:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.629976"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_183"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.630099"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_184"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.630223"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__111-[ZYY_GetInfoFromInternet shareDeviceWithShareUserId:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke186"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.630343"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1051,90 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "-shareDeviceWithShareEmail:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet shareDeviceWithShareEmail:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.631665"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__110-[ZYY_GetInfoFromInternet shareDeviceWithShareEmail:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.631809"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_192"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.631932"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_193"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.632055"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__110-[ZYY_GetInfoFromInternet shareDeviceWithShareEmail:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke195"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.632177"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1144,90 +250,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477829664.041442"
+            timestampString = "477994281.74043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "-shareDeviceWithShareUserName:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZYY_GetInfoFromInternet shareDeviceWithShareUserName:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.633537"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "197"
-                  endingLineNumber = "197"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__113-[ZYY_GetInfoFromInternet shareDeviceWithShareUserName:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.633682"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "197"
-                  endingLineNumber = "197"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_201"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.633807"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_202"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.633932"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__113-[ZYY_GetInfoFromInternet shareDeviceWithShareUserName:andSessionId:andDeviceToken:andDeviceId:andUserToken:and:]_block_invoke204"
-                  moduleName = "tigercel"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hufutongxin/Desktop/tigercel/tigercel/%E6%88%91%E7%9A%84%E6%88%BF%E9%97%B4/ZYY_GetInfoFromInternet.m"
-                  timestampString = "477903156.634064"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "197"
-                  endingLineNumber = "197"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

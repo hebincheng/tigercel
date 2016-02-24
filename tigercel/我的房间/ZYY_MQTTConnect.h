@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "MQTTClient.h"
 #import "MQTTClientPersistence.h"
 
@@ -32,16 +33,24 @@
 
 //订阅的topic
 -(char * )getGenerateTopicWithDeviceToken:(NSString *)deviceToken;
-
 //1.调节设备亮度
+-(void)changeDeviceBrightnessWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block;
 //2.调节设备色温
+-(void)changeDeviceColorWarmWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block;
 //3.设置设备呼吸速度的接口
+-(void)changeRespiratoryRateWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block;
 //4.设备颜色
+-(void)changeDeviceColorWithDeviceToken:(NSString *)deviceToken andRed:(int)redValue andGreen:(int)greenValue andBlue:(int)blueValue block:(void (^)(id data))block;
 //5.设置省电模式
+-(void)changeDeviceSavingPowerWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block;
 //6.设置设备开关状态的接口
+-(void)changeDeviceIsOnWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block;
 //7.设置设备当前应用的场景的接口
+-(void)changeDeviceCurrentSceneWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block;
 //8.设置设备当前工作模式的接口
+-(void)changeDeviceCurrentModeWithDeviceToken:(NSString *)deviceToken andModeString:(char *)modeStr block:(void (^)(id data))block;
 //9.为设备添加定时任务
+-(void)addDeviceTimeWithDeviceToken:(NSString *)deviceToken startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday block:(void (^)(id data))block;
 //10.删除设备的定时任务
 //11.开启设备的定时任务
 //12.关闭设备的定时任务

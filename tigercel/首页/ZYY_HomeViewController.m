@@ -17,6 +17,7 @@
 #import "ZYY_GetInfoFromInternet.h"
 #import "FeThreeDotGlow.h"
 #import "ZYY_MQTTConnect.h"
+#import "MJRefresh.h"
 
 
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -39,29 +40,23 @@ static NSString *cellID=@"cellID";
 @implementation ZYY_HomeViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    if (_LEDArr==nil)
-    {
-        _LEDArr=[NSMutableArray array];
-    }
-    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
-        //若在云端有设备列表 则赋值给LEDArr
-        _LEDArr=[NSMutableArray arrayWithArray:lArr];
-        [_tableView reloadData];
-        //获取到列表后进行订阅
-        for (ZYY_LED *led in _LEDArr)
-        {
-            [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
-        }
-    }];
-    //_filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"led.data"];
-    //已添加的led设备数组
-    //_LEDArr=[NSKeyedUnarchiver unarchiveObjectWithFile:_filePath];
+    //调用appdelegate 页面出现后，可以实现滑动效果
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:YES];
     [_tableView reloadData];
 }
+
+//初始化主页
+-(id)initWithLEDArr:(NSArray *)ledArr{
+    if (self=[super init])
+    {
+        _LEDArr =[NSMutableArray arrayWithArray:ledArr];
+    }
+    return self;
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
-    //调用单例 页面消失后 禁止滑动
+    //调用appdelegate 页面消失后 禁止滑动
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
@@ -87,7 +82,11 @@ static NSString *cellID=@"cellID";
     [self loadUI];
     [self buildSceneUserDefault];
     //订阅设备
-
+    //获取到列表后进行订阅
+    for (ZYY_LED *led in _LEDArr)
+    {
+        [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
+    }
 }
 #pragma mark-
 #pragma mark如果设备第一次登陆登陆 则将默认的照明模式数组 和氛围模式数据存储
@@ -111,7 +110,6 @@ static NSString *cellID=@"cellID";
         [userDefault setObject:fenWeiTitleArr forKey:@"fenWeiTitleArr"];
     }
 }
-
 
 #pragma mark-
 #pragma mark加载UI
@@ -148,7 +146,7 @@ static NSString *cellID=@"cellID";
     [_tableView setDataSource:self];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     //设置不可滚动
-    [_tableView setScrollEnabled:NO];
+    //[_tableView setScrollEnabled:NO];
     //在有NavationBar的情况下设置自动尺寸 此时y的0  即为父视图的64
     [_tableView setAutoresizesSubviews:YES];
     [_tableView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
@@ -156,7 +154,29 @@ static NSString *cellID=@"cellID";
     //注册nib
     [_tableView setUserInteractionEnabled:YES];
     [_tableView registerNib:[UINib nibWithNibName:@"ZYY_HomeTableViewCell"  bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cellID];
+    //tableView加载下拉刷新空间
+    _tableView.mj_header=[MJRefreshNormalHeader  headerWithRefreshingBlock:^{
+        //回调方法
+        [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
+            
+            _LEDArr=[NSMutableArray arrayWithArray:lArr];
+            
+            //获取到列表后进行订阅
+            for (ZYY_LED *led in _LEDArr)
+            {
+                [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
+            }
+        }];
+        [self performSelector:@selector(refreshData) withObject:nil afterDelay:1.0f];
+    }];
+    
     [self.view addSubview:_tableView];
+}
+#pragma mark 下拉刷新
+-(void)refreshData{
+    //结束刷新
+    [_tableView reloadData];
+    [_tableView.mj_header endRefreshing];
 }
 
 #pragma mark-
@@ -221,11 +241,17 @@ static NSString *cellID=@"cellID";
     FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
     [self.view addSubview:threeDot];
     [threeDot show];
-#pragma mark调用函数获取设备信息
-    [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
-        [threeDot removeFromSuperview];
-        MYLog(@"%@",data);
+    NSString *str=[_LEDArr[indexPath.row] deviceToken];
+    [[ZYY_MQTTConnect instancedObj]addDeviceTimeWithDeviceToken:str startTime:"2:50" endTime:"14:50" lightScenario:1 workday:"0101010" block:^(id data) {
+        
     }];
+//#pragma mark调用函数获取设备信息
+//    [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
+//        [threeDot removeFromSuperview];
+//        MYLog(@"%@",data);
+//    }];
+    
+    
 //    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
 //    [self.navigationController pushViewController:equipmentView animated:YES];
 }

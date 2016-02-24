@@ -27,6 +27,7 @@ static NSString *changeUserImageStr=@"hufu/app/member/updateUserImg.do";//上传
 static NSString *getUserInfoStr=@"hufu/app/member/getUserInfo.do?";//获取用户信息
 static NSString *changePasswordStr=@"hufu/app/member/changePassword.do?";//修改用户密码
 static NSString *shareUserListStr=@"hufu/app/share/findUserByDevice.do?";//根据设备找分享用户
+static NSString *deleteSharedUser=@"hufu/app/share/deleteShare.do?";//删除分享用户
 static NSString *findDeviceByUserStr=@"hufu/app/share/findSharedDeviceByUser.do?";//根据用户查找分享设备
 static NSString *shareDeviceStr=@"hufu/app/share/addShare.do?";//分享
 static NSString *deleteShareUserStr=@"hufu/app/share/deleteShare.do?";//删除分享用户
@@ -53,12 +54,12 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     return _instancedObj;
 }
 #pragma mark 删除用户分享
--(void)deleteSharedUserWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void (^)(id))block{
+-(void)deleteSharedUserWithSessionId:(NSString *)sessionId andLoginUserToken:(NSString *)loginUserToken andSharedUserToken:(NSString *)sharedUserToken andDeviceToken:(NSString *)deviceToken block:(void(^)(id data))block{
     
-    NSString *urlStr=[urlPathStr stringByAppendingString:shareUserListStr];
-    NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken,@"deviceToken":deviceToken};
+    NSString *urlStr=[urlPathStr stringByAppendingString:deleteSharedUser];
+    NSDictionary *requestDict=@{@"sessionId":sessionId,@"loginUserToken":loginUserToken,@"deviceToken":deviceToken,@"sharedUserToken":sharedUserToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        MYLog(@"%@",responseObject[@"msg"]);
+        MYLog(@"%@",responseObject);
         //问题，此处会提示处理成功 但是仍然没有实际删除成功
         if ([responseObject[@"status"] isEqualToString:@"1"])
         {
@@ -73,11 +74,10 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:shareUserListStr];
     NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken,@"deviceToken":deviceToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-       // MYLog(@"%@",responseObject[@"msg"]);
-        if ([responseObject[@"status"] isEqualToString:@"1"])
-        {
-            block(responseObject[@"data"]);
-        }
+        MYLog(@"%@",responseObject[@"msg"]);
+        
+        block(responseObject[@"data"]);
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
@@ -108,11 +108,11 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSString *urlStr=[urlPathStr stringByAppendingString:getUserInfoStr];
     NSDictionary *requestDict=@{@"userToken":userToken,@"sessionId":sessionId};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         NSDictionary *dict=responseObject[@"data"];
         [[ZYY_User alloc]initWithDictionary:dict];
         MYLog(@"%@",[ZYY_User instancedObj]);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@",error.description);
         [self showError];
     }];
 }
@@ -419,8 +419,6 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     [[AFHTTPSessionManager manager]GET:urlStr parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //解析data  iOS版本
         //NSDictionary *dict=responseObject[@"data"];
-        //
-        //
         //
         //
         //

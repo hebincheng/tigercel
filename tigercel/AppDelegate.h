@@ -17,7 +17,7 @@
 @property (strong, nonatomic) LeftSlideViewController *LeftSlideVC;
 @property (strong, nonatomic) UINavigationController *homeNavigationController;
 
--(void)showWindowHome;
+-(void)showLoginView;
 
 @end
 

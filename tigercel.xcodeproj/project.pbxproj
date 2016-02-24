@@ -469,7 +469,7 @@
 				E77BCA9A1C585B7A000B8353 /* LoadingAnimationView */,
 				E7030B781C4DF5CD0015F552 /* SystemConfiguration.framework */,
 				E7030B671C4DF1270015F552 /* BasicObject */,
-				E7204E4B1C4771D6005D6C4D /* custom */,
+				E7204E4B1C4771D6005D6C4D /* customView */,
 				E711F5A31C3FB8C700485406 /* LeftSlideViewController */,
 				E711F54E1C3F95D800485406 /* AppDelegate.h */,
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
@@ -582,7 +582,7 @@
 			path = DeviceControl;
 			sourceTree = "<group>";
 		};
-		E7204E4B1C4771D6005D6C4D /* custom */ = {
+		E7204E4B1C4771D6005D6C4D /* customView */ = {
 			isa = PBXGroup;
 			children = (
 				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
@@ -590,7 +590,7 @@
 				E7204E541C478308005D6C4D /* UIImageView+ZYY_GetColor.h */,
 				E7204E551C478308005D6C4D /* UIImageView+ZYY_GetColor.m */,
 			);
-			name = custom;
+			name = customView;
 			sourceTree = "<group>";
 		};
 		E757D3811C40CD03007F3A6D /* Login */ = {

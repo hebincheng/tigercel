@@ -37,13 +37,12 @@
     self.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
   
     //初始化左视图界面
-    
     self.leftView=[[ZYY_LeftViewController alloc]init];
     self.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:_leftView andMainView:self.homeNavigationController];
     return YES;
 }
 
--(void)showWindowHome
+-(void)showLoginView
 {
     //重新设置window的根视图控制器
     self.homeNavigationController=nil;

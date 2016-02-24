@@ -78,16 +78,16 @@
 #pragma mark 发送设备wifi连接消息
 -(void)sendConnectMessage
 {
-    const char *ssid = [@"Tiger_user" cStringUsingEncoding:NSASCIIStringEncoding];
-    const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-    //        const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
+   // const char *ssid = [@"babyLed" cStringUsingEncoding:NSASCIIStringEncoding];
+   //const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *ssid = [_wifiNameButton.titleLabel.text cStringUsingEncoding:NSASCIIStringEncoding];
     //        const char *s_authmode = [[self getMode:_authModeButton.titleLabel.text] cStringUsingEncoding:NSASCIIStringEncoding];
-    int authmode = atoi(s_authmode);
-    //        const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
-    const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
-    MYLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
+    //int authmode = atoi(s_authmode);
+    const char *password = [_passwordText.text cStringUsingEncoding:NSASCIIStringEncoding];
+   // const char *password = [@"64180507" cStringUsingEncoding:NSASCIIStringEncoding];
+   // MYLog(@"OnStart: ssid = %s, authmode = %d, password = %s", ssid, authmode, password);
     InitSmartConnection();
-    StartSmartConnection(ssid, password, "", 9);
+    StartSmartConnection(ssid, password, "", 10);
 }
 #pragma mark  一阶段广播包发送的json数据
 -(NSData *)discoveryQuerydata{
@@ -358,18 +358,18 @@
 #pragma mark 判断输入字段并调用接口进行连接
 - (IBAction)connectBtn {
     [_passwordText resignFirstResponder];
-    if ([_passwordText.text isEqualToString:@""])
-    {
-        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入WiFi密码" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-        [av show];
-    }
-    else if(_modeStr==nil)
-    {
-        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请选择WiFi加密模式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-        [av show];
-    }
-    else
-    {
+//    if ([_passwordText.text isEqualToString:@""])
+//    {
+//        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入WiFi密码" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+//        [av show];
+//    }
+//    else if(_modeStr==nil)
+//    {
+//        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请选择WiFi加密模式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+//        [av show];
+//    }
+//    else
+//    {
         //wifi连接请求
         [self sendConnectMessage];
 #pragma mark发送udp广播包
@@ -381,7 +381,7 @@
         _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
         [self.view addSubview:_threeDot];
         [_threeDot show];
-    }
+//    }
 }
 #pragma mark-
 #pragma mark 程序运行时钟
@@ -398,7 +398,7 @@
         MYLog(@"2222222222");
 //        [_udpSocket sendData:[self discoveryQuerydata] toHost:@"255.255.255.255" port:6666 withTimeout:_timeout tag:1];
     }
-    if(_step==60*60)
+    if(_step==60*30)
     {
         _step=0;
         //停止发送wifi信息

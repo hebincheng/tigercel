@@ -139,7 +139,7 @@ static NSString *cellID=@"tableViewCellID";
     [_imageBtn setBackgroundImage:[UIImage imageNamed:@"touxiang"] forState:UIControlStateNormal];
     if (![user.titleMultiUrl isEqualToString:@""])
     {
-           [_imageBtn sd_setImageWithURL:[NSURL URLWithString:user.titleMultiUrl] forState:UIControlStateNormal];
+        [_imageBtn sd_setImageWithURL:[NSURL URLWithString:user.titleMultiUrl] forState:UIControlStateNormal];
     }
    
 

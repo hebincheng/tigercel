@@ -13,4 +13,7 @@
 
 @property(nonatomic,strong)UINavigationController *nav;
 
+-(id)initWithLEDArr:(NSArray *)ledArr;
+
+@property(nonatomic,weak)UITableView *tableView1;
 @end

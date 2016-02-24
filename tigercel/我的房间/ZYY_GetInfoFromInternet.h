@@ -47,7 +47,7 @@
 //根据设备查找用户
 -(void)getUserListWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void(^)(id data))block;
 //删除分享用户
--(void)deleteSharedUserWithSessionId:(NSString *)sessionId andUserToken:(NSString *)userToken andDeviceToken:(NSString *)deviceToken block:(void(^)(id data))block;
+-(void)deleteSharedUserWithSessionId:(NSString *)sessionId andLoginUserToken:(NSString *)loginUserToken andSharedUserToken:(NSString *)sharedUserToken andDeviceToken:(NSString *)deviceToken block:(void(^)(id data))block;
 //根据手机号分享设备
 -(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void(^)(id data))block;
 //根据邮箱分享设备

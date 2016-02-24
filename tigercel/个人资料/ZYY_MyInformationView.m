@@ -357,20 +357,23 @@ static NSString *pStr,*cStr,*tStr;
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     __block UIImage *image=info[@"UIImagePickerControllerEditedImage"];
-    [self dismissViewControllerAnimated:YES completion:^{
-        [_touXiang setImage:image forState:UIControlStateNormal];
-    }];
+
     NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"APP-20160108-00000002160128134627.jpg"];
     NSData *data=UIImagePNGRepresentation(image);
     [data writeToFile: filePath atomically:YES];
-    //修改侧边栏的图片
-    AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.leftView.imageBtn setImage:image forState:UIControlStateNormal];
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
 #pragma mark 调用头像修改的接口
     [[ZYY_GetInfoFromInternet instancedObj]changeUserImageWithUserId:_user.userId andSessionId:_user.sessionId andImageStr:filePath block:^{
+    
+        //设置头像
+        [_touXiang setImage:image forState:UIControlStateNormal];
+        
         //修改成功后，获取用户信息  刷新头像链接
         [[ZYY_GetInfoFromInternet instancedObj]getUserInfoWithUserToken:_user.userToken andSessionId:_user.sessionId];
+        //修改侧边栏的图片
+        AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.leftView.imageBtn setImage:image forState:UIControlStateNormal];
     }] ;
 }
 
@@ -378,7 +381,7 @@ static NSString *pStr,*cStr,*tStr;
 - (IBAction)quit
 {
     [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken and:^{
-         [(AppDelegate *)[UIApplication sharedApplication].delegate showWindowHome];
+         [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
     }];
 }
 - (IBAction)userImageBtn {

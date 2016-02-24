@@ -12,6 +12,7 @@
 #import "ZYY_RegistControl.h"
 #import "ZYY_GetInfoFromInternet.h"
 #import "ZYY_User.h"
+#import "ZYY_LED.h"
 #import "FeThreeDotGlow.h"
 #import "ZYY_MQTTConnect.h"
 
@@ -106,19 +107,23 @@ static NSString *codetext=@"passWordText";
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text susseced:^{
         MYLog(@"登陆成功");
-        [threeDot removeFromSuperview];
     //登陆成功后
-    //1,连接到MQTT服务
+    //1,连接	到MQTT服务
     [[ZYY_MQTTConnect instancedObj]connectToMQTTServerBlock:^{
        
     }];
-    //2,把主界面设置为根目录
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
+        //获取到设备数组后移除动画
+        [threeDot removeFromSuperview];
+        //2,把主界面设置为根目录
         AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-        ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]init];
+        ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]initWithLEDArr:lArr];
         appDelegate.homeNavigationController=[[UINavigationController alloc]initWithRootViewController:homeVC];
         appDelegate.leftView=[[ZYY_LeftViewController alloc]init];
         appDelegate.LeftSlideVC=[[LeftSlideViewController alloc]initWithLeftView:appDelegate.leftView andMainView:appDelegate.homeNavigationController];
         [appDelegate.window setRootViewController:appDelegate.LeftSlideVC];
+
+    }];
         
     } orFailed:^{
         [threeDot removeFromSuperview];

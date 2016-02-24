@@ -15,8 +15,13 @@
 #endif /* tigercel_pch */
 
 //预编译内容
+//屏幕宽高定义
 #define SCREE_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREE_HEIGHT  ([[UIScreen mainScreen] bounds].size.height)
+//用户token
+#define USER_TOKEN [[ZYY_User instancedObj] userToken] 
+//用户sessionId
+#define USER_SESSIONID [[ZYY_User instancedObj] sessionId]
 
 //自定义MyLog/myprintf  在debug版本打印 在release版本不打印
 #ifdef DEBUG

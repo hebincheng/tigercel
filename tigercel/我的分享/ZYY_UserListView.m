@@ -99,8 +99,8 @@ static NSString *userListCellID=@"userListCellID";
 //删除的方法
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     ZYY_User *user=_userArr[indexPath.row];
-    //注意  此处的sessionID是当前登陆用户的，usertoken是待删除用户的
-    [[ZYY_GetInfoFromInternet instancedObj]deleteSharedUserWithSessionId:[[ZYY_User instancedObj] sessionId] andUserToken:user.userToken andDeviceToken:_LED.deviceToken block:^(id data) {
+    //注意  此处的sessionID/loginUserToken是当前登陆用户的，shareUserToken是待删除用户的
+    [[ZYY_GetInfoFromInternet instancedObj]deleteSharedUserWithSessionId: USER_SESSIONID andLoginUserToken:USER_TOKEN andSharedUserToken:user.userToken andDeviceToken:_LED.deviceToken block:^(id data){
         //网络删除成功后 ，删除本地数组并刷新
         [_userArr removeObjectAtIndex:indexPath.row];
         [_tableView reloadData];
@@ -126,7 +126,7 @@ static NSString *userListCellID=@"userListCellID";
     [cell.deviceModeLabel setText:user.userId];
     [cell.deviceNameLabel setText:user.userName];
     //自定义分割线
-    UIView *speView=[[UIView alloc]initWithFrame:CGRectMake(0, 68, [UIScreen mainScreen].bounds.size.width, 1)];
+    UIView *speView=[[UIView alloc]initWithFrame:CGRectMake(0, 68, SCREE_WIDTH, 1)];
     [speView setBackgroundColor:[UIColor lightGrayColor]];
     [cell.contentView addSubview:speView];
     return cell;

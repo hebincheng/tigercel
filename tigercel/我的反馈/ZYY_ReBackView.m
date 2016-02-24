@@ -69,20 +69,23 @@
     }
 }
 
--(void)clossView
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction)submitBtn
 {
     //发送反馈
-    NSString *contentText=[_contentTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *titleText=[_titleOfContentText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:contentText andTitle:titleText andUserID:[[ZYY_User instancedObj] sessionId] and:^{
-        MYLog(@"反馈发送成功");
-        [self clossView];
-    }];
+    if(_titleOfContentText.text.length<=20)
+    {
+        NSString *contentText=[_contentTextView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *titleText=[_titleOfContentText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[ZYY_GetInfoFromInternet instancedObj]feddBackWithComment:contentText andTitle:titleText andUserID:[[ZYY_User instancedObj] sessionId] and:^{
+            MYLog(@"反馈发送成功");
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+    }
+    else{
+    UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入二十字以内的标题内容" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [av show];
+    }
 }
 
 @end
