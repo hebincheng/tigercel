@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/11.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  用户协议界面
 
 #import "ZYY_UserReglationView.h"
 #import "ZYY_GetInfoFromInternet.h"

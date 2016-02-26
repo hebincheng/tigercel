@@ -32,6 +32,8 @@
     CADisplayLink *_runTime;
     //步数
     NSInteger _step;
+    //加载动画
+    FeThreeDotGlow *_threeDot;
 }
 @end
 
@@ -55,19 +57,25 @@ static NSString *cellID=@"cellID";
     return self;
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+-(void)viewDidDisappear:(BOOL)animated
+{
     //调用appdelegate 页面消失后 禁止滑动
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
+#pragma mark 时钟方法
 -(void)step{
     _step++;
-//    MQTTClient mqtt=[[ZYY_MQTTConnect instancedObj]MQTTClint];
-//    if (_step%(20*60)==0)
-//    {
-//        MQTTClient_retry();
-//        MYLog(@"11111");
-//    }
+    if(_step==10*60){
+        MYLog(@"设备连接超时");
+        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [av show];
+        [_threeDot removeFromSuperview];
+        _threeDot=nil;
+        [_runTime invalidate];
+        _runTime=nil;
+        _step=0;
+    }
 }
 
 - (void)viewDidLoad {
@@ -76,8 +84,6 @@ static NSString *cellID=@"cellID";
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 #pragma mark 由于之前设备做的本地库保存  现在是从网络获取并刷新 所以暂时有待解决本地与网络之间的冲突
     _step=0;
-    _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
-    [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     
     [self loadUI];
     [self buildSceneUserDefault];
@@ -238,13 +244,36 @@ static NSString *cellID=@"cellID";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //添加登陆加载动画
-    FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
-    [self.view addSubview:threeDot];
-    [threeDot show];
-    NSString *str=[_LEDArr[indexPath.row] deviceToken];
-    [[ZYY_MQTTConnect instancedObj]addDeviceTimeWithDeviceToken:str startTime:"2:50" endTime:"14:50" lightScenario:1 workday:"0101010" block:^(id data) {
-        
-    }];
+    if (_threeDot==nil)
+    {
+        _threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
+    }
+    [self.view addSubview:_threeDot];
+    [_threeDot show];
+    if(_runTime==nil)
+    {
+        //调用时钟函数
+        _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
+        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    }
+    
+//    //超时判断
+//    NSDate *timeout = [[NSDate alloc]initWithTimeIntervalSinceNow:5];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        while ([timeout timeIntervalSinceNow] > 0) {
+//            NSLog(@"-----------------%f",[timeout timeIntervalSinceNow]);
+//            //do check stuff
+//            if ([timeout timeIntervalSinceNow] <1) {
+//                NSLog(@"zzzzz");
+//                [threeDot dismiss];
+//            }
+//            sleep(1);
+//        }
+//    });
+//    
+
+    
+//    NSString *str=[_LEDArr[indexPath.row] deviceToken];
 //#pragma mark调用函数获取设备信息
 //    [[ZYY_MQTTConnect instancedObj]getDeviceInfoAndConnectToMQTTWithDeviceToken:[_LEDArr[indexPath.row] deviceToken] block:^(id data){
 //        [threeDot removeFromSuperview];

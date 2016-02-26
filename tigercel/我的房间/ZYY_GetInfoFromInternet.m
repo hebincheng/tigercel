@@ -275,8 +275,11 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 {
     NSString *urlStr=[urlPathStr stringByAppendingString:sendYZMStr];
     NSDictionary *requsetDict=@{@"type":@"1",@"mobileNumber":telNumber};
+    
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
         MYLog(@"%@",responseObject[@"msg"]);
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];

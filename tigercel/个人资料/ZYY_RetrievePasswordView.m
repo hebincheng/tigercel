@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/12.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  找回密码界面
 
 #import "ZYY_RetrievePasswordView.h"
 

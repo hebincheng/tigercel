@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/9.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  登陆界面
 
 #import "ZYY_LoginControl.h"
 #import "ZYY_HomeViewController.h"

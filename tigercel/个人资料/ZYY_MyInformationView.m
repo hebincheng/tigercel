@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/10.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  个人信息界面
 
 #import "ZYY_MyInformationView.h"
 #import "AppDelegate.h"
@@ -13,7 +13,7 @@
 #import "ZYY_User.h"
 #import "ZYY_GetInfoFromInternet.h"
 #import "UIButton+WebCache.h"
-
+#import "ZYY_MQTTConnect.h"
 #define RowHeight 50
 
 @interface ZYY_MyInformationView ()<UITableViewDataSource,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -381,6 +381,9 @@ static NSString *pStr,*cStr,*tStr;
 - (IBAction)quit
 {
     [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken and:^{
+  //退出的时候断开连接 
+         [[ZYY_MQTTConnect instancedObj]quit];
+        
          [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
     }];
 }

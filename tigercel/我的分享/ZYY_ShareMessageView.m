@@ -4,7 +4,7 @@
 //
 //  Created by 虎符通信 on 16/1/19.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  填写分享的信息
 
 #import "ZYY_ShareMessageView.h"
 #import "ZYY_GetInfoFromInternet.h"

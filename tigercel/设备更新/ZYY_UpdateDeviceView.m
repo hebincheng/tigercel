@@ -4,12 +4,13 @@
 //
 //  Created by 虎符通信 on 16/1/10.
 //  Copyright © 2016年 虎符通信. All rights reserved.
-//
+//  升级界面
 
 #import "ZYY_UpdateDeviceView.h"
 #import "ZYY_User.h"
 #import "ZYY_LED.h"
 #import "ZYY_GetInfoFromInternet.h"
+
 @interface ZYY_UpdateDeviceView ()<UITableViewDataSource>
 {
     NSArray *_LEDArr;
