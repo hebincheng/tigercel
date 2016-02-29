@@ -62,7 +62,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 }
 
 #pragma mark登陆的时候连接到mqttserver
--(void)connectToMQTTServerBlock:(void (^)(void))block{
+-(void)connectToMQTTServerCallBackBlock:(void (^)(void))block{
     struct Options
     {
         char* connection;         /**< connection to system under test. */
@@ -178,7 +178,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 
 }
 #pragma mark发现新设备时候获取设备详情
--(void)connectToNewDeviceWithIp:(NSString *)ip andPort:(int)port block:(void (^)(id data))block {
+-(void)connectToNewDeviceWithIp:(NSString *)ip andPort:(int)port callBackBlock:(void (^)(id data))block {
     struct Options
     {
         char* connection;         /**< connection to system under test. */
@@ -405,7 +405,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 
 
 #pragma mark mqtt publish/receive函数
--(void)sendRequsetMessageWithContent:(char *)requestContent andTopicString:(char *)topic  andReceiveDataBlock:(void (^)(id))block{
+-(void)sendRequsetMessageWithContent:(char *)requestContent andTopicString:(char *)topic  andReceiveDatacallBackBlock:(void (^)(id))block{
     _sequence++;
     MQTTClient_deliveryToken dt;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
@@ -482,7 +482,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 }
 
 #pragma mark 控制设备的时候获取设备基本状态详情
--(void)getDeviceInfoAndConnectToMQTTWithDeviceToken:(NSString *)deviceToken block:(void (^)(id))block{
+-(void)getDeviceInfoAndConnectToMQTTWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id))block{
     char *requestContent="{"
     "\"operation\":\"readREQ\","
     "\"sequence\":2222,"
@@ -501,12 +501,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     MYLog(@"%s",test_topic);
     
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent  andTopicString:test_topic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent  andTopicString:test_topic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 1.调节设备亮度
--(void)changeDeviceBrightnessWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+-(void)changeDeviceBrightnessWithDeviceToken:(NSString *)deviceToken andValue:(int)value callBackBlock:(void (^)(id data))block{
 
     MYLog(@"调节设备亮度");
      NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightBright\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",_sequence,value];
@@ -514,36 +514,36 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 2.调节设备色温
--(void)changeDeviceColorWarmWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+-(void)changeDeviceColorWarmWithDeviceToken:(NSString *)deviceToken andValue:(int)value callBackBlock:(void (^)(id data))block{
     MYLog(@"调节设备色温");
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightColorTemp\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",_sequence,value];
     char *requestContent=(char *)[requestStr UTF8String];
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 3.调节设备色温
--(void)changeRespiratoryRateWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+-(void)changeRespiratoryRateWithDeviceToken:(NSString *)deviceToken andValue:(int)value callBackBlock:(void (^)(id data))block{
     MYLog(@"调节设备色温");
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightBlinkFreq\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",_sequence,value];
     char *requestContent=(char *)[requestStr UTF8String];
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 4.设备颜色
--(void)changeDeviceColorWithDeviceToken:(NSString *)deviceToken andRed:(int)redValue andGreen:(int)greenValue andBlue:(int)blueValue block:(void (^)(id data))block{
+-(void)changeDeviceColorWithDeviceToken:(NSString *)deviceToken andRed:(int)redValue andGreen:(int)greenValue andBlue:(int)blueValue callBackBlock:(void (^)(id data))block{
     MYLog(@"设备颜色");
   //      char *requestContent="{"
 //            "\"operation\":\"writeREQ\","
@@ -586,36 +586,36 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 5.设置省电模式
--(void)changeDeviceSavingPowerWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block{
+-(void)changeDeviceSavingPowerWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse callBackBlock:(void (^)(id data))block{
     MYLog(@"设置省电模式");
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightPowerSaving\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"boolean\",\"value\":\"%s\"}]}]}]}}",_sequence,trueOrfalse];
     char *requestContent=(char *)[requestStr UTF8String];
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 6.设置设备开关
--(void)changeDeviceIsOnWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block{
+-(void)changeDeviceIsOnWithDeviceToken:(NSString *)deviceToken trueOrfalse:(char *)trueOrfalse callBackBlock:(void (^)(id data))block{
     MYLog(@"设置设备开光");
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightSwitch\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"boolean\",\"value\":\"%s\"}]}]}]}}",_sequence,trueOrfalse];
     char *requestContent=(char *)[requestStr UTF8String];
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 7.设置设备当前应用的场景的接口
--(void)changeDeviceCurrentSceneWithDeviceToken:(NSString *)deviceToken andValue:(int)value block:(void (^)(id data))block{
+-(void)changeDeviceCurrentSceneWithDeviceToken:(NSString *)deviceToken andValue:(int)value callBackBlock:(void (^)(id data))block{
     //value  是指设备的第几个场景;
     MYLog(@"设置设备当前应用的场景的接口");
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightScenario\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"integer\",\"value\":\"%d\"}]}]}]}}",_sequence,value];
@@ -623,13 +623,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 
 #pragma mark 8.设置设备当前应用的工作模式的接口
--(void)changeDeviceCurrentModeWithDeviceToken:(NSString *)deviceToken andModeString:(char *)modeStr block:(void (^)(id data))block{
+-(void)changeDeviceCurrentModeWithDeviceToken:(NSString *)deviceToken andModeString:(char *)modeStr callBackBlock:(void (^)(id data))block{
     MYLog(@"设置设备当前应用的工作模式的接口");
     //modeStr  是指设备氛围模式和照明模式 Atmosphere /Light
     NSString *requestStr=[NSString stringWithFormat:@"{\"operation\":\"writeREQ\",\"sequence\":%ld,\"object\":{\"objId\":\"lamp\",\"objInstances\":[{\"objInstanceId\":\"single\",\"resources\":[{\"resId\":\"lightMode\",\"resInstances\":[{\"resInstanceId\":\"single\",\"dataType\":\"string\",\"value\":\"%s\"}]}]}]}}",_sequence,modeStr];
@@ -637,13 +637,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 //“0101010”，0代表不工作，1代表工作。最高位代表周日，最低位代表周六
 #pragma mark 9.为设备添加定时任务
--(void)addDeviceTimeWithDeviceToken:(NSString *)deviceToken startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday block:(void (^)(id data))block{
+-(void)addDeviceTimeWithDeviceToken:(NSString *)deviceToken startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday callBackBlock:(void (^)(id data))block{
 //      char *requestContent="{"
 //            "\"operation\":\"createREQ\","
 //            "\"sequence\":12345,"
@@ -704,12 +704,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 10.删除设备的定时任务
--(void)deleteDeviceTimeWithDeviceToken:(NSString *)deviceToken  andTheTimeNumber:(int)value block:(void (^)(id data))block{
+-(void)deleteDeviceTimeWithDeviceToken:(NSString *)deviceToken  andTheTimeNumber:(int)value callBackBlock:(void (^)(id data))block{
     
 //    char *aa=
 //    "{"
@@ -731,13 +731,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 
 #pragma mark 11.开启或者关闭设备的第几组的定时任务
--(void)changeDeviceTimeIsOnWithDeviceToken:(NSString *)deviceToken timeNumber:(int)num trueOrfalse:(char *)trueOrfalse block:(void (^)(id data))block{
+-(void)changeDeviceTimeIsOnWithDeviceToken:(NSString *)deviceToken timeNumber:(int)num trueOrfalse:(char *)trueOrfalse callBackBlock:(void (^)(id data))block{
     MYLog(@"开启或者关闭设备的第几组的定时任务");
 //    char *aa=
 //    "{"
@@ -769,12 +769,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 13.获取设备的定时任务列表
--(void)getDeviceTimerArrWithDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+-(void)getDeviceTimerArrWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id data))block{
     char *aa=
     "{"
     "\"operation\":\"readREQ\","
@@ -785,12 +785,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     "}";
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 14.更新设备的定时任务信息
--(void)updateDeviceTimeWithDeviceToken:(NSString *)deviceToken timerNumber:(int)num startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday block:(void (^)(id data))block{
+-(void)updateDeviceTimeWithDeviceToken:(NSString *)deviceToken timerNumber:(int)num startTime:(char *)startTime endTime:(char *)endTime lightScenario:(int)lightScenario workday:(char *)workday callBackBlock:(void (^)(id data))block{
 //      char *requestContent="{"
 //            "\"operation\":\"writeREQ\","
 //            "\"sequence\":12345,"
@@ -851,13 +851,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 
 }
 #pragma mark 15.添加设备场景
--(void)addNewDeviceSceneWithDeviceToken:(NSString *)deviceToken name:(char *)name lightMode:(char *)lightMode lightBright:(int)lightBright lightColor_0:(int)lightColor_0 lightColor_1:(int)lightColor_1 lightColor_2:(int)lightColor_2 lightColorTemp:(int)lightColorTemp lightBlinkFreq:(int)lightBlinkFreq lightSwitch:(char *)lightSwitch block:(void (^)(id))block{
+-(void)addNewDeviceSceneWithDeviceToken:(NSString *)deviceToken name:(char *)name lightMode:(char *)lightMode lightBright:(int)lightBright lightColor_0:(int)lightColor_0 lightColor_1:(int)lightColor_1 lightColor_2:(int)lightColor_2 lightColorTemp:(int)lightColorTemp lightBlinkFreq:(int)lightBlinkFreq lightSwitch:(char *)lightSwitch callBackBlock:(void (^)(id))block{
 //    char *aa=
 //    "{"
 //       "\"operation\":\"createREQ\","
@@ -958,12 +958,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 16.删除设备场景
--(void)deleteDeviceSceneWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num block:(void (^)(id data))block{
+-(void)deleteDeviceSceneWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num callBackBlock:(void (^)(id data))block{
 //    char *aa=
 //    "{"
 //        "\"operation\":\"deleteREQ\","
@@ -984,13 +984,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 
 }
 #pragma mark 17.更新设备场景
--(void)updateDeviceSceneWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num  sceneName:(char *)name block:(void (^)(id data))block
+-(void)updateDeviceSceneWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num  sceneName:(char *)name callBackBlock:(void (^)(id data))block
 {
 //    char *aaaaa=
 //        "{"
@@ -1023,13 +1023,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 
 #pragma mark 18.获取设备场景列表
--(void)getDeviceSceneArrWithDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+-(void)getDeviceSceneArrWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id data))block{
     char *aa=
     "{"
     "\"operation\":\"readREQ\","
@@ -1040,12 +1040,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     "}";
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 20.获取设备的单个场景的详细信息
--(void)getDetailDeviceSceneInfoWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num block:(void (^)(id data))block{
+-(void)getDetailDeviceSceneInfoWithDeviceToken:(NSString *)deviceToken sceneNumber:(int)num callBackBlock:(void (^)(id data))block{
 //    char *aa=
 //        "{"
 //        "\"operation\":\"readREQ\","
@@ -1064,12 +1064,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     char *requestContent=(char *)[requestStr UTF8String];
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 21.获取设备当前的版本号
--(void)getCurrentSofeVersionWithDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+-(void)getCurrentSofeVersionWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id data))block{
     char *aa=
     "{"
     "\"operation\":\"readREQ\","
@@ -1090,12 +1090,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     "}";
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 22.设备升级命令
--(void)updateDeviceSoftVersionWithDeviceToken:(NSString *)deviceToken  newVersion:(char *)newVersion block:(void (^)(id data))block{
+-(void)updateDeviceSoftVersionWithDeviceToken:(NSString *)deviceToken  newVersion:(char *)newVersion callBackBlock:(void (^)(id data))block{
 //    char *aa=
 //    "{"
 //        "\"operation\":\"writeREQ\","
@@ -1126,12 +1126,12 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 #pragma mark 23.取消设备升级
--(void)cancelDeviceUpdateWithDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+-(void)cancelDeviceUpdateWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id data))block{
     char *aa=
     "{"
     "\"operation\":\"updateCancel\","
@@ -1140,13 +1140,13 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     "}";
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:aa andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 }
 
 #pragma mark 24.获取升级结果
--(void)getDeviceUpdateResultWithDeviceToken:(NSString *)deviceToken block:(void (^)(id data))block{
+-(void)getDeviceUpdateResultWithDeviceToken:(NSString *)deviceToken callBackBlock:(void (^)(id data))block{
 //        char *aa=
 //        "{"
 //            "\"operation\":\"readREQ\","
@@ -1170,7 +1170,7 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     char *requestTopic=[self getGenerateTopicWithDeviceToken:deviceToken];
     //调用mqtt publish发送请求
-    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDataBlock:^(id data) {
+    [self sendRequsetMessageWithContent:requestContent andTopicString:requestTopic andReceiveDatacallBackBlock:^(id data) {
         block(data);
     }];
 

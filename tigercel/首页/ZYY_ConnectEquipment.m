@@ -187,7 +187,7 @@
     NSString *timestamp=dict[@"timestamp"];
     MYLog(@"%@-%@-%@",sourceIP,sourcePort,timestamp);
 //获取新设备详情，成功后输入设备名字
-    [[ZYY_MQTTConnect instancedObj]connectToNewDeviceWithIp:sourceIP andPort:[sourcePort intValue] block:^(id data) {
+    [[ZYY_MQTTConnect instancedObj]connectToNewDeviceWithIp:sourceIP andPort:[sourcePort intValue] callBackBlock:^(id data) {
         _deviceData=[NSData dataWithData:data];
         UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"请输入保存设备名字" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [av setAlertViewStyle:UIAlertViewStylePlainTextInput];
@@ -289,7 +289,7 @@
         deviceModel=[deviceModel stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         ZYY_User *user=[ZYY_User instancedObj];
         
-        [[ZYY_GetInfoFromInternet instancedObj]addEquipmentWithDeviceModel:deviceModel andSoftWareNumber: softWareNumber andDeviceName: deviceName andSessionId:user.sessionId andDeviceType:deviceType andDeviceId:deviceId andUserToken:user.userToken andBlock:^{
+        [[ZYY_GetInfoFromInternet instancedObj]addEquipmentWithDeviceModel:deviceModel andSoftWareNumber: softWareNumber andDeviceName: deviceName andSessionId:user.sessionId andDeviceType:deviceType andDeviceId:deviceId andUserToken:user.userToken callBackBlock:^{
             // 添加成功后返回首页
             [self.navigationController popViewControllerAnimated:YES];
         }];

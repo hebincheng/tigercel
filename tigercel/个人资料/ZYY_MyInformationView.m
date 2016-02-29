@@ -380,7 +380,7 @@ static NSString *pStr,*cStr,*tStr;
 #pragma mark  退出按钮
 - (IBAction)quit
 {
-    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken and:^{
+    [[ZYY_GetInfoFromInternet instancedObj]logoutSessionID:_user.sessionId andUserToken:_user.userToken callBackBlock:^{
   //退出的时候断开连接 
          [[ZYY_MQTTConnect instancedObj]quit];
         

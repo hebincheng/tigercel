@@ -163,7 +163,7 @@ static NSString *cellID=@"cellID";
     //tableView加载下拉刷新空间
     _tableView.mj_header=[MJRefreshNormalHeader  headerWithRefreshingBlock:^{
         //回调方法
-        [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
+        [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] callBackBlock:^(NSArray *lArr) {
             
             _LEDArr=[NSMutableArray arrayWithArray:lArr];
             
@@ -194,7 +194,7 @@ static NSString *cellID=@"cellID";
    //     [NSKeyedArchiver archiveRootObject:_LEDArr toFile:_filePath];
         //删除设备信息
         MYLog(@"%@",_LEDArr);
-        [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserToken:[[ZYY_User instancedObj] userToken]andBlock:^{
+        [[ZYY_GetInfoFromInternet instancedObj]deleteEquipmentWithSessiosID:[[ZYY_User instancedObj] sessionId] andDeviceToken:[_LEDArr[indexPath.row] deviceToken] andUserToken:[[ZYY_User instancedObj] userToken] callBackBlock:^{
             //服务器上删除成功后 删除本地缓存数组中对应的设备
             [_LEDArr removeObjectAtIndex:indexPath.row];
             //删除成功则刷新表格
@@ -241,6 +241,7 @@ static NSString *cellID=@"cellID";
     return 70;
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //添加登陆加载动画
@@ -250,28 +251,33 @@ static NSString *cellID=@"cellID";
     }
     [self.view addSubview:_threeDot];
     [_threeDot show];
-    if(_runTime==nil)
-    {
-        //调用时钟函数
-        _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
-        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    }
+    //此处原本为判断超时部分，后改为用gcd异步队列来进行判断
+//    if(_runTime==nil)
+//    {
+//        //调用时钟函数
+//        _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
+//        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+//    }
+    //超时判断
+    NSDate *timeout = [[NSDate alloc]initWithTimeIntervalSinceNow:8];
     
-//    //超时判断
-//    NSDate *timeout = [[NSDate alloc]initWithTimeIntervalSinceNow:5];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        while ([timeout timeIntervalSinceNow] > 0) {
-//            NSLog(@"-----------------%f",[timeout timeIntervalSinceNow]);
-//            //do check stuff
-//            if ([timeout timeIntervalSinceNow] <1) {
-//                NSLog(@"zzzzz");
-//                [threeDot dismiss];
-//            }
-//            sleep(1);
-//        }
-//    });
-//    
-
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        while ([timeout timeIntervalSinceNow] > 0) {
+            NSLog(@"-----------------%f",[timeout timeIntervalSinceNow]);
+            //do check stuff
+            if ([timeout timeIntervalSinceNow] <1&&_threeDot!=nil)
+            {
+                //若到达时间则在主线程中更新UI  去掉加载动画
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    MYLog(@"设备连接超时");
+                    UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [av show];
+                    [_threeDot removeFromSuperview];
+                });
+            }
+            sleep(1);
+        }
+    });
     
 //    NSString *str=[_LEDArr[indexPath.row] deviceToken];
 //#pragma mark调用函数获取设备信息

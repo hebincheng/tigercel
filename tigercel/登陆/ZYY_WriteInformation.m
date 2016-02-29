@@ -57,7 +57,7 @@
 #pragma mark 注册接口
         //把可能含中文的编码成utf8格式
         NSString *nameStr=[_userNameText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [[ZYY_GetInfoFromInternet instancedObj]registAccountWithEmailAddress1:_mailText.text andPassword:_firstCode.text andUserName:nameStr andMobileNumber:_telNumber andAuthCode:_authCode and:^(id data)
+        [[ZYY_GetInfoFromInternet instancedObj]registAccountWithEmailAddress1:_mailText.text andPassword:_firstCode.text andUserName:nameStr andMobileNumber:_telNumber andAuthCode:_authCode callBackBlock:^(id data)
         {
            //注册成功才会执行块函数 返回登陆界面
             UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message: data delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

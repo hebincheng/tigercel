@@ -100,21 +100,42 @@ static NSString *codetext=@"passWordText";
     }
     
     //添加登陆加载动画
-    FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
+    __block  FeThreeDotGlow * threeDot=[[FeThreeDotGlow alloc]initWithView:self.view blur:NO];
     [self.view addSubview:threeDot];
     [threeDot show];
+    //登陆超时判断，8秒
+    NSDate *time=[[NSDate alloc]initWithTimeIntervalSinceNow:8.0f];
+   
+    //开启一个异步线程去进行超时判断
+   
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      
+        while ([time timeIntervalSinceNow]>0)
+        {
+            if ([time timeIntervalSinceNow]<1&&threeDot!=nil)
+            {
+                MYLog(@"设备登陆超时");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [threeDot removeFromSuperview];
+                });
+            }
+            sleep(1);
+        }
+    });
     
 #pragma mark  登陆接口
     [[ZYY_GetInfoFromInternet instancedObj]loginWithTelNum:_accountTextFiled.text andPassWord:_passWordTextFiled.text susseced:^{
         MYLog(@"登陆成功");
+
     //登陆成功后
     //1,连接	到MQTT服务
-    [[ZYY_MQTTConnect instancedObj]connectToMQTTServerBlock:^{
+    [[ZYY_MQTTConnect instancedObj]connectToMQTTServerCallBackBlock:^{
        
     }];
-    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] and:^(NSArray *lArr) {
-        //获取到设备数组后移除动画
+    [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] callBackBlock:^(NSArray *lArr) {
+        //获取到设备数组后移除动画并将地址置空
         [threeDot removeFromSuperview];
+        threeDot =nil;
         //2,把主界面设置为根目录
         AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         ZYY_HomeViewController *homeVC=[[ZYY_HomeViewController alloc]initWithLEDArr:lArr];

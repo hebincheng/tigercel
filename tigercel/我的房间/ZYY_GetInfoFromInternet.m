@@ -167,7 +167,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
      }];
 }
 #pragma mark 根据用户ID分享设备
--(void)shareDeviceWithShareUserId:(NSString *)shareUserId andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+-(void)shareDeviceWithShareUserId:(NSString *)shareUserId andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken callBackBlock:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
     NSDictionary *requestDict=@{@"shareUserId":shareUserId,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -178,7 +178,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 
 }
 #pragma mark 根据用户邮箱分享设备
--(void)shareDeviceWithShareEmail:(NSString *)shareEmail andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+-(void)shareDeviceWithShareEmail:(NSString *)shareEmail andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken callBackBlock:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
     NSDictionary *requestDict=@{@"shareEmail":shareEmail,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -189,7 +189,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 
 }
 #pragma mark 根据用户名设备
--(void)shareDeviceWithShareUserName:(NSString *)shareUserName andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+-(void)shareDeviceWithShareUserName:(NSString *)shareUserName andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken callBackBlock:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
     NSDictionary *requestDict=@{@"shareUserName":shareUserName,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -200,7 +200,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 
 }
 #pragma mark 根据手机号分享设备
--(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken and:(void (^)(id))block{
+-(void)shareDeviceWithSharePhone:(NSString *)sharePhone andSessionId:(NSString *)sessionId andDeviceToken:(NSString *)deviceToken andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken callBackBlock:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:shareDeviceStr];
     NSDictionary *requestDict=@{@"sharePhone":sharePhone,@"sessionId":sessionId,@"deviceToken":deviceToken,@"deviceId":deviceId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -212,7 +212,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 添加设备
--(void)addEquipmentWithDeviceModel:(NSString *)deviceModel andSoftWareNumber:(NSString *)softWareNumber andDeviceName:(NSString *)deviceName andSessionId:(NSString *)sessionId andDeviceType:(NSString *)deviceType andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken andBlock:(void (^)(void))block
+-(void)addEquipmentWithDeviceModel:(NSString *)deviceModel andSoftWareNumber:(NSString *)softWareNumber andDeviceName:(NSString *)deviceName andSessionId:(NSString *)sessionId andDeviceType:(NSString *)deviceType andDeviceId:(NSString *)deviceId andUserToken:(NSString *)userToken callBackBlock:(void (^)(void))block
 {
     NSString *urlStr=[urlPathStr stringByAppendingString:addDeviceStr];
     NSDictionary*requestDct=@{@"deviceModel":deviceModel,@"softWareNumber":softWareNumber,@"deviceName":deviceName,@"sessionId":sessionId,@"deviceType":deviceType,@"deviceId":deviceId,@"userToken":userToken};
@@ -258,7 +258,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark注册账号
--(void)registAccountWithEmailAddress1:(NSString *)email andPassword:(NSString *)password andUserName:(NSString *)userName andMobileNumber:(NSString *)mobileNumber andAuthCode:(NSString *)authCode and:(void (^)(id))block{
+-(void)registAccountWithEmailAddress1:(NSString *)email andPassword:(NSString *)password andUserName:(NSString *)userName andMobileNumber:(NSString *)mobileNumber andAuthCode:(NSString *)authCode callBackBlock:(void (^)(id))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:registStr];
     NSDictionary *requsetDict=@{@"emailAddress1":email,@"password":password,@"userName":userName,@"mobileNumber":mobileNumber,@"authCode":authCode};
 [[AFHTTPSessionManager manager]GET:urlStr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
@@ -286,7 +286,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 删除设备
--(void)deleteEquipmentWithSessiosID:(NSString *)sessionID andDeviceToken:(NSString *)deviceToken andUserToken:(NSString *)userToken andBlock:(void (^)(void))block{
+-(void)deleteEquipmentWithSessiosID:(NSString *)sessionID andDeviceToken:(NSString *)deviceToken andUserToken:(NSString *)userToken callBackBlock:(void (^)(void))block{
     NSString *urlSr=[urlPathStr stringByAppendingString:deleteStr];
     NSDictionary *requsetDict=@{@"sessionId":sessionID,@"deviceToken":deviceToken,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlSr parameters:requsetDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -301,7 +301,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 获取设备列表
--(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void (^)(NSArray *))block{
+-(void)getEquipmentListWithSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken callBackBlock:(void (^)(NSArray *))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:getListStr];
     NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -321,7 +321,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 注销登录
--(void)logoutSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken and:(void (^)(void))block{
+-(void)logoutSessionID:(NSString *)sessionId andUserToken:(NSString *)userToken callBackBlock:(void (^)(void))block{
     NSString *urlStr=[urlPathStr stringByAppendingString:logoutStr];
     NSDictionary *requestDict=@{@"sessionId":sessionId,@"userToken":userToken};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -366,7 +366,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
 }
 
 #pragma mark 发送反馈
--(void)feddBackWithComment:(NSString *)commentStr andTitle:(NSString *)titleStr andUserID:(NSString *)userID and:(void (^)(void))block
+-(void)feddBackWithComment:(NSString *)commentStr andTitle:(NSString *)titleStr andUserID:(NSString *)userID callBackBlock:(void (^)(void))block
 {
     NSString *urlStr=[urlPathStr stringByAppendingString:feedBackStr];
     NSDictionary *requestDict=@{@"feedBackComment":commentStr,@"feedBackTitle":titleStr,@"userId":userID};

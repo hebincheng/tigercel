@@ -58,7 +58,7 @@
         case 0:
         {
             //用户ID
-            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareUserId:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken and:^(id data) {
+            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareUserId:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken callBackBlock:^(id data) {
                 MYLog(@"%@",data);
                 UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:data[@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [av show];
@@ -68,7 +68,7 @@
         case 1:
         {
             //用户名
-            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareUserName:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken and:^(id data) {
+            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareUserName:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken callBackBlock:^(id data) {
                 MYLog(@"%@",data);
                 UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:data[@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [av show];
@@ -78,7 +78,7 @@
         case 2:
         {
             //手机
-            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithSharePhone:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken and:^(id data) {
+            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithSharePhone:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken callBackBlock:^(id data) {
                 MYLog(@"%@",data);
                 UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:data[@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [av show];
@@ -88,7 +88,7 @@
         case 3:
         {
             //邮箱
-            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareEmail:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken and:^(id data) {
+            [[ZYY_GetInfoFromInternet instancedObj]shareDeviceWithShareEmail:_contentText.text andSessionId:user.sessionId andDeviceToken:_LED.deviceToken andDeviceId:_LED.deviceId  andUserToken:user.userToken callBackBlock:^(id data) {
                 MYLog(@"%@",data);
                 UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:data[@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [av show];
