@@ -112,10 +112,12 @@ static NSString *codetext=@"passWordText";
       
         while ([time timeIntervalSinceNow]>0)
         {
+            MYLog(@"---------------%f",[time timeIntervalSinceNow]);
             if ([time timeIntervalSinceNow]<1&&threeDot!=nil)
             {
                 MYLog(@"设备登陆超时");
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    MYLog(@"移除");
                     [threeDot removeFromSuperview];
                 });
             }

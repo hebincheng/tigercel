@@ -63,23 +63,24 @@ static NSString *cellID=@"cellID";
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
-#pragma mark 时钟方法
--(void)step{
-    _step++;
-    if(_step==10*60){
-        MYLog(@"设备连接超时");
-        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [av show];
-        [_threeDot removeFromSuperview];
-        _threeDot=nil;
-        [_runTime invalidate];
-        _runTime=nil;
-        _step=0;
-    }
-}
+        #pragma mark 时钟方法
+        -(void)step{
+            _step++;
+            if(_step==10*60){
+                MYLog(@"设备连接超时");
+                UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [av show];
+                [_threeDot removeFromSuperview];
+                _threeDot=nil;
+                [_runTime invalidate];
+                _runTime=nil;
+                _step=0;
+            }
+        }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     //初始化全局appdelegate
     _homeAD=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 #pragma mark 由于之前设备做的本地库保存  现在是从网络获取并刷新 所以暂时有待解决本地与网络之间的冲突
@@ -286,9 +287,8 @@ static NSString *cellID=@"cellID";
 //        MYLog(@"%@",data);
 //    }];
     
-    
-//    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
-//    [self.navigationController pushViewController:equipmentView animated:YES];
+    ZYY_EquipmentDetailVie *equipmentView=[[ZYY_EquipmentDetailVie alloc]initWithNibName:@"ZYY_EquipmentDetailVie" bundle:nil andLEDInformation:_LEDArr[indexPath.row] andNumber:indexPath.row+1];
+    [self.navigationController pushViewController:equipmentView animated:YES];
 }
 //返回删除模式
 - (UITableViewCellEditingStyle)tableView: (UITableView *)tableView editingStyleForRowAtIndexPath: (NSIndexPath *)indexPath{
@@ -324,6 +324,7 @@ static NSString *cellID=@"cellID";
 {
     ZYY_ConnectEquipment *connectView=[[ZYY_ConnectEquipment alloc]initWithNibName:@"ZYY_ConnectEquipment" bundle:nil];
     [self.navigationController pushViewController:connectView animated:YES];
+    
 }
 -(void)leftBtnResponse
 {

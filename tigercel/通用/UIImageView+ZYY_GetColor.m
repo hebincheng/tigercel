@@ -29,7 +29,7 @@
     NSString *blue=[NSString stringWithFormat:@"%d",pixel[2]];
     NSString *apha=[NSString stringWithFormat:@"%d",pixel[3]];
     //NSLog(@"pixel: %d %d %d %d", pixel[0], pixel[1], pixel[2], pixel[3]);
-    
+
    // UIColor *color = [UIColor colorWithRed:pixel[0]/255.0 green:pixel[1]/255.0 blue:pixel[2]/255.0 alpha:pixel[3]/255.0];
     
     NSArray *colorArr=@[red,green,blue,apha];

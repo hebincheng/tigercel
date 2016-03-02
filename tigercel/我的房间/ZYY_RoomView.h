@@ -10,4 +10,6 @@
 
 @interface ZYY_RoomView : UIViewController
 
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height;
+
 @end

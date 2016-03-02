@@ -92,6 +92,12 @@
 		E784BD361C5F44DC00FB95A6 /* ZYY_LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
 		E78D1E831C4F7B4D0007A58F /* ZYY_User.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E821C4F7B4D0007A58F /* ZYY_User.m */; };
+		E7C8F2971C8532360054CA61 /* ssl.h in Headers */ = {isa = PBXBuildFile; fileRef = E7C8F2951C8532360054CA61 /* ssl.h */; };
+		E7C8F2981C8532360054CA61 /* SSLSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E7C8F2961C8532360054CA61 /* SSLSocket.h */; };
+		E7C8F29A1C8532520054CA61 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C8F2991C8532520054CA61 /* libcrypto.a */; };
+		E7C8F2DE1C857AFB0054CA61 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = E7C8F2DD1C857AFB0054CA61 /* cacert.pem */; };
+		E7C8F2E51C859FBA0054CA61 /* ZYY_RoomList.h in Headers */ = {isa = PBXBuildFile; fileRef = E7C8F2E31C859FBA0054CA61 /* ZYY_RoomList.h */; };
+		E7C8F2E61C859FBA0054CA61 /* ZYY_RoomList.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C8F2E41C859FBA0054CA61 /* ZYY_RoomList.m */; };
 		E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */ = {isa = PBXBuildFile; fileRef = E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */; };
 		E7CA849B1C5B1EE700BADF92 /* ZYY_AddNewSceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */; };
 		E7CA849C1C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */; };
@@ -246,6 +252,12 @@
 		E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_GetInfoFromInternet.m; sourceTree = "<group>"; };
 		E78D1E811C4F7B4D0007A58F /* ZYY_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_User.h; sourceTree = "<group>"; };
 		E78D1E821C4F7B4D0007A58F /* ZYY_User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_User.m; sourceTree = "<group>"; };
+		E7C8F2951C8532360054CA61 /* ssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssl.h; sourceTree = "<group>"; };
+		E7C8F2961C8532360054CA61 /* SSLSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLSocket.h; sourceTree = "<group>"; };
+		E7C8F2991C8532520054CA61 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "tigercel/通用/DeviceControl/libcrypto.a"; sourceTree = "<group>"; };
+		E7C8F2DD1C857AFB0054CA61 /* cacert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cacert.pem; path = LeftSlideViewController/cacert.pem; sourceTree = "<group>"; };
+		E7C8F2E31C859FBA0054CA61 /* ZYY_RoomList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_RoomList.h; sourceTree = "<group>"; };
+		E7C8F2E41C859FBA0054CA61 /* ZYY_RoomList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_RoomList.m; sourceTree = "<group>"; };
 		E7CA84971C5B1EE700BADF92 /* ZYY_AddNewSceneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_AddNewSceneView.h; sourceTree = "<group>"; };
 		E7CA84981C5B1EE700BADF92 /* ZYY_AddNewSceneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_AddNewSceneView.m; sourceTree = "<group>"; };
 		E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZYY_AddNewSceneView.xib; sourceTree = "<group>"; };
@@ -260,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7C8F29A1C8532520054CA61 /* libcrypto.a in Frameworks */,
 				E718B3C41C5A38F20024583B /* libj2t_lib.a in Frameworks */,
 				E718B3C31C5A38F20024583B /* libiot.a in Frameworks */,
 				E768184D1C61BEC8009CCC27 /* libMQTTClient.a in Frameworks */,
@@ -297,6 +310,7 @@
 		BBB8E8D793D435D8204648EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E7C8F2991C8532520054CA61 /* libcrypto.a */,
 				2DE30D5B7278C7B6BF6CBB39 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -457,6 +471,8 @@
 				E7169C141C4293F0003BD334 /* ZYY_RoomView.xib */,
 				E77AD7521C450228000A18C6 /* ZYY_CollectionViewCell.h */,
 				E77AD7531C450228000A18C6 /* ZYY_CollectionViewCell.m */,
+				E7C8F2E31C859FBA0054CA61 /* ZYY_RoomList.h */,
+				E7C8F2E41C859FBA0054CA61 /* ZYY_RoomList.m */,
 			);
 			name = MyRoom;
 			path = "我的房间";
@@ -472,6 +488,7 @@
 				E7204E4B1C4771D6005D6C4D /* customView */,
 				E711F5A31C3FB8C700485406 /* LeftSlideViewController */,
 				E711F54E1C3F95D800485406 /* AppDelegate.h */,
+				E7C8F2DD1C857AFB0054CA61 /* cacert.pem */,
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
 				E77AD7411C44A62B000A18C6 /* Address.plist */,
 				E765D2E41C7BF786004E36C6 /* tigercel.pch */,
@@ -569,6 +586,8 @@
 		E718B3B61C5A38F20024583B /* DeviceControl */ = {
 			isa = PBXGroup;
 			children = (
+				E7C8F2951C8532360054CA61 /* ssl.h */,
+				E7C8F2961C8532360054CA61 /* SSLSocket.h */,
 				E718B3B71C5A38F20024583B /* cJSON.h */,
 				E718B3B81C5A38F20024583B /* iot_mod_lwm2m.h */,
 				E718B3B91C5A38F20024583B /* iot_mod_lwm2m_json.h */,
@@ -653,12 +672,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7C8F2981C8532360054CA61 /* SSLSocket.h in Headers */,
 				E718B3C01C5A38F20024583B /* cJSON.h in Headers */,
 				E76A823B1C771CBA00FBDFCB /* ZYY_DeviceListCell.h in Headers */,
 				E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */,
 				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
 				E718B3C81C5A38F20024583B /* smtiot.h in Headers */,
+				E7C8F2971C8532360054CA61 /* ssl.h in Headers */,
 				E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */,
+				E7C8F2E51C859FBA0054CA61 /* ZYY_RoomList.h in Headers */,
 				E718B3C71C5A38F20024583B /* MQTTClientPersistence.h in Headers */,
 				E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */,
 				E76A82401C771FD800FBDFCB /* ZYY_UserListView.h in Headers */,
@@ -784,6 +806,7 @@
 				E757D3861C40CD61007F3A6D /* ZYY_LoginControl.xib in Resources */,
 				E76A82361C7713E600FBDFCB /* ZYY_DeviceList.xib in Resources */,
 				E7204E421C473B78005D6C4D /* ZYY_ChangeNameView.xib in Resources */,
+				E7C8F2DE1C857AFB0054CA61 /* cacert.pem in Resources */,
 				E7204E501C477308005D6C4D /* ZYY_GetColorFromImage.xib in Resources */,
 				E711F55B1C3F95D800485406 /* LaunchScreen.storyboard in Resources */,
 				E76A823D1C771CBA00FBDFCB /* ZYY_DeviceListCell.xib in Resources */,
@@ -919,6 +942,7 @@
 				E7EE6CAB1C434A2F00CB3810 /* ZYY_UserReglationView.m in Sources */,
 				E76A82411C771FD800FBDFCB /* ZYY_UserListView.m in Sources */,
 				E711F5A81C3FB8C700485406 /* LeftSlideViewController.m in Sources */,
+				E7C8F2E61C859FBA0054CA61 /* ZYY_RoomList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

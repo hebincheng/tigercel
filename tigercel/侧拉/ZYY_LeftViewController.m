@@ -11,7 +11,7 @@
 #import "ZYY_MyInformationView.h"
 #import "ZYY_AboutView.h"
 #import "ZYY_ReBackView.h"
-#import "ZYY_RoomView.h"
+#import "ZYY_RoomList.h"
 #import "ZYY_UpdateDeviceView.h"
 #import "Masonry.h"
 #import "AppDelegate.h"
@@ -77,8 +77,8 @@ static NSString *cellID=@"tableViewCellID";
     ZYY_ReBackView *reback=[[ZYY_ReBackView alloc]initWithNibName:@"ZYY_ReBackView" bundle:nil];
     ZYY_DeviceList *deviceList=[[ZYY_DeviceList alloc]initWithNibName:@"ZYY_DeviceList" bundle:nil];
     ZYY_UpdateDeviceView *upDateView=[[ZYY_UpdateDeviceView alloc]initWithNibName:@"ZYY_UpdateDeviceView" bundle:nil];
-    ZYY_RoomView *roomView=[[ZYY_RoomView alloc]initWithNibName:@"ZYY_RoomView" bundle:nil];
-    _controllers=@[roomView,upDateView,deviceList,reback,aboutView];
+    ZYY_RoomList *roomList=[[ZYY_RoomList alloc]init];
+    _controllers=@[roomList,upDateView,deviceList,reback,aboutView];
     
 }
 #pragma mark-

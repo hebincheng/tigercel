@@ -9,12 +9,14 @@
 #import "ZYY_RoomView.h"
 #import "ZYY_CollectionViewCell.h"
 
-#define Width ([[UIScreen mainScreen] bounds].size.width-80)/3.0f
+#define Width(X) (X-80)/3.0f//边距为20  一行显示3个设备
 
 @interface ZYY_RoomView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UICollectionView *_collectionView;
     NSMutableArray *_equipmentArr;
+    CGFloat _width;
+    CGFloat _heigh;
 }
 @end
 
@@ -28,21 +30,30 @@ static NSString *collectionID=@"collectionID";
 #pragma mark只需改变数组 即可改变状态
     _equipmentArr=[NSMutableArray arrayWithObjects:@"0",@"1",@"0",@"1",@"2",@"1",@"0",@"1",@"0", nil];
 }
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height{
+    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self!=nil) {
+        _width=width;
+        _heigh=height;
+    }
+    return self;
+}
 
 -(void)loadUI
 {
-    [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
-    [self setTitle:@"我的房间"];
+    [self.view setBackgroundColor:RGB(239, 239, 239)];
     
     //设置
-    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)collectionViewLayout:[[UICollectionViewFlowLayout alloc]init ]];
+    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, _width  , _heigh)collectionViewLayout:[[UICollectionViewFlowLayout alloc]init ]];
+    
     [_collectionView setDataSource:self];
     [_collectionView setDelegate:self];
     [_collectionView setScrollEnabled:YES];
     [self.view addSubview:_collectionView];
     // cell的注册必须放在添加视图之后来进行
     [_collectionView registerClass:[ZYY_CollectionViewCell  class] forCellWithReuseIdentifier:collectionID];
-    [_collectionView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
+//    [_collectionView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
+    [_collectionView setBackgroundColor:[UIColor redColor]];
 }
 #pragma mark-
 #pragma mark灯泡触发事件
@@ -87,7 +98,7 @@ static NSString *collectionID=@"collectionID";
 //cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(Width, Width);
+    return CGSizeMake(Width(_width), Width(_width));
 }
 //设置cell与边框的距离
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section

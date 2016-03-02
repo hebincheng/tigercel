@@ -63,33 +63,76 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 
 #pragma mark登陆的时候连接到mqttserver
 -(void)connectToMQTTServerCallBackBlock:(void (^)(void))block{
+    
+    
     struct Options
     {
-        char* connection;         /**< connection to system under test. */
-        char** haconnections;
+        char connection[100];
+        char mutual_auth_connection[100];   /**< connection to system under test. */
+        char nocert_mutual_auth_connection[100];
+        char server_auth_connection[100];
+        char anon_connection[100];
+        char** haconnections;         	/**< connection to system under test. */
         int hacount;
+        char* client_key_file;
+        char* client_key_pass;
+        char* server_key_file;
+        char* client_private_key_file;
         int verbose;
         int test_no;
         int MQTTVersion;
-        int iterations;
     } options =
     {
-        //"tcp://m2m.eclipse.org:1883",
         "tcp://192.168.3.49:1243",
-        //"tcp://192.168.12.124:1243",
+        "ssl://m2m.eclipse.org:18884",
+        "ssl://m2m.eclipse.org:18887",
+        "ssl://m2m.eclipse.org:18885",
+        "ssl://m2m.ec	lipse.org:18886",
+        NULL,
+        0,
+        NULL,
+        NULL,
+        "../../../test/ssl/test-root-ca.crt",
         NULL,
         0,
         0,
-        0,
-        MQTTVERSION_DEFAULT,
-        1,
     };
+    NSString *keyFilePath=[[NSBundle mainBundle]pathForResource:@"cacert" ofType:@"pem"];
+    MYLog(@"%@",keyFilePath);
+    NSData *data=[NSData dataWithContentsOfFile:keyFilePath];
+    MYLog(@"%s",[data bytes]);
+
+    options.server_key_file=(char *)[keyFilePath UTF8String];
+    
+    
+    
+//    struct Options
+//    {
+//        char* connection;         /**< connection to system under test. */
+//        char** haconnections;
+//        int hacount;
+//        int verbose;
+//        int test_no;
+//        int MQTTVersion;
+//        int iterations;
+//    } options =
+//    {
+//        //"tcp://m2m.eclipse.org:1883",
+//        "tcp://192.168.3.49:1243",
+//        //"tcp://192.168.12.124:1243",
+//        NULL,
+//        0,
+//        0,
+//        0,
+//        MQTTVERSION_DEFAULT,
+//        1,
+//    };
     
     MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
     MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
-
+    MQTTClient_SSLOptions sslopts = MQTTClient_SSLOptions_initializer;
     int rc = 0;
-//    char* test_topic = "/control_response/user/uuuuuuuuuussssssssssrrrrrr000213/device/appliance/lamp/";
+
     // int failures = 0;
     ZYY_User *user=[ZYY_User instancedObj];
 
@@ -104,6 +147,16 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         opts.serverURIs = options.haconnections;
         opts.serverURIcount = options.hacount;
     }
+    //
+    opts.ssl = &sslopts;
+    
+    if (options.server_key_file)
+        opts.ssl->trustStore = options.server_key_file; /*file of certificates trusted by client*/
+    opts.ssl->keyStore = options.client_key_file;  /*file of certificate for client to present to server*/
+    if (options.client_key_pass)
+        opts.ssl->privateKeyPassword = options.client_key_pass;
+    if (options.client_private_key_file)
+        opts.ssl->privateKey = options.client_private_key_file;
     
     opts.will = &wopts;
     opts.will->message = "will message";
@@ -304,7 +357,6 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     //    len_text = iot_mod_lwm2m_to_json((char *)(myPayload+8), len, &header_text);
     //    myprintf("len=%d\n", len_text);
     //    myprintf("json:\n%s\n", header_text.body);
-    
     
     //    MyLog(LOGA_DEBUG, "%d messages at QoS %d", iterations, qos);
 #pragma mark  发出数据----------------------------------
