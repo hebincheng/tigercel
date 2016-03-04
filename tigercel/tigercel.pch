@@ -23,8 +23,13 @@
 #define USER_TOKEN [[ZYY_User instancedObj] userToken] 
 //用户sessionId
 #define USER_SESSIONID [[ZYY_User instancedObj] sessionId]
+//用户ID
+#define USER_ID [[ZYY_User instancedObj] userId]
+
 //颜色
 #define RGB(A,B,C) [UIColor colorWithRed:A/255.0 green:B/255.0 blue:C/255.0 alpha:1.0]
+
+
 //自定义MyLog/myprintf  在debug版本打印 在release版本不打印
 #ifdef DEBUG
 

@@ -35,7 +35,21 @@
     [_telPhoneText setDelegate:self];
     [_checkText setDelegate:self];
     [self.view setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
+    //自定义返回按钮
+    UIButton *leftBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    // [leftBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(tapBack) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn setFrame:CGRectMake(0, 0, 20, 20)];
+    UIBarButtonItem *left=[[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem=left;
 }
+
+-(void)tapBack{
+
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 #pragma mark-
 #pragma mark 代理方法

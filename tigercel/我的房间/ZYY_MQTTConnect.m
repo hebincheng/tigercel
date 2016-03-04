@@ -147,8 +147,9 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         opts.serverURIs = options.haconnections;
         opts.serverURIcount = options.hacount;
     }
-    //
+    
     opts.ssl = &sslopts;
+    opts.ssl->enableServerCertAuth = 1;
     
     if (options.server_key_file)
         opts.ssl->trustStore = options.server_key_file; /*file of certificates trusted by client*/

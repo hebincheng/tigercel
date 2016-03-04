@@ -13,10 +13,14 @@
 
 @interface ZYY_RoomView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
+    //
     UICollectionView *_collectionView;
+    //
     NSMutableArray *_equipmentArr;
+    //视图的宽高，房间名
     CGFloat _width;
     CGFloat _heigh;
+    
 }
 @end
 
@@ -28,13 +32,22 @@ static NSString *collectionID=@"collectionID";
     [super viewDidLoad];
     [self loadUI];
 #pragma mark只需改变数组 即可改变状态
-    _equipmentArr=[NSMutableArray arrayWithObjects:@"0",@"1",@"0",@"1",@"2",@"1",@"0",@"1",@"0", nil];
+//    _equipmentArr=[NSMutableArray arrayWithObjects:@"0",@"1",@"0",@"1",@"2",@"1",@"0",@"1",@"0", nil];
 }
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height{
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height roomName:(NSString *)roomName andLEDArr:(NSArray *)ledArr{
     self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self!=nil) {
         _width=width;
         _heigh=height;
+        _equipmentArr=[NSMutableArray arrayWithArray:ledArr];
+        //初始化房间Label
+        _roomName=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, _width, 40)];
+        [_roomName setText:roomName];
+        [_roomName setTextAlignment:NSTextAlignmentCenter];
+        [_roomName setBackgroundColor:RGB(234, 89, 89)];
+        [self.view addSubview:_roomName];
+        
+        
     }
     return self;
 }
@@ -42,9 +55,9 @@ static NSString *collectionID=@"collectionID";
 -(void)loadUI
 {
     [self.view setBackgroundColor:RGB(239, 239, 239)];
-    
-    //设置
-    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, _width  , _heigh)collectionViewLayout:[[UICollectionViewFlowLayout alloc]init ]];
+
+    //设置collectionView
+    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 40, _width  , _heigh-40)collectionViewLayout:[[UICollectionViewFlowLayout alloc]init ]];
     
     [_collectionView setDataSource:self];
     [_collectionView setDelegate:self];
@@ -52,8 +65,11 @@ static NSString *collectionID=@"collectionID";
     [self.view addSubview:_collectionView];
     // cell的注册必须放在添加视图之后来进行
     [_collectionView registerClass:[ZYY_CollectionViewCell  class] forCellWithReuseIdentifier:collectionID];
+//   UIImageView *imView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 40, _width  , _heigh-40)];
+//    [imView setImage:[UIImage imageNamed:@"bjt.jpeg"]];
+//    [_collectionView setBackgroundView:imView];
 //    [_collectionView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
-    [_collectionView setBackgroundColor:[UIColor redColor]];
+    [_collectionView setBackgroundColor:[UIColor whiteColor]];
 }
 #pragma mark-
 #pragma mark灯泡触发事件
@@ -66,9 +82,14 @@ static NSString *collectionID=@"collectionID";
 #pragma mark collection代理方法
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZYY_CollectionViewCell *coll=[collectionView dequeueReusableCellWithReuseIdentifier:collectionID forIndexPath:indexPath];
+    ZYY_CollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:collectionID forIndexPath:indexPath];
    // UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(10, 10, coll.contentView.bounds.size.width-20.0f,coll.contentView.bounds.size.height-20.0f)];
-     UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, coll.contentView.bounds.size.width,coll.contentView.bounds.size.height)];
+    //加载cell前  移除cell上的内容
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+     UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, cell.contentView.bounds.size.width,cell.contentView.bounds.size.height)];
     [btn addTarget:self action:@selector(tapDeng:) forControlEvents:UIControlEventTouchUpInside];
     
     //设置好按钮的三种状态下的图片
@@ -84,10 +105,10 @@ static NSString *collectionID=@"collectionID";
         [btn setEnabled:NO];
     }
     
-    [coll.contentView addSubview:btn];
-    return coll;
+    [cell.contentView addSubview:btn];
+    return cell;
 }
-
+//cell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return _equipmentArr.count;
 }
@@ -116,5 +137,9 @@ static NSString *collectionID=@"collectionID";
 //    return 10;
 //}
 
+-(void)reloadDataWithNewDevice:(NSString *)led{
+    [_equipmentArr addObject:led];
+    [_collectionView reloadData];
+}
 
 @end

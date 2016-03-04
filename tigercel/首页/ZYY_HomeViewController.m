@@ -18,6 +18,7 @@
 #import "FeThreeDotGlow.h"
 #import "ZYY_MQTTConnect.h"
 #import "MJRefresh.h"
+#import <UIKit/UIGestureRecognizerSubclass.h>
 
 
 @interface ZYY_HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -63,20 +64,22 @@ static NSString *cellID=@"cellID";
     AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [appDelegate.LeftSlideVC setPanEnabled:NO];
 }
-        #pragma mark 时钟方法
-        -(void)step{
-            _step++;
-            if(_step==10*60){
-                MYLog(@"设备连接超时");
-                UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [av show];
-                [_threeDot removeFromSuperview];
-                _threeDot=nil;
-                [_runTime invalidate];
-                _runTime=nil;
-                _step=0;
-            }
-        }
+
+
+//#pragma mark 时钟方法
+//-(void)step{
+//    _step++;
+//    if(_step==10*60){
+//        MYLog(@"设备连接超时");
+//        UIAlertView *av=[[UIAlertView alloc]initWithTitle:@"提示" message:@"设备连接超时，请检查设备状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//        [av show];
+//        [_threeDot removeFromSuperview];
+//        _threeDot=nil;
+//        [_runTime invalidate];
+//        _runTime=nil;
+//        _step=0;
+//    }
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -94,7 +97,50 @@ static NSString *cellID=@"cellID";
     {
         [[ZYY_MQTTConnect instancedObj]subscribeDeviceWithDeviceToken:led.deviceToken];
     }
+    [self createUserRoomArrFile];
 }
+#pragma mark 创建或者读取plist文件信息
+-(void)createUserRoomArrFile{
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    NSString *filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"userRoomArr.plist"];
+    MYLog(@"plist文件路径%@",filePath);
+    //第一步判断是否存在这个文件
+    if (![fileManager fileExistsAtPath:filePath])
+    {
+        MYLog(@"不存在此文件，创建文件");
+        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+        NSMutableArray *arr=[NSMutableArray arrayWithCapacity:1];
+        [dict setValue:arr forKey:USER_ID];
+        [dict writeToFile:filePath atomically:YES];
+    }
+    //存在则读取
+    else{
+        NSMutableDictionary *dict=[NSMutableDictionary dictionaryWithContentsOfFile:filePath];
+        NSArray *arr=dict.allKeys;
+        BOOL isExist=NO;
+        //用户房间设置信息是存储在字典中，以用户userId为键。
+        MYLog(@"读取文档信息");
+        for (NSString *userId in arr)
+        {
+            if ([userId isEqualToString:USER_ID])
+            {
+                MYLog(@"用户id已经存储过");
+                isExist=YES;
+                break;
+            }
+        }
+        //说明当前登陆用户的userid不在字典中，则创建新的键值对
+        if (!isExist)
+        {
+            MYLog(@"新的用户，创建键值对");
+            NSMutableArray *arr=[NSMutableArray arrayWithCapacity:1];
+            [dict setValue:arr forKey:USER_ID];
+            [dict writeToFile:filePath atomically:YES];
+        }
+        
+    }
+}
+
 #pragma mark-
 #pragma mark如果设备第一次登陆登陆 则将默认的照明模式数组 和氛围模式数据存储
 -(void)buildSceneUserDefault{
@@ -163,7 +209,7 @@ static NSString *cellID=@"cellID";
     [_tableView registerNib:[UINib nibWithNibName:@"ZYY_HomeTableViewCell"  bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cellID];
     //tableView加载下拉刷新空间
     _tableView.mj_header=[MJRefreshNormalHeader  headerWithRefreshingBlock:^{
-        //回调方法
+        //回调方法.2
         [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] callBackBlock:^(NSArray *lArr) {
             
             _LEDArr=[NSMutableArray arrayWithArray:lArr];
@@ -259,7 +305,7 @@ static NSString *cellID=@"cellID";
 //        _runTime=[CADisplayLink displayLinkWithTarget:self selector:@selector(step)];
 //        [_runTime addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 //    }
-    //超时判断
+#pragma mark  超时判断
     NSDate *timeout = [[NSDate alloc]initWithTimeIntervalSinceNow:8];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -307,16 +353,15 @@ static NSString *cellID=@"cellID";
         [_tableView setEditing:NO animated:YES];
     }
 }
+
 - (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view
 {
-   // MYLog(@"asdasd");
     if(view==_tableView)
         return NO;
     return YES;
 }
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view
 {
-   // MYLog(@"11");
     return NO;
 }
 

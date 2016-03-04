@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZYY_LED;
+
 @interface ZYY_RoomView : UIViewController
 
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andShowWidth:(CGFloat)width andShowHeigh:(CGFloat)height roomName:(NSString *)roomName andLEDArr:(NSArray *)ledArr;
+
+@property (strong, nonatomic) UILabel *roomName;
+
+
+-(void)reloadDataWithNewDevice:(NSString *)led;
 
 @end

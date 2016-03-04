@@ -78,6 +78,8 @@
 		E76A82411C771FD800FBDFCB /* ZYY_UserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */; };
 		E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */; };
 		E77258E11C7589E3001B9375 /* ZYY_MQTTConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */; };
+		E776B55E1C86AE840033D45C /* ZYY_LEDImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */; };
+		E776B55F1C86AE840033D45C /* ZYY_LEDImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */; };
 		E77AD7421C44A62B000A18C6 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = E77AD7411C44A62B000A18C6 /* Address.plist */; };
 		E77AD7461C44D35B000A18C6 /* ZYY_ChangeCode.m in Sources */ = {isa = PBXBuildFile; fileRef = E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */; };
 		E77AD7471C44D35B000A18C6 /* ZYY_ChangeCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = E77AD7451C44D35B000A18C6 /* ZYY_ChangeCode.xib */; };
@@ -230,6 +232,8 @@
 		E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_UserListView.m; sourceTree = "<group>"; };
 		E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_MQTTConnect.h; sourceTree = "<group>"; };
 		E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_MQTTConnect.m; sourceTree = "<group>"; };
+		E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_LEDImageView.h; sourceTree = "<group>"; };
+		E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_LEDImageView.m; sourceTree = "<group>"; };
 		E77AD7411C44A62B000A18C6 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
 		E77AD7431C44D35B000A18C6 /* ZYY_ChangeCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_ChangeCode.h; sourceTree = "<group>"; };
 		E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_ChangeCode.m; sourceTree = "<group>"; };
@@ -473,6 +477,8 @@
 				E77AD7531C450228000A18C6 /* ZYY_CollectionViewCell.m */,
 				E7C8F2E31C859FBA0054CA61 /* ZYY_RoomList.h */,
 				E7C8F2E41C859FBA0054CA61 /* ZYY_RoomList.m */,
+				E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */,
+				E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */,
 			);
 			name = MyRoom;
 			path = "我的房间";
@@ -488,8 +494,8 @@
 				E7204E4B1C4771D6005D6C4D /* customView */,
 				E711F5A31C3FB8C700485406 /* LeftSlideViewController */,
 				E711F54E1C3F95D800485406 /* AppDelegate.h */,
-				E7C8F2DD1C857AFB0054CA61 /* cacert.pem */,
 				E711F54F1C3F95D800485406 /* AppDelegate.m */,
+				E7C8F2DD1C857AFB0054CA61 /* cacert.pem */,
 				E77AD7411C44A62B000A18C6 /* Address.plist */,
 				E765D2E41C7BF786004E36C6 /* tigercel.pch */,
 			);
@@ -678,6 +684,7 @@
 				E77258E01C7589E3001B9375 /* ZYY_MQTTConnect.h in Headers */,
 				E7CA849A1C5B1EE700BADF92 /* ZYY_AddNewSceneView.h in Headers */,
 				E718B3C81C5A38F20024583B /* smtiot.h in Headers */,
+				E776B55E1C86AE840033D45C /* ZYY_LEDImageView.h in Headers */,
 				E7C8F2971C8532360054CA61 /* ssl.h in Headers */,
 				E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */,
 				E7C8F2E51C859FBA0054CA61 /* ZYY_RoomList.h in Headers */,
@@ -943,6 +950,7 @@
 				E76A82411C771FD800FBDFCB /* ZYY_UserListView.m in Sources */,
 				E711F5A81C3FB8C700485406 /* LeftSlideViewController.m in Sources */,
 				E7C8F2E61C859FBA0054CA61 /* ZYY_RoomList.m in Sources */,
+				E776B55F1C86AE840033D45C /* ZYY_LEDImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
