@@ -109,8 +109,11 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     NSDictionary *requestDict=@{@"userToken":userToken,@"sessionId":sessionId};
     [[AFHTTPSessionManager manager]GET:urlStr parameters:requestDict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict=responseObject[@"data"];
-        [[ZYY_User alloc]initWithDictionary:dict];
-        MYLog(@"%@",[ZYY_User instancedObj]);
+        if (dict!=nil)
+        {
+            [[ZYY_User alloc]initWithDictionary:dict];
+            MYLog(@"%@",[ZYY_User instancedObj]);
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error.description);
         [self showError];
@@ -128,7 +131,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     AFHTTPSessionManager *manager= [AFHTTPSessionManager manager];
    // 设置提交的是二进制流(默认提交的是二进制流)
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-   // manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
     [manager  POST:urlStr parameters:requestDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         UIImage *image=[UIImage imageWithContentsOfFile:imageStr];
@@ -231,6 +234,7 @@ static ZYY_GetInfoFromInternet *_instancedObj;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self showError];
     }];
+
 }
 
 #pragma mark 修改个人信息

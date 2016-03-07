@@ -10,17 +10,18 @@
 #import "ZYY_RoomView.h"
 #import "ZYY_LEDImageView.h"
 #import "ZYY_User.h"
+#import "ZYY_ScrollView.h"
 #import "Masonry.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
 #define DEVICE_VIEW_HEIGHT 100
 //设备列表中设备的宽度
 #define DEVICE_WIDTH 60
+#define angelToRandian(x) ((x)/180.0*M_PI)
 
-
-@interface ZYY_RoomList ()<UIAlertViewDelegate,UIScrollViewDelegate>
+@interface ZYY_RoomList ()<UIAlertViewDelegate,UIScrollViewDelegate,ZYY_RoomViewDelegate>
 {
     //设备的滚动视图
-    UIScrollView *_LEDScrollView;
+    ZYY_ScrollView *_LEDScrollView;
     //房间的滚动视图
     UIScrollView *_roomScrollView;
     //设备数组
@@ -37,6 +38,10 @@
     UIPinchGestureRecognizer *_pinchGesRecognize;
     //长按手势
     UILongPressGestureRecognizer *_longGeRecognize;
+    //拖动手势
+    UIPanGestureRecognizer *_panGeRecongnize;
+    //底部设备图标是否可拖动
+    BOOL _canBeEdit;
     //房间
     ZYY_RoomView *_roomView;
     //房间是否是编辑模式
@@ -70,7 +75,7 @@
     _LEDViewArr=[NSMutableArray array];
     _LEDArr=[[NSMutableArray alloc]initWithArray: @[@1,@2,@1,@1,@1,@1,@1,@1,@3,@5,@4,@7,@8,@9,@10]];
     _curPage=0;
-    
+    _canBeEdit=NO;
     //读取plist文件中的数据
     _filePath=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"userRoomArr.plist"];
     
@@ -84,6 +89,7 @@
     //实例化手势识别器
     _pinchGesRecognize = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinch:)];
     _longGeRecognize=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longTap:)];
+    _panGeRecongnize=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGes:)];
     //长按时间为1秒
     _longGeRecognize.minimumPressDuration=1;
 
@@ -97,98 +103,123 @@
     
     // Do any additional setup after loading the view.
 }
-//获取视图的控制器
--(UIViewController *)viewController:(UIView *)view{
-    /// Finds the view's view controller.
-    // Traverse responder chain. Return first found view controller, which will be the view's view controller.
-    UIResponder *responder = view;
-    while ((responder = [responder nextResponder]))
-        if ([responder isKindOfClass: [UIViewController class]])
-            return (UIViewController *)responder;
-    // If the view controller isn't found, return nil.
-    return nil;
-}
+
 
 #pragma mark-
 #pragma mark  手势触发事件
+
+-(void)panGes:(UIPanGestureRecognizer *)pan{
+    if (_canBeEdit==YES)
+    {
+        _movePoint =[pan locationInView:_LEDScrollView];
+        
+        MYLog(@"%f---%f",_movePoint.x,_movePoint.y);
+        
+        if (pan.state==UIGestureRecognizerStateBegan)
+        {
+            MYLog(@"拖动开始");
+            _moveNum=(int)_movePoint.x/(10+DEVICE_WIDTH);
+            _selectedView=_LEDViewArr[_moveNum];
+            _originPoint=_selectedView.center;
+            _transForm=CGAffineTransformScale(_selectedView.transform, 1.5, 1.5);
+            //触发拖动事件后将图标的中心点设为手指的point处
+            [UIView animateWithDuration:0.2 animations:^{
+                [_selectedView setTransform:_transForm];
+                [_selectedView setCenter:_movePoint];
+            }];
+
+        }
+        else if(pan.state==UIGestureRecognizerStateChanged)
+        {
+            MYLog(@"移动中");
+            [_selectedView setCenter:CGPointMake(_movePoint.x, _movePoint.y)];
+        }
+        else if(pan.state==UIGestureRecognizerStateEnded)
+        {
+            MYLog(@"拖动结束");
+            //图标还没有完全移出_LEDSCrollView
+            if ( CGRectGetMaxY(_selectedView.frame)>_LEDScrollView.bounds.origin.y )
+            {
+                [UIView animateWithDuration:0.2 animations:^{
+                    //还原成原来大小
+                    _transForm =CGAffineTransformScale(_selectedView.transform, 2.0f/3, 2.0f/3);
+                    [_selectedView setTransform:_transForm];
+                    //还原到初始位置
+                    [_selectedView setCenter:_originPoint];
+                }];
+            }
+            //图标移出了_LEDScrollView
+            else {
+                //将图标放到_roomView位置
+                ZYY_RoomView *currentRoomViewCon=_roomViewControlArr[_curPage];
+                MYLog(@"%@---%@",currentRoomViewCon,currentRoomViewCon.roomName.text);
+                [currentRoomViewCon reloadDataWithNewDevice:@"0"];
+                //添加设备到房间数组
+                NSMutableDictionary *dict=_roomArr[_curPage];
+                NSArray *array=[dict objectForKey:@"ledArray"];
+                NSMutableArray *mArr=[NSMutableArray arrayWithArray:array];
+                
+                NSString *roomName=[dict objectForKey:@"roomName"];
+                [mArr addObject:@"0"];
+                [dict setValue:mArr forKey:@"ledArray"];
+                [dict setValue:roomName forKey:@"roomName"];
+                [_roomArr replaceObjectAtIndex:_curPage withObject:dict];
+                
+                MYLog(@"%@",_roomArr);
+                
+                //移除
+                [_selectedView removeFromSuperview];
+                [_LEDViewArr removeObjectAtIndex:_moveNum];
+                [_LEDArr removeObjectAtIndex:_moveNum];
+                
+                //设置滚动区域
+                [_LEDScrollView setContentSize:CGSizeMake((10+DEVICE_WIDTH )*_LEDArr.count, DEVICE_VIEW_HEIGHT)];
+                //使后面的设备前移
+                [_LEDViewArr enumerateObjectsUsingBlock:^(ZYY_LEDImageView * ledImage, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (idx>=_moveNum)
+                    {
+                        ledImage.tag=10000+idx;
+                        CGPoint point=ledImage.center;
+                        [ledImage setCenter:CGPointMake(point.x-10-DEVICE_WIDTH, point.y)];
+                    }
+                }];
+            }
+        }
+    }
+
+}
 -(void)longTap:(UILongPressGestureRecognizer *)longPre
 {
-    
-    _movePoint =[longPre locationInView:_LEDScrollView];
-   
-    MYLog(@"%f---%f",_movePoint.x,_movePoint.y);
-    
-    if(longPre.state==UIGestureRecognizerStateBegan){
+    if(longPre.state==UIGestureRecognizerStateBegan)
+    {
         MYLog(@"长按事件触发");
-      _moveNum=(int)_movePoint.x/(10+DEVICE_WIDTH);
-        _selectedView=_LEDViewArr[_moveNum];
-        _originPoint=_selectedView.center;
-        
-        //触发长按事件后将图标的中心点设为手指的point处
-        [UIView animateWithDuration:0.2 animations:^{
-            _transForm=CGAffineTransformScale(_selectedView.transform, 1.5, 1.5);
-            [_selectedView setTransform:_transForm];
-            [_selectedView setCenter:_movePoint];
-        }];
-        
-    }
-    else if(longPre.state==UIGestureRecognizerStateChanged){
-        MYLog(@"移动中");
-        [_selectedView setCenter:CGPointMake(_movePoint.x, _movePoint.y)];
-    }
-    
-    else if(longPre.state==UIGestureRecognizerStateEnded){
-        
-        MYLog(@"长按结束");
-        //图标还没有完全移出_LEDSCrollView
-        if ( CGRectGetMaxY(_selectedView.frame)>_LEDScrollView.bounds.origin.y )
+        //按键添加晃动动画
+        CAKeyframeAnimation* anim=[CAKeyframeAnimation animation];
+        anim.keyPath=@"transform.rotation";
+        anim.values=@[@(angelToRandian(-4)),@(angelToRandian(4)),@(angelToRandian(-4))];
+        anim.repeatCount=MAXFLOAT;
+        anim.duration=0.2;
+        //在非编辑状态的情况下变成编辑状态
+        if (_canBeEdit==NO)
         {
-           [UIView animateWithDuration:0.2 animations:^{
-               //还原成原来大小
-               _transForm =CGAffineTransformScale(_selectedView.transform, 2.0f/3, 2.0f/3);
-               [_selectedView setTransform:_transForm];
-               //还原到初始位置
-               [_selectedView setCenter:_originPoint];
-           }];
+            for (ZYY_LEDImageView *ledView in _LEDViewArr)
+            {
+                [ledView.layer addAnimation:anim forKey:nil];
+            }
+            _canBeEdit=YES;
         }
-        //图标移出了_LEDScrollView
-        else {
-            //将图标放到_roomView位置
-            ZYY_RoomView *currentRoomViewCon=_roomViewControlArr[_curPage];
-            MYLog(@"%@---%@",currentRoomViewCon,currentRoomViewCon.roomName.text);
-            [currentRoomViewCon reloadDataWithNewDevice:@"0"];
-            //添加设备到房间数组
-            NSMutableDictionary *dict=_roomArr[_curPage];
-            NSArray *array=[dict objectForKey:@"ledArray"];
-            NSMutableArray *mArr=[NSMutableArray arrayWithArray:array];
-           
-            NSString *roomName=[dict objectForKey:@"roomName"];
-            [mArr addObject:@"0"];
-            [dict setValue:mArr forKey:@"ledArray"];
-            [dict setValue:roomName forKey:@"roomName"];
-            [_roomArr replaceObjectAtIndex:_curPage withObject:dict];
-            
-            MYLog(@"%@",_roomArr);
-            
-            //移除
-            [_selectedView removeFromSuperview];
-            [_LEDViewArr removeObjectAtIndex:_moveNum];
-            [_LEDArr removeObjectAtIndex:_moveNum];
-            
-            //设置滚动区域
-            [_LEDScrollView setContentSize:CGSizeMake((10+DEVICE_WIDTH )*_LEDArr.count, DEVICE_VIEW_HEIGHT)];
-            //使后面的设备前移
-            [_LEDViewArr enumerateObjectsUsingBlock:^(ZYY_LEDImageView * ledImage, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (idx>=_moveNum)
-                {
-                    ledImage.tag=10000+idx;
-                    CGPoint point=ledImage.center;
-                    [ledImage setCenter:CGPointMake(point.x-10-DEVICE_WIDTH, point.y)];
-                }
-            }];
+         //在编辑状态的情况下变成非编辑状态
+        else if (_canBeEdit==YES){
+            for (ZYY_LEDImageView *ledView in _LEDViewArr)
+            {
+                [ledView.layer removeAllAnimations];
+            }
+            _canBeEdit=NO;
         }
     }
 }
+
+
 
 -(void)pinch:(UIPinchGestureRecognizer *)gesture
 {
@@ -205,6 +236,7 @@
         }
     }
 }
+
 #pragma mark-
 #pragma mark  放大视图
 -(void)enlargeScrollView{
@@ -275,10 +307,13 @@
             NSDictionary *dict=_roomArr[i];
             NSString *roomName=[dict objectForKey:@"roomName"];
             ZYY_RoomView *roomView=[[ZYY_RoomView alloc]initWithNibName:@"ZYY_RoomView" bundle:nil andShowWidth:SCREE_WIDTH-20*2 andShowHeigh:SCREE_HEIGHT-64-100-10*2 roomName:roomName andLEDArr:[dict objectForKey:@"ledArray"]];
+            
             //添加到控制器数组中
             [_roomViewControlArr addObject:roomView];
             //需添加子视图控制器
             [self addChildViewController:roomView];
+            //设置代理
+            [roomView setDelegate:self];
             [view addSubview:roomView.view];
         }
         //设置最后一页的添加视图
@@ -297,7 +332,7 @@
     }
     [self.view addSubview:_roomScrollView];
 #pragma mark 加载设备列表滚动的视图
-    _LEDScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, SCREE_HEIGHT-DEVICE_VIEW_HEIGHT, SCREE_WIDTH, DEVICE_VIEW_HEIGHT)];
+    _LEDScrollView =[[ZYY_ScrollView alloc]initWithFrame:CGRectMake(0, SCREE_HEIGHT-DEVICE_VIEW_HEIGHT, SCREE_WIDTH, DEVICE_VIEW_HEIGHT)];
     [_LEDScrollView setBackgroundColor:[UIColor whiteColor]];
     //设置分页
     [_LEDScrollView setPagingEnabled:YES];
@@ -310,7 +345,8 @@
     [_LEDScrollView setContentSize:CGSizeMake((10+DEVICE_WIDTH )*_LEDArr.count, DEVICE_VIEW_HEIGHT)];
     //当子视图越界的时候不裁减
     [_LEDScrollView setClipsToBounds:NO];
-    
+    //添加长按和拖动手势
+    [_LEDScrollView addGestureRecognizer:_panGeRecongnize];
     [_LEDScrollView addGestureRecognizer:_longGeRecognize];
     
     [self.view addSubview:_LEDScrollView];
@@ -374,6 +410,38 @@
     [av show];
 }
 #pragma mark-
+#pragma mark ZYY_RoomView代理方法 完成设备删除后修改数组的代理方法
+-(void)addDeviceWithBeDeletedDevice:(NSString *)str andBeDeletedDeviceNum:(NSInteger)num{
+    NSMutableDictionary *dict=_roomArr[_curPage];
+    
+    NSArray *array=[dict objectForKey:@"ledArray"];
+    NSMutableArray *mArr=[NSMutableArray arrayWithArray:array];
+    
+    NSString *roomName=[dict objectForKey:@"roomName"];
+    //从房间数组中的灯泡数组移除
+    [mArr removeObjectAtIndex:num];
+    [dict setValue:mArr forKey:@"ledArray"];
+    [dict setValue:roomName forKey:@"roomName"];
+    //将修改后的房间数据替换
+    [_roomArr replaceObjectAtIndex:_curPage withObject:dict];
+    MYLog(@"%@",_roomArr);
+    
+    
+    //底部设备栏添加设备
+    [_LEDArr addObject:str];
+    [_LEDScrollView setContentSize:CGSizeMake((10+DEVICE_WIDTH )*_LEDArr.count, DEVICE_VIEW_HEIGHT)];
+    //添加新的灯泡
+    ZYY_LEDImageView *ledImageView=[[ZYY_LEDImageView alloc]initWithFrame:CGRectMake(10+(_LEDArr.count-1)*(10+DEVICE_WIDTH),10, DEVICE_WIDTH, 60)];
+    [ledImageView setTag:10000+_LEDArr.count-1];
+    
+    [ledImageView.nameLabel setText:[NSString stringWithFormat:@"%ld",_LEDArr.count-1]];
+    
+    [_LEDViewArr addObject:ledImageView];
+    [_LEDScrollView addSubview:ledImageView];
+
+}
+
+
 #pragma mark UIAlertView代理方法 完成房间视图的添加删除功能
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [_roomViewArr enumerateObjectsUsingBlock:^(UIView *view , NSUInteger idx, BOOL * _Nonnull stop) {

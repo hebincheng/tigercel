@@ -8,6 +8,8 @@
 
 #import "ZYY_RoomView.h"
 #import "ZYY_CollectionViewCell.h"
+#import "UIButton+ZYY_DeleteBtn.h"
+#define angelToRandian(x) ((x)/180.0*M_PI)
 
 #define Width(X) (X-80)/3.0f//边距为20  一行显示3个设备
 
@@ -20,7 +22,14 @@
     //视图的宽高，房间名
     CGFloat _width;
     CGFloat _heigh;
-    
+    //长按手势
+    UILongPressGestureRecognizer *_longGes;
+    //设备视图数组
+    NSMutableArray *_LEDMutableArr;
+    //删除按钮视图数组
+    NSMutableArray *_deleteBtnArr;
+    //编辑状态
+    BOOL _beEdit;
 }
 @end
 
@@ -30,6 +39,16 @@ static NSString *collectionID=@"collectionID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (_LEDMutableArr==nil)
+    {
+        _LEDMutableArr=[NSMutableArray array];
+    }
+    if (_deleteBtnArr==nil)
+    {
+        _deleteBtnArr=[NSMutableArray array];
+    }
+    _beEdit=NO;
+    
     [self loadUI];
 #pragma mark只需改变数组 即可改变状态
 //    _equipmentArr=[NSMutableArray arrayWithObjects:@"0",@"1",@"0",@"1",@"2",@"1",@"0",@"1",@"0", nil];
@@ -55,10 +74,11 @@ static NSString *collectionID=@"collectionID";
 -(void)loadUI
 {
     [self.view setBackgroundColor:RGB(239, 239, 239)];
-
+    _longGes=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
+    
     //设置collectionView
     _collectionView=[[UICollectionView alloc]initWithFrame:CGRectMake(0, 40, _width  , _heigh-40)collectionViewLayout:[[UICollectionViewFlowLayout alloc]init ]];
-    
+    [_collectionView addGestureRecognizer:_longGes];
     [_collectionView setDataSource:self];
     [_collectionView setDelegate:self];
     [_collectionView setScrollEnabled:YES];
@@ -71,6 +91,45 @@ static NSString *collectionID=@"collectionID";
 //    [_collectionView setBackgroundColor:[UIColor colorWithRed:239.0/255 green:239.0/255 blue:239.0/255 alpha:1.0]];
     [_collectionView setBackgroundColor:[UIColor whiteColor]];
 }
+
+-(void)longPress:(UILongPressGestureRecognizer *)longPress{
+    if (longPress.state==UIGestureRecognizerStateBegan)
+    {
+        //按键添加晃动动画
+        CAKeyframeAnimation* anim=[CAKeyframeAnimation animation];
+        anim.keyPath=@"transform.rotation";
+        anim.values=@[@(angelToRandian(-4)),@(angelToRandian(4)),@(angelToRandian(-4))];
+        anim.repeatCount=MAXFLOAT;
+        anim.duration=0.2;
+        //在非编辑状态的情况下变成编辑状态
+        if (_beEdit==NO)
+        {
+            for (UIButton *LED in _LEDMutableArr)
+            {
+                [LED.layer addAnimation:anim forKey:nil];
+            }
+            for (UIButton *deleteBtn in _deleteBtnArr)
+            {
+                [deleteBtn setHidden:NO];
+            }
+            
+            _beEdit=YES;
+        }
+        //在编辑状态的情况下变成非编辑状态
+        else if (_beEdit==YES){
+            for (UIButton *LED in _LEDMutableArr)
+            {
+                [LED.layer removeAllAnimations];
+            }
+            for (UIButton *deleteBtn in _deleteBtnArr)
+            {
+                [deleteBtn setHidden:YES];
+            }
+            _beEdit=NO;
+        }
+    }
+}
+
 #pragma mark-
 #pragma mark灯泡触发事件
 -(void)tapDeng:(UIButton *)sender
@@ -84,6 +143,8 @@ static NSString *collectionID=@"collectionID";
 {
     ZYY_CollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:collectionID forIndexPath:indexPath];
    // UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(10, 10, coll.contentView.bounds.size.width-20.0f,coll.contentView.bounds.size.height-20.0f)];
+    //设置越界不裁减，因为删除按钮而设置
+    [cell.contentView setClipsToBounds:NO];
     //加载cell前  移除cell上的内容
     for (UIView *view in cell.contentView.subviews) {
         [view removeFromSuperview];
@@ -96,6 +157,7 @@ static NSString *collectionID=@"collectionID";
     [btn setImage:[UIImage imageNamed:@"zaixian"] forState:UIControlStateSelected];
     [btn setImage:[UIImage imageNamed:@"lixian"] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"bukeyong"] forState:UIControlStateDisabled];
+    
     if ([_equipmentArr[indexPath.row] isEqualToString:@"1"])
     {
         [btn setSelected:YES];
@@ -104,6 +166,27 @@ static NSString *collectionID=@"collectionID";
     {
         [btn setEnabled:NO];
     }
+    [_LEDMutableArr addObject:btn];
+    
+    
+    //设置删除按钮
+    UIButton *deledateBtn=[[UIButton alloc]initWithFrame:CGRectMake( cell.contentView.bounds.size.width-20, 0, 20, 20)];
+    //设置圆角和背景
+    [deledateBtn.layer setCornerRadius:3];
+    [deledateBtn.layer setMasksToBounds:YES];
+    [deledateBtn setBackgroundColor:[UIColor redColor]];
+    
+    [deledateBtn setTitle:@"×" forState:UIControlStateNormal];
+    [deledateBtn setTag:(500+indexPath.row)];
+    
+    [deledateBtn addTarget:self action:@selector(tapDeleteBtn:) forControlEvents:UIControlEventTouchUpInside];
+    //增加button的响应范围
+    [deledateBtn setEnlargeEdgeWithTop:5 right:5 bottom:5 left:5];
+    [_deleteBtnArr addObject:deledateBtn];
+    //设置初始为隐藏
+    [deledateBtn setHidden:YES];
+    [btn addSubview:deledateBtn];
+    
     
     [cell.contentView addSubview:btn];
     return cell;
@@ -136,10 +219,35 @@ static NSString *collectionID=@"collectionID";
 //{
 //    return 10;
 //}
-
+#pragma mark -
+#pragma mark 以添加或者删除的方式进行刷新视图
 -(void)reloadDataWithNewDevice:(NSString *)led{
     [_equipmentArr addObject:led];
+    //每次刷新前移除按钮的视图数组 ，然后再重新加载
+    [_deleteBtnArr removeAllObjects];
+    [_LEDMutableArr removeAllObjects];
+    
     [_collectionView reloadData];
+}
+
+-(void)reloadDataWithDeleteDevice:(NSInteger)deviceNum{
+    [_equipmentArr removeObjectAtIndex:deviceNum];
+    
+    //每次刷新前移除按钮的视图数组 ，然后再重新加载
+    [_deleteBtnArr removeAllObjects];
+    [_LEDMutableArr removeAllObjects];
+    
+    //在房间视图中删除设备后，需要在设备列表中添加对应设备
+    [_delegate addDeviceWithBeDeletedDevice:@"1" andBeDeletedDeviceNum:deviceNum];
+    _beEdit=NO;
+    [_collectionView reloadData];
+
+}
+
+-(void)tapDeleteBtn:(UIButton *)btn{
+    NSInteger num=btn.tag-500;
+    [self reloadDataWithDeleteDevice:num];
+    MYLog(@"第%ld个按钮",num);
 }
 
 @end

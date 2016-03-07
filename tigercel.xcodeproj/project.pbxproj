@@ -105,6 +105,8 @@
 		E7CA849C1C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7CA84991C5B1EE700BADF92 /* ZYY_AddNewSceneView.xib */; };
 		E7EE6CAB1C434A2F00CB3810 /* ZYY_UserReglationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EE6CAA1C434A2F00CB3810 /* ZYY_UserReglationView.m */; };
 		E7EE6CAE1C434AC000CB3810 /* ZYY_VersionExplainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EE6CAD1C434AC000CB3810 /* ZYY_VersionExplainView.m */; };
+		E7F587591C8D57540096E02D /* UIButton+ZYY_DeleteBtn.h in Headers */ = {isa = PBXBuildFile; fileRef = E7F587571C8D57540096E02D /* UIButton+ZYY_DeleteBtn.h */; };
+		E7F5875A1C8D57540096E02D /* UIButton+ZYY_DeleteBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F587581C8D57540096E02D /* UIButton+ZYY_DeleteBtn.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +271,8 @@
 		E7EE6CAA1C434A2F00CB3810 /* ZYY_UserReglationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_UserReglationView.m; sourceTree = "<group>"; };
 		E7EE6CAC1C434AC000CB3810 /* ZYY_VersionExplainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_VersionExplainView.h; sourceTree = "<group>"; };
 		E7EE6CAD1C434AC000CB3810 /* ZYY_VersionExplainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_VersionExplainView.m; sourceTree = "<group>"; };
+		E7F587571C8D57540096E02D /* UIButton+ZYY_DeleteBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ZYY_DeleteBtn.h"; sourceTree = "<group>"; };
+		E7F587581C8D57540096E02D /* UIButton+ZYY_DeleteBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ZYY_DeleteBtn.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -614,6 +618,8 @@
 				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
 				E7204E541C478308005D6C4D /* UIImageView+ZYY_GetColor.h */,
 				E7204E551C478308005D6C4D /* UIImageView+ZYY_GetColor.m */,
+				E7F587571C8D57540096E02D /* UIButton+ZYY_DeleteBtn.h */,
+				E7F587581C8D57540096E02D /* UIButton+ZYY_DeleteBtn.m */,
 			);
 			name = customView;
 			sourceTree = "<group>";
@@ -689,6 +695,7 @@
 				E718B3C21C5A38F20024583B /* iot_mod_lwm2m_json.h in Headers */,
 				E7C8F2E51C859FBA0054CA61 /* ZYY_RoomList.h in Headers */,
 				E718B3C71C5A38F20024583B /* MQTTClientPersistence.h in Headers */,
+				E7F587591C8D57540096E02D /* UIButton+ZYY_DeleteBtn.h in Headers */,
 				E718B3C61C5A38F20024583B /* MQTTClient.h in Headers */,
 				E76A82401C771FD800FBDFCB /* ZYY_UserListView.h in Headers */,
 				E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */,
@@ -931,6 +938,7 @@
 				E76A82351C7713E600FBDFCB /* ZYY_DeviceList.m in Sources */,
 				E711F5A91C3FB8C700485406 /* UIView_extra.m in Sources */,
 				E7204E561C478308005D6C4D /* UIImageView+ZYY_GetColor.m in Sources */,
+				E7F5875A1C8D57540096E02D /* UIButton+ZYY_DeleteBtn.m in Sources */,
 				E7204E461C474993005D6C4D /* ZYY_SceneChooseView.m in Sources */,
 				E73275EF1C45EE26002E2570 /* ZYY_ConnectEquipment.m in Sources */,
 				E7204E4F1C477308005D6C4D /* ZYY_GetColorFromImage.m in Sources */,
