@@ -9,9 +9,10 @@
 #import "ZYY_RoomView.h"
 #import "ZYY_CollectionViewCell.h"
 #import "UIButton+ZYY_DeleteBtn.h"
+
 #define angelToRandian(x) ((x)/180.0*M_PI)
 
-#define Width(X) (X-80)/3.0f//边距为20  一行显示3个设备
+#define Width(x) ((x-80)/3.0f)//边距为20  一行显示3个设备
 
 @interface ZYY_RoomView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {

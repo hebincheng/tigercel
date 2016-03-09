@@ -198,15 +198,16 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 }
 #pragma mark 订阅设备
 -(void)subscribeDeviceWithDeviceToken:(NSString *)deviceToken{
-    char * test_topic=[self getGenerateTopicWithDeviceToken:deviceToken];
-    MYLog(@"%s",test_topic);
+    char * topic=[self getGenerateTopicWithDeviceToken:deviceToken];
+    MYLog(@"%s",topic);
     int rc;
     int subsqos = 0;
-    rc = MQTTClient_subscribe(_MQTTClint, test_topic, subsqos);
-    NSLog(@"%d",rc);
+    rc = MQTTClient_subscribe(_MQTTClint, topic, subsqos);
+    
+    NSLog(@"订阅设备@@@@@@@@@%d",rc);
     if(rc==128)
     {
-        MYLog(@"订阅设备----失败---rc=%d",rc);
+        MYLog(@"订阅设备----失败---");
     }
     else if(rc==0||rc==1||rc==2)
     {
@@ -216,9 +217,9 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
 #pragma mark订阅设备的topic
 -(char *)getGenerateTopicWithDeviceToken:(NSString *)deviceToken{
     NSString *topicStr=[NSString stringWithFormat:@"/control_response/user/%@/device/appliance/lamp/%@",[[ZYY_User instancedObj] userToken],deviceToken];
-    char *test_topic=(char*)[topicStr UTF8String];
-    MYLog(@"%s",test_topic);
-    return test_topic;
+    char *topic=(char*)[topicStr UTF8String];
+    MYLog(@"%s",topic);
+    return topic;
 }
 -(void)quit{
     int rc;
@@ -252,8 +253,9 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         MQTTVERSION_DEFAULT,
         1,
     };
-    //    NSString *connectStr=[NSString stringWithFormat:@"tcp://%@:%d",ip,port];
-    //    options.connection=(char *)[connectStr UTF8String];
+    NSString *connectStr=[NSString stringWithFormat:@"tcp://%@:%d",ip,port];
+    options.connection=(char *)[connectStr UTF8String];
+    
     MQTTClient c;
     MQTTClient_connectOptions opts = MQTTClient_connectOptions_initializer;
     MQTTClient_willOptions wopts = MQTTClient_willOptions_initializer;
@@ -300,10 +302,10 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     MQTTClient_deliveryToken dt;
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_message* m = NULL;
-    char* topicName = NULL;
+    char* topicName =  NULL;
     int topicLen;
-    int i = 0;
-    int iterations = 50;
+//    int i = 0;
+//    int iterations = 50;
     //------------------------------------------待解析的数据
     char sendContent[] = "{"
     "\"operation\":\"readREQ\","
@@ -369,44 +371,27 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
     
     NSData *data=[NSData data];//用于接收收到的数据
     
-    for (i = 0; i< iterations; ++i)
+    rc = MQTTClient_publish(c, test_topic, pubmsg.payloadlen, pubmsg.payload, pubmsg.qos, pubmsg.retained, &dt);
+
+    if(rc != MQTTCLIENT_SUCCESS)
     {
-        if (i % 10 == 0)
-            rc = MQTTClient_publish(c, test_topic, pubmsg.payloadlen, pubmsg.payload, pubmsg.qos, pubmsg.retained, &dt);
-        else
-            rc = MQTTClient_publishMessage(c, test_topic, &pubmsg, &dt);
-        
-        if(rc != MQTTCLIENT_SUCCESS)
-        {
-            myprintf("@@@@@(rc != MQTTCLIENT_SUCCESS)1\n");
-        }
-        
-        //        if (0 > 0)
-        //        {
-        //            rc = MQTTClient_waitForCompletion(c, dt, 5000L);
-        //            if(rc != MQTTCLIENT_SUCCESS)
-        //            {
-        //                myprintf("@@@@@(rc != MQTTCLIENT_SUCCESS)2\n");
-        //            }
-        //        }
-        
-        rc = MQTTClient_receive(c, &topicName, &topicLen, &m, 5000);
-        if(rc != MQTTCLIENT_SUCCESS)
-        {
-            myprintf("@@@@@(rc != MQTTCLIENT_SUCCESS)3\n");
-        }
-#pragma mark读取数据--------------------------------------
-        MYLog(@"/---------------------------------------/");
-        
-        //memcpy(receiveData, m->payload, m->payloadlen);
+        myprintf("@@@@@(rc != MQTTCLIENT_SUCCESS)1\n");
+    }
+    
+    rc = MQTTClient_receive(c, &topicName, &topicLen, &m, 5000);
+    if(rc != MQTTCLIENT_SUCCESS)
+    {
+        myprintf("@@@@@(rc != MQTTCLIENT_SUCCESS)3\n");
+    }
+    else
+    {
         MYLog(@"%d",m->payloadlen);
         for (int i=0; i<m->payloadlen; i++)
         {
             MYLog(@"%02x",*((char *)(m->payload)+i));
         }
-        
-        //        iot_mod_json_lwm2m_header_t *header3;
-        //        header3 = (iot_mod_json_lwm2m_header_t *)m->payload;
+#pragma mark读取数据--------------------------------------
+        MYLog(@"/---------------------------------------/");
         
         receive_header.retCode=0;
         receive_header.objId=3;
@@ -416,44 +401,14 @@ int test2_messageArrived(void* context, char* topicName, int topicLen, MQTTClien
         
         //myprintf("len=%d\n", len);//body的长度
         //myprintf("json:\n%s\n", receive_header.body);//数据内容
-#pragma mark 解析第二阶段收到设备返回的数据
-        myprintf("No message received within timeout period1\n");
+    #pragma mark 解析第二阶段收到设备返回的数据
         data=[NSData dataWithBytes:receive_header.body length:len];
-     
-     myprintf("No message received within timeout period2\n");
-        if (topicName)
-        {
-            myprintf("No message received within timeout period !!!\n");
-            //            MyLog(LOGA_DEBUG, "Message received on topic %s is %.*s", topicName, m->payloadlen, (char*)(m->payload));
-            if (pubmsg.payloadlen != m->payloadlen ||
-                memcmp(m->payload, pubmsg.payload, m->payloadlen) != 0)
-            {
-                block(data);
-                //failures++;
-                //MyLog(LOGA_INFO, "Error: wrong data - received lengths %d %d", pubmsg.payloadlen, m->payloadlen);
-                MYLog(@"1111111111111111111111111");
-                break;
-            }
-            MQTTClient_free(topicName);
-            MQTTClient_freeMessage(&m);
-            block(data);
-        }
-        else
-            myprintf("No message received within timeout period\n");
-        myprintf("No message received within timeout period3\n");
-        //获取完data后返回data
-    }
-    /* receive any outstanding messages */
-    MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
-    while (topicName)
-    {
-        myprintf("Message received on topic %s is %.*s.\n", topicName, m->payloadlen, (char*)(m->payload));
-        MQTTClient_free(topicName);
+        //释放
+        MQTTClient_free(test_topic);
         MQTTClient_freeMessage(&m);
-        MQTTClient_receive(c, &topicName, &topicLen, &m, 2000);
+        //进行回调
+        block(data);
     }
-    //返回data
-   
 }
 
 

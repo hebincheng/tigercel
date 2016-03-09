@@ -16,6 +16,11 @@
 #define DEVICE_VIEW_HEIGHT 100
 //设备列表中设备的宽度
 #define DEVICE_WIDTH 60
+//基础的tag值
+#define LEDIMAGEVIEW_BASIC_TAG 10000
+#define VIEW_BASIC_TAG 1000
+
+
 #define angelToRandian(x) ((x)/180.0*M_PI)
 
 @interface ZYY_RoomList ()<UIAlertViewDelegate,UIScrollViewDelegate,ZYY_RoomViewDelegate>
@@ -34,8 +39,6 @@
     NSMutableArray *_roomViewControlArr;
     //房间视图数组————存储所有房间视图
     NSMutableArray *_roomViewArr;
-    //捏合手势识别器
-    UIPinchGestureRecognizer *_pinchGesRecognize;
     //长按手势
     UILongPressGestureRecognizer *_longGeRecognize;
     //拖动手势
@@ -87,7 +90,6 @@
     
     _IsEdit=YES;
     //实例化手势识别器
-    _pinchGesRecognize = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinch:)];
     _longGeRecognize=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longTap:)];
     _panGeRecongnize=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGes:)];
     //长按时间为1秒
@@ -178,7 +180,7 @@
                 [_LEDViewArr enumerateObjectsUsingBlock:^(ZYY_LEDImageView * ledImage, NSUInteger idx, BOOL * _Nonnull stop) {
                     if (idx>=_moveNum)
                     {
-                        ledImage.tag=10000+idx;
+                        ledImage.tag=LEDIMAGEVIEW_BASIC_TAG+idx;
                         CGPoint point=ledImage.center;
                         [ledImage setCenter:CGPointMake(point.x-10-DEVICE_WIDTH, point.y)];
                     }
@@ -219,57 +221,7 @@
     }
 }
 
-
-
--(void)pinch:(UIPinchGestureRecognizer *)gesture
-{
-    if (gesture.state==UIGestureRecognizerStateBegan) {
-        if (gesture.scale>1&&_IsEdit)
-        {
-            MYLog(@"放大手势");
-            [self enlargeScrollView];
-        }
-        else if(gesture.scale<1&&!_IsEdit)
-        {
-            MYLog(@"缩小手势");
-            [self reduceScrollView];
-        }
-    }
-}
-
-#pragma mark-
-#pragma mark  放大视图
--(void)enlargeScrollView{
-    _roomView=[[ZYY_RoomView alloc]initWithNibName:@"ZYY_RoomView" bundle:nil andShowWidth:SCREE_WIDTH andShowHeigh:SCREE_HEIGHT roomName:@"客厅" andLEDArr:nil];
-    [_roomView.view addGestureRecognizer:_pinchGesRecognize];
-    [self presentViewController:_roomView animated:YES completion:^{
-        
-    }];
-  [UIView animateWithDuration:1.0f animations:^{
-      
-//      [_roomScrollView setFrame:CGRectMake(0, 0, SCREE_WIDTH, SCREE_HEIGHT)];
-//      [_LEDScrollView setAlpha:0];
-  } completion:^(BOOL finished) {
-      //放大后退出编辑模式
-      _IsEdit=NO;
-      MYLog(@"放大结束");
-  }];
-}
-
-#pragma mark  缩小视图
--(void)reduceScrollView{
-    [UIView animateWithDuration:1.0f animations:^{
-        [_roomView dismissViewControllerAnimated:YES completion:^{
-            
-        }];
-    } completion:^(BOOL finished) {
-        //放大后退出编辑模式
-        _IsEdit=YES;
-        MYLog(@"缩小结束");
-    }];
-
-}
-
+#pragma mark -
 #pragma mark 加载UI
 -(void)loadUI{
 #pragma mark 加载房间的滚动视图
@@ -293,11 +245,9 @@
     for (int i=0; i<=_roomArr.count; i++)
     {
         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(20+i*SCREE_WIDTH, 10, SCREE_WIDTH-20*2, SCREE_HEIGHT-64-DEVICE_VIEW_HEIGHT-10*2)];
-        [view setTag:i+1000];
+        [view setTag:i+VIEW_BASIC_TAG];
         [view setBackgroundColor:[UIColor redColor]];
         [view setUserInteractionEnabled:YES];
-        //给view添加手势识别
-        [_roomScrollView addGestureRecognizer:_pinchGesRecognize];
         //添加到房间视图数组中
         [_roomViewArr addObject:view];
         [_roomScrollView addSubview:view];
@@ -354,7 +304,7 @@
     for (int i=0; i<_LEDArr.count; i++)
     {
         ZYY_LEDImageView *ledImageView=[[ZYY_LEDImageView alloc]initWithFrame:CGRectMake(10+i*(10+DEVICE_WIDTH),10, DEVICE_WIDTH, 60)];
-        [ledImageView setTag:10000+i];
+        [ledImageView setTag:LEDIMAGEVIEW_BASIC_TAG+i];
         
         [ledImageView.nameLabel setText:[NSString stringWithFormat:@"%d",i]];
 
@@ -432,7 +382,7 @@
     [_LEDScrollView setContentSize:CGSizeMake((10+DEVICE_WIDTH )*_LEDArr.count, DEVICE_VIEW_HEIGHT)];
     //添加新的灯泡
     ZYY_LEDImageView *ledImageView=[[ZYY_LEDImageView alloc]initWithFrame:CGRectMake(10+(_LEDArr.count-1)*(10+DEVICE_WIDTH),10, DEVICE_WIDTH, 60)];
-    [ledImageView setTag:10000+_LEDArr.count-1];
+    [ledImageView setTag:LEDIMAGEVIEW_BASIC_TAG+_LEDArr.count-1];
     
     [ledImageView.nameLabel setText:[NSString stringWithFormat:@"%ld",_LEDArr.count-1]];
     
@@ -560,12 +510,12 @@
                 [nextView setCenter:CGPointMake(pointX, nextViewPoint.y)];
             } completion:^(BOOL finished) {
                 //形变完成后设置当前页面的tag值
-                [nextView setTag:_curPage+1000];
+                [nextView setTag:_curPage+VIEW_BASIC_TAG];
                 for (NSInteger i=(_curPage+1); i<_roomViewArr.count; i++)
                 {
                     UIView *view=_roomViewArr[i];
     
-                    [view setTag:(1000+i)];
+                    [view setTag:(VIEW_BASIC_TAG+i)];
                     [view setCenter:CGPointMake(pointX+(i-_curPage)*SCREE_WIDTH,nextViewPoint.y)];
                 }
                 [_roomScrollView setContentSize:CGSizeMake(SCREE_WIDTH*(_roomArr.count+1), SCREE_HEIGHT-64-DEVICE_VIEW_HEIGHT)];

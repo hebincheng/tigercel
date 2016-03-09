@@ -28,6 +28,7 @@
     [[ZYY_GetInfoFromInternet instancedObj]getEquipmentListWithSessionID:[[ZYY_User instancedObj]sessionId] andUserToken:[[ZYY_User instancedObj]userToken] callBackBlock:^(NSArray *lArr) {
         //若在云端有设备列表 则赋值给LEDArr
         _LEDArr=[NSMutableArray arrayWithArray:lArr];
+        [_tableView reloadData];
     }];
     _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREE_WIDTH, SCREE_HEIGHT) style:UITableViewStylePlain];
     [_tableView setScrollEnabled:NO];

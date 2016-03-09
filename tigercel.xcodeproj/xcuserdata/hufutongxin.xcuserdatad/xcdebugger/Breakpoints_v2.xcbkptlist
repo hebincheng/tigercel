@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033607.404733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "-getUserInfoWithUserToken:andSessionId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033612.237941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "-changeUserImageWithUserId:andSessionId:andImageStr:block:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033616.172669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "-registProrocolView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033638.690808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-shareDeviceWithSharePhone:andSessionId:andDeviceToken:andDeviceId:andUserToken:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033643.863979"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-addEquipmentWithDeviceModel:andSoftWareNumber:andDeviceName:andSessionId:andDeviceType:andDeviceId:andUserToken:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033648.631075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "-commitUserInformationWithBirthdate:andSex:andSessionId:andAddress:andUserToken:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033653.744141"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "-registAccountWithEmailAddress1:andPassword:andUserName:andMobileNumber:andAuthCode:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "478147272.63611"
+            timestampString = "479033674.784111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-loginWithTelNum:andPassWord:susseced:orFailed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "478147272.63611"
+            timestampString = "479033678.474836"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "-feddBackWithComment:andTitle:andUserID:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "478147272.63611"
+            timestampString = "479033681.948943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "-getVersionExplain:"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "478147272.63611"
+            timestampString = "479033685.674124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
+            startingLineNumber = "418"
+            endingLineNumber = "418"
             landmarkName = "-getUserReglation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "478147272.63611"
+            timestampString = "479033690.580049"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "430"
-            endingLineNumber = "430"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "-getVersionUpdate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033623.020182"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "-shareDeviceWithShareUserId:andSessionId:andDeviceToken:andDeviceId:andUserToken:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033628.160496"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "-shareDeviceWithShareEmail:andSessionId:andDeviceToken:andDeviceId:andUserToken:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tigercel/&#x6211;&#x7684;&#x623f;&#x95f4;/ZYY_GetInfoFromInternet.m"
-            timestampString = "477994281.74043"
+            timestampString = "479033634.438571"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "-shareDeviceWithShareUserName:andSessionId:andDeviceToken:andDeviceId:andUserToken:callBackBlock:"
             landmarkType = "5">
          </BreakpointContent>

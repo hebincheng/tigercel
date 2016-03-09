@@ -175,7 +175,7 @@ static NSString *rightCellID=@"rightCellID";
    // [leftBtn setTitle:@"返回" forState:UIControlStateNormal];
     [leftBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(tapBack) forControlEvents:UIControlEventTouchUpInside];
-    [leftBtn setFrame:CGRectMake(0, 0, 20, 20)];
+    [leftBtn setFrame:CGRectMake(0, 0, 15, 15)];
     UIBarButtonItem *left=[[UIBarButtonItem alloc]initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem=left;
 }

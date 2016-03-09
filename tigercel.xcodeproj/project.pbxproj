@@ -90,6 +90,11 @@
 		E77AD7541C450228000A18C6 /* ZYY_CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E77AD7531C450228000A18C6 /* ZYY_CollectionViewCell.m */; };
 		E77BCAA31C585BDD000B8353 /* UIColor+flat.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCAA21C585BDD000B8353 /* UIColor+flat.m */; };
 		E77BCAAF1C5860A1000B8353 /* FeThreeDotGlow.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BCAAE1C5860A1000B8353 /* FeThreeDotGlow.m */; };
+		E77E785D1C8E79E000878DA4 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E77E785C1C8E79E000878DA4 /* libssl.a */; };
+		E77E78601C8E97AF00878DA4 /* ZYY_Time.h in Headers */ = {isa = PBXBuildFile; fileRef = E77E785E1C8E97AF00878DA4 /* ZYY_Time.h */; };
+		E77E78611C8E97AF00878DA4 /* ZYY_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = E77E785F1C8E97AF00878DA4 /* ZYY_Time.m */; };
+		E77E78641C8E9C1300878DA4 /* ZYY_DeviceScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = E77E78621C8E9C1300878DA4 /* ZYY_DeviceScenario.h */; };
+		E77E78651C8E9C1300878DA4 /* ZYY_DeviceScenario.m in Sources */ = {isa = PBXBuildFile; fileRef = E77E78631C8E9C1300878DA4 /* ZYY_DeviceScenario.m */; };
 		E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E784BD331C5F44DC00FB95A6 /* ZYY_LeftViewController.h */; };
 		E784BD361C5F44DC00FB95A6 /* ZYY_LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */; };
 		E78D1E801C4F61780007A58F /* ZYY_GetInfoFromInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = E78D1E7F1C4F61780007A58F /* ZYY_GetInfoFromInternet.m */; };
@@ -234,8 +239,8 @@
 		E76A823F1C771FD800FBDFCB /* ZYY_UserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_UserListView.m; sourceTree = "<group>"; };
 		E77258DE1C7589E3001B9375 /* ZYY_MQTTConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_MQTTConnect.h; sourceTree = "<group>"; };
 		E77258DF1C7589E3001B9375 /* ZYY_MQTTConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_MQTTConnect.m; sourceTree = "<group>"; };
-		E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_LEDImageView.h; sourceTree = "<group>"; };
-		E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_LEDImageView.m; sourceTree = "<group>"; };
+		E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZYY_LEDImageView.h; path = "../我的房间/ZYY_LEDImageView.h"; sourceTree = "<group>"; };
+		E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZYY_LEDImageView.m; path = "../我的房间/ZYY_LEDImageView.m"; sourceTree = "<group>"; };
 		E77AD7411C44A62B000A18C6 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
 		E77AD7431C44D35B000A18C6 /* ZYY_ChangeCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_ChangeCode.h; sourceTree = "<group>"; };
 		E77AD7441C44D35B000A18C6 /* ZYY_ChangeCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_ChangeCode.m; sourceTree = "<group>"; };
@@ -252,6 +257,11 @@
 		E77BCAA21C585BDD000B8353 /* UIColor+flat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+flat.m"; sourceTree = "<group>"; };
 		E77BCAAD1C5860A1000B8353 /* FeThreeDotGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeThreeDotGlow.h; sourceTree = "<group>"; };
 		E77BCAAE1C5860A1000B8353 /* FeThreeDotGlow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeThreeDotGlow.m; sourceTree = "<group>"; };
+		E77E785C1C8E79E000878DA4 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "tigercel/通用/DeviceControl/libssl.a"; sourceTree = "<group>"; };
+		E77E785E1C8E97AF00878DA4 /* ZYY_Time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_Time.h; sourceTree = "<group>"; };
+		E77E785F1C8E97AF00878DA4 /* ZYY_Time.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_Time.m; sourceTree = "<group>"; };
+		E77E78621C8E9C1300878DA4 /* ZYY_DeviceScenario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_DeviceScenario.h; sourceTree = "<group>"; };
+		E77E78631C8E9C1300878DA4 /* ZYY_DeviceScenario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_DeviceScenario.m; sourceTree = "<group>"; };
 		E784BD331C5F44DC00FB95A6 /* ZYY_LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_LeftViewController.h; sourceTree = "<group>"; };
 		E784BD341C5F44DC00FB95A6 /* ZYY_LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYY_LeftViewController.m; sourceTree = "<group>"; };
 		E78D1E7E1C4F61780007A58F /* ZYY_GetInfoFromInternet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYY_GetInfoFromInternet.h; sourceTree = "<group>"; };
@@ -280,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E77E785D1C8E79E000878DA4 /* libssl.a in Frameworks */,
 				E7C8F29A1C8532520054CA61 /* libcrypto.a in Frameworks */,
 				E718B3C41C5A38F20024583B /* libj2t_lib.a in Frameworks */,
 				E718B3C31C5A38F20024583B /* libiot.a in Frameworks */,
@@ -318,6 +329,7 @@
 		BBB8E8D793D435D8204648EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E77E785C1C8E79E000878DA4 /* libssl.a */,
 				E7C8F2991C8532520054CA61 /* libcrypto.a */,
 				2DE30D5B7278C7B6BF6CBB39 /* libPods.a */,
 			);
@@ -331,6 +343,10 @@
 				E7204E671C47AED1005D6C4D /* ZYY_LED.m */,
 				E78D1E811C4F7B4D0007A58F /* ZYY_User.h */,
 				E78D1E821C4F7B4D0007A58F /* ZYY_User.m */,
+				E77E785E1C8E97AF00878DA4 /* ZYY_Time.h */,
+				E77E785F1C8E97AF00878DA4 /* ZYY_Time.m */,
+				E77E78621C8E9C1300878DA4 /* ZYY_DeviceScenario.h */,
+				E77E78631C8E9C1300878DA4 /* ZYY_DeviceScenario.m */,
 			);
 			name = BasicObject;
 			sourceTree = "<group>";
@@ -481,8 +497,6 @@
 				E77AD7531C450228000A18C6 /* ZYY_CollectionViewCell.m */,
 				E7C8F2E31C859FBA0054CA61 /* ZYY_RoomList.h */,
 				E7C8F2E41C859FBA0054CA61 /* ZYY_RoomList.m */,
-				E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */,
-				E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */,
 			);
 			name = MyRoom;
 			path = "我的房间";
@@ -614,6 +628,8 @@
 		E7204E4B1C4771D6005D6C4D /* customView */ = {
 			isa = PBXGroup;
 			children = (
+				E776B55C1C86AE840033D45C /* ZYY_LEDImageView.h */,
+				E776B55D1C86AE840033D45C /* ZYY_LEDImageView.m */,
 				E7030B691C4DF1730015F552 /* ZYY_ScrollView.h */,
 				E7030B6A1C4DF1730015F552 /* ZYY_ScrollView.m */,
 				E7204E541C478308005D6C4D /* UIImageView+ZYY_GetColor.h */,
@@ -700,6 +716,8 @@
 				E76A82401C771FD800FBDFCB /* ZYY_UserListView.h in Headers */,
 				E784BD351C5F44DC00FB95A6 /* ZYY_LeftViewController.h in Headers */,
 				E76A82341C7713E600FBDFCB /* ZYY_DeviceList.h in Headers */,
+				E77E78601C8E97AF00878DA4 /* ZYY_Time.h in Headers */,
+				E77E78641C8E9C1300878DA4 /* ZYY_DeviceScenario.h in Headers */,
 				E718B3C11C5A38F20024583B /* iot_mod_lwm2m.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -932,6 +950,7 @@
 				E7204E641C47A6A6005D6C4D /* ZYY_PickerDayView.m in Sources */,
 				E7169C101C429399003BD334 /* ZYY_ReBackView.m in Sources */,
 				E7169C0B1C42936C003BD334 /* ZYY_UpdateDeviceView.m in Sources */,
+				E77E78651C8E9C1300878DA4 /* ZYY_DeviceScenario.m in Sources */,
 				E711F5921C3F990500485406 /* ZYY_HomeTableViewCell.m in Sources */,
 				E77AD7501C44FC62000A18C6 /* ZYY_EquipmentDetailVie.m in Sources */,
 				E7169C061C428C07003BD334 /* ZYY_AboutView.m in Sources */,
@@ -959,6 +978,7 @@
 				E711F5A81C3FB8C700485406 /* LeftSlideViewController.m in Sources */,
 				E7C8F2E61C859FBA0054CA61 /* ZYY_RoomList.m in Sources */,
 				E776B55F1C86AE840033D45C /* ZYY_LEDImageView.m in Sources */,
+				E77E78611C8E97AF00878DA4 /* ZYY_Time.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
